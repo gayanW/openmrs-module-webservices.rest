@@ -9,6 +9,7 @@
  */
 package org.openmrs.module.webservices.rest.web.v1_0.resource.openmrs1_8;
 
+import io.swagger.models.Model;
 import org.apache.commons.io.FileUtils;
 import org.openmrs.module.Module;
 import org.openmrs.module.webservices.helper.ModuleFactoryWrapper;
@@ -99,7 +100,22 @@ public class ModuleResource1_8 extends BaseDelegatingReadableResource<Module> im
 		}
 		return null;
 	}
-	
+
+	@Override
+	public Model getGETModel(Representation representation) {
+		return null;
+	}
+
+	@Override
+	public Model getCREATEModel(Representation representation) {
+		return null;
+	}
+
+	@Override
+	public Model getUPDATEModel(Representation representation) {
+		return null;
+	}
+
 	/**
 	 * @see org.openmrs.module.webservices.rest.web.resource.impl.DelegatingCrudResource#doGetAll(org.openmrs.module.webservices.rest.web.RequestContext)
 	 */

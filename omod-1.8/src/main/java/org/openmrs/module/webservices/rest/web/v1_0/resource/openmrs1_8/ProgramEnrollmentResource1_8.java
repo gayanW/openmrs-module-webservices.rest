@@ -9,6 +9,7 @@
  */
 package org.openmrs.module.webservices.rest.web.v1_0.resource.openmrs1_8;
 
+import io.swagger.models.Model;
 import org.openmrs.Patient;
 import org.openmrs.PatientProgram;
 import org.openmrs.api.PatientService;
@@ -111,7 +112,22 @@ public class ProgramEnrollmentResource1_8 extends DataDelegatingCrudResource<Pat
 		d.addProperty("voided");
 		return d;
 	}
-	
+
+	@Override
+	public Model getGETModel(Representation representation) {
+		return null;
+	}
+
+	@Override
+	public Model getCREATEModel(Representation representation) {
+		return null;
+	}
+
+	@Override
+	public Model getUPDATEModel(Representation representation) {
+		return null;
+	}
+
 	/**
 	 * Gets all the programs (excluding voided) of the given patient
 	 * 

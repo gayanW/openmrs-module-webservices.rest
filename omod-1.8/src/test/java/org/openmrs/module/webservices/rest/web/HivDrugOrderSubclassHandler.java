@@ -9,6 +9,7 @@
  */
 package org.openmrs.module.webservices.rest.web;
 
+import io.swagger.models.Model;
 import org.openmrs.Order;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.webservices.rest.web.annotation.PropertyGetter;
@@ -81,7 +82,22 @@ public class HivDrugOrderSubclassHandler extends BaseDelegatingSubclassHandler<O
 		return d;
 		
 	}
-	
+
+	@Override
+	public Model getGETModel(Representation representation) {
+		return null;
+	}
+
+	@Override
+	public Model getCREATEModel(Representation representation) {
+		return null;
+	}
+
+	@Override
+	public Model getUPDATEModel(Representation representation) {
+		return null;
+	}
+
 	/**
 	 * @see org.openmrs.module.webservices.rest.web.resource.impl.DelegatingResourceHandler#getAllByType(org.openmrs.module.webservices.rest.web.RequestContext)
 	 */

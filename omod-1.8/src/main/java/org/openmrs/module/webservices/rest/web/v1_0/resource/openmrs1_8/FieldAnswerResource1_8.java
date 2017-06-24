@@ -12,6 +12,10 @@ package org.openmrs.module.webservices.rest.web.v1_0.resource.openmrs1_8;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.swagger.models.Model;
+import io.swagger.models.ModelImpl;
+import io.swagger.models.properties.ObjectProperty;
+import io.swagger.models.properties.StringProperty;
 import org.openmrs.Field;
 import org.openmrs.FieldAnswer;
 import org.openmrs.api.context.Context;
@@ -31,6 +35,8 @@ import org.openmrs.module.webservices.rest.web.resource.impl.DelegatingSubResour
 import org.openmrs.module.webservices.rest.web.resource.impl.NeedsPaging;
 import org.openmrs.module.webservices.rest.web.response.ConversionException;
 import org.openmrs.module.webservices.rest.web.response.ResponseException;
+
+import static org.hibernate.criterion.Projections.property;
 
 /**
  * {@link Resource} for {@link FieldAnswer}, supporting standard CRUD operations
@@ -75,7 +81,39 @@ public class FieldAnswerResource1_8 extends DelegatingSubResource<FieldAnswer, F
 		}
 		return null;
 	}
-	
+
+	public Model getGETModel(Representation rep) {
+		ModelImpl modelImpl = new ModelImpl();
+		if (rep instanceof DefaultRepresentation) {
+			modelImpl
+					.property("uuid", new StringProperty())
+					.property("display", new StringProperty())
+					.property("concept", new ObjectProperty()) //FIXME
+					.property("field", new ObjectProperty()); //FIXME
+//			description.addSelfLink();
+//			description.addLink("full", ".?v=" + RestConstants.REPRESENTATION_FULL);
+		} else if (rep instanceof FullRepresentation) {
+			modelImpl
+					.property("uuid", new StringProperty())
+					.property("display", new StringProperty())
+					.property("concept", new StringProperty())
+					.property("field", new StringProperty())
+					.property("auditInfo", new StringProperty());
+//			description.addSelfLink();
+		}
+		return modelImpl;
+	}
+
+	@Override
+	public Model getCREATEModel(Representation representation) {
+		return null;
+	}
+
+	@Override
+	public Model getUPDATEModel(Representation representation) {
+		return null;
+	}
+
 	/**
 	 * @see org.openmrs.module.webservices.rest.web.resource.impl.MetadataDelegatingCrudResource#getCreatableProperties()
 	 */

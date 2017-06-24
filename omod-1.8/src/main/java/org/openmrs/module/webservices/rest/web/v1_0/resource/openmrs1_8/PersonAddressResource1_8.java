@@ -9,6 +9,7 @@
  */
 package org.openmrs.module.webservices.rest.web.v1_0.resource.openmrs1_8;
 
+import io.swagger.models.Model;
 import org.openmrs.Person;
 import org.openmrs.PersonAddress;
 import org.openmrs.api.context.Context;
@@ -134,7 +135,22 @@ public class PersonAddressResource1_8 extends DelegatingSubResource<PersonAddres
 	public DelegatingResourceDescription getUpdatableProperties() {
 		return getCreatableProperties();
 	}
-	
+
+	@Override
+	public Model getGETModel(Representation representation) {
+		return null;
+	}
+
+	@Override
+	public Model getCREATEModel(Representation representation) {
+		return null;
+	}
+
+	@Override
+	public Model getUPDATEModel(Representation representation) {
+		return null;
+	}
+
 	/**
 	 * @see org.openmrs.module.webservices.rest.web.resource.impl.BaseDelegatingResource#getByUniqueId(java.lang.String)
 	 */

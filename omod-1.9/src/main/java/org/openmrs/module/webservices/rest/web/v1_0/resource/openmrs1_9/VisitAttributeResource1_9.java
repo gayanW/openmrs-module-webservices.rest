@@ -9,6 +9,7 @@
  */
 package org.openmrs.module.webservices.rest.web.v1_0.resource.openmrs1_9;
 
+import io.swagger.models.Model;
 import org.openmrs.Visit;
 import org.openmrs.VisitAttribute;
 import org.openmrs.VisitAttributeType;
@@ -17,6 +18,7 @@ import org.openmrs.module.webservices.rest.web.RequestContext;
 import org.openmrs.module.webservices.rest.web.annotation.PropertySetter;
 import org.openmrs.module.webservices.rest.web.annotation.Resource;
 import org.openmrs.module.webservices.rest.web.annotation.SubResource;
+import org.openmrs.module.webservices.rest.web.representation.Representation;
 import org.openmrs.module.webservices.rest.web.resource.impl.NeedsPaging;
 import org.openmrs.module.webservices.rest.web.response.ResponseException;
 
@@ -133,5 +135,20 @@ public class VisitAttributeResource1_9 extends BaseAttributeCrudResource1_9<Visi
 	@Override
 	public void purge(VisitAttribute delegate, RequestContext context) throws ResponseException {
 		throw new UnsupportedOperationException("Cannot purge VisitAttribute");
+	}
+
+	@Override
+	public Model getGETModel(Representation representation) {
+		return null;
+	}
+
+	@Override
+	public Model getCREATEModel(Representation representation) {
+		return null;
+	}
+
+	@Override
+	public Model getUPDATEModel(Representation representation) {
+		return null;
 	}
 }

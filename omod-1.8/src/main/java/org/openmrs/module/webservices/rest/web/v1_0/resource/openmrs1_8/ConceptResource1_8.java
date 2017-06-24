@@ -9,6 +9,10 @@
  */
 package org.openmrs.module.webservices.rest.web.v1_0.resource.openmrs1_8;
 
+import io.swagger.models.Model;
+import io.swagger.models.ModelImpl;
+import io.swagger.models.properties.ObjectProperty;
+import io.swagger.models.properties.StringProperty;
 import org.apache.commons.lang.StringUtils;
 import org.openmrs.Concept;
 import org.openmrs.ConceptAnswer;
@@ -208,7 +212,46 @@ public class ConceptResource1_8 extends DelegatingCrudResource<Concept> {
 		}
 		return null;
 	}
-	
+
+	public Model getGETModel(Representation rep) {
+		ModelImpl modelImpl = new ModelImpl();
+		if (rep instanceof DefaultRepresentation) {
+			modelImpl
+			.property("uuid", new StringProperty())
+			.property("display", new StringProperty())
+			.property("name", new ObjectProperty()) //FIXME
+			.property("datatype", new ObjectProperty()) //FIXME
+			.property("conceptClass", new ObjectProperty()) //FIXME
+			.property("set", new StringProperty())
+			.property("version", new StringProperty())
+			.property("retired", new StringProperty())
+
+			.property("names", new ObjectProperty()) //FIXME
+			.property("descriptions", new ObjectProperty()) //FIXME
+
+			.property("mappings", new ObjectProperty()) //FIXME
+
+			.property("answers", new ObjectProperty()) //FIXME
+			.property("setMembers", new ObjectProperty()); //FIXME
+			//description.addProperty("conceptMappings", Representation.REF);  add as subresource
+
+//			description.addSelfLink();
+//			description.addLink("full", ".?v=" + RestConstants.REPRESENTATION_FULL);
+//			return description;
+		}
+		return modelImpl;
+	}
+
+	@Override
+	public Model getCREATEModel(Representation representation) {
+		return null;
+	}
+
+	@Override
+	public Model getUPDATEModel(Representation representation) {
+		return null;
+	}
+
 	/**
 	 * @see org.openmrs.module.webservices.rest.web.resource.impl.BaseDelegatingResource#getCreatableProperties()
 	 */

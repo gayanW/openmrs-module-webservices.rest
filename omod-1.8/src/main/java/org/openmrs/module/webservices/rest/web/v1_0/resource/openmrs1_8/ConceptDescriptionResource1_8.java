@@ -12,6 +12,9 @@ package org.openmrs.module.webservices.rest.web.v1_0.resource.openmrs1_8;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.swagger.models.Model;
+import io.swagger.models.ModelImpl;
+import io.swagger.models.properties.StringProperty;
 import org.openmrs.Concept;
 import org.openmrs.ConceptDescription;
 import org.openmrs.api.context.Context;
@@ -63,7 +66,42 @@ public class ConceptDescriptionResource1_8 extends DelegatingSubResource<Concept
 		}
 		return null;
 	}
-	
+
+	public Model getGETModel(Representation rep) {
+		ModelImpl modelImpl = new ModelImpl();
+		if (rep instanceof RefRepresentation) {
+			modelImpl
+			.property("uuid", new StringProperty())
+			.property("display", new StringProperty());
+//			description.addSelfLink();
+		} else if (rep instanceof DefaultRepresentation) {
+			modelImpl
+					.property("display", new StringProperty())
+					.property("uuid", new StringProperty())
+					.property("description", new StringProperty())
+					.property("locale", new StringProperty());
+//			description.addSelfLink();
+//			description.addLink("full", ".?v=" + RestConstants.REPRESENTATION_FULL);
+		} else if (rep instanceof FullRepresentation) {
+			modelImpl
+					.property("uuid", new StringProperty())
+					.property("description", new StringProperty())
+					.property("locale", new StringProperty())
+					.property("auditInfo", new StringProperty());
+		}
+		return modelImpl;
+	}
+
+	@Override
+	public Model getCREATEModel(Representation representation) {
+		return null;
+	}
+
+	@Override
+	public Model getUPDATEModel(Representation representation) {
+		return null;
+	}
+
 	/**
 	 * @see org.openmrs.module.webservices.rest.web.resource.impl.BaseDelegatingResource#getCreatableProperties()
 	 */

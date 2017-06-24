@@ -33,7 +33,7 @@ import java.util.Set;
  * Helpful base implementation of {@link DelegatingSubclassHandler}
  */
 public abstract class BaseDelegatingSubclassHandler<Superclass, Subclass extends Superclass> implements DelegatingSubclassHandler<Superclass, Subclass> {
-	
+
 	/**
 	 * Properties that should silently be ignored if you try to get them. Implementations should
 	 * generally configure this property with a list of properties that were added to their

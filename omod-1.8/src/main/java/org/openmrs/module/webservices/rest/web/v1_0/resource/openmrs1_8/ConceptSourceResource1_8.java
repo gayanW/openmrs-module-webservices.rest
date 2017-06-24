@@ -9,6 +9,9 @@
  */
 package org.openmrs.module.webservices.rest.web.v1_0.resource.openmrs1_8;
 
+import io.swagger.models.Model;
+import io.swagger.models.ModelImpl;
+import io.swagger.models.properties.StringProperty;
 import org.openmrs.ConceptSource;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.webservices.rest.web.RequestContext;
@@ -65,7 +68,42 @@ public class ConceptSourceResource1_8 extends MetadataDelegatingCrudResource<Con
 		}
 		return null;
 	}
-	
+
+	public Model getGETModel(Representation rep) {
+		ModelImpl modelImpl = new ModelImpl();
+		if (rep instanceof DefaultRepresentation) {
+			modelImpl
+					.property("uuid", new StringProperty())
+					.property("display", new StringProperty())
+					.property("name", new StringProperty())
+					.property("description", new StringProperty())
+					.property("hl7Code", new StringProperty())
+					.property("retired", new StringProperty());
+//			description.addSelfLink();
+//			description.addLink("full", ".?v=" + RestConstants.REPRESENTATION_FULL);
+		} else if (rep instanceof FullRepresentation) {
+			modelImpl
+					.property("uuid", new StringProperty())
+					.property("display", new StringProperty())
+					.property("name", new StringProperty())
+					.property("description", new StringProperty())
+					.property("hl7Code", new StringProperty())
+					.property("retired", new StringProperty())
+					.property("auditInfo", new StringProperty());
+		}
+		return modelImpl;
+	}
+
+	@Override
+	public Model getCREATEModel(Representation representation) {
+		return null;
+	}
+
+	@Override
+	public Model getUPDATEModel(Representation representation) {
+		return null;
+	}
+
 	/**
 	 * @see org.openmrs.module.webservices.rest.web.resource.impl.BaseDelegatingResource#getCreatableProperties()
 	 */

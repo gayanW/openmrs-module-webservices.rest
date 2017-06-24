@@ -9,6 +9,7 @@
  */
 package org.openmrs.module.webservices.rest.web.v1_0.resource.openmrs1_8;
 
+import io.swagger.models.Model;
 import org.openmrs.Program;
 import org.openmrs.ProgramWorkflow;
 import org.openmrs.api.context.Context;
@@ -62,7 +63,22 @@ public class ProgramWorkflowResource1_8 extends MetadataDelegatingCrudResource<P
 		}
 		return null;
 	}
-	
+
+	@Override
+	public Model getGETModel(Representation representation) {
+		return null;
+	}
+
+	@Override
+	public Model getCREATEModel(Representation representation) {
+		return null;
+	}
+
+	@Override
+	public Model getUPDATEModel(Representation representation) {
+		return null;
+	}
+
 	@Override
 	public ProgramWorkflow getByUniqueId(String uniqueId) {
 		return Context.getProgramWorkflowService().getWorkflowByUuid(uniqueId);

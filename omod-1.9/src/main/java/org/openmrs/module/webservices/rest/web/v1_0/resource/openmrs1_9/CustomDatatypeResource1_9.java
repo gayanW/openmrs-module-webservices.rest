@@ -12,6 +12,7 @@ package org.openmrs.module.webservices.rest.web.v1_0.resource.openmrs1_9;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.swagger.models.Model;
 import org.openmrs.api.context.Context;
 import org.openmrs.customdatatype.CustomDatatype;
 import org.openmrs.customdatatype.CustomDatatypeHandler;
@@ -96,7 +97,22 @@ public class CustomDatatypeResource1_9 extends DelegatingCrudResource<CustomData
 		}
 		return null;
 	}
-	
+
+	@Override
+	public Model getGETModel(Representation representation) {
+		return null;
+	}
+
+	@Override
+	public Model getCREATEModel(Representation representation) {
+		return null;
+	}
+
+	@Override
+	public Model getUPDATEModel(Representation representation) {
+		return null;
+	}
+
 	@Override
 	protected PageableResult doGetAll(RequestContext context) throws ResponseException {
 		List<CustomDatatypeRepresentation> datatypes = getAllCustomDatatypes();

@@ -13,6 +13,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import io.swagger.models.Model;
 import org.openmrs.OrderType;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.webservices.rest.web.RequestContext;
@@ -145,5 +146,20 @@ public class OrderTypeResource1_10 extends MetadataDelegatingCrudResource<OrderT
 		d.addProperty("parent");
 		d.addProperty("conceptClasses");
 		return d;
+	}
+
+	@Override
+	public Model getGETModel(Representation representation) {
+		return null;
+	}
+
+	@Override
+	public Model getCREATEModel(Representation representation) {
+		return null;
+	}
+
+	@Override
+	public Model getUPDATEModel(Representation representation) {
+		return null;
 	}
 }

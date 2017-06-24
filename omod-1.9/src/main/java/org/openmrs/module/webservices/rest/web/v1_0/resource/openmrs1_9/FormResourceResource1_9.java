@@ -9,6 +9,7 @@
  */
 package org.openmrs.module.webservices.rest.web.v1_0.resource.openmrs1_9;
 
+import io.swagger.models.Model;
 import org.apache.commons.lang.StringUtils;
 import org.openmrs.Form;
 import org.openmrs.FormResource;
@@ -136,7 +137,22 @@ public class FormResourceResource1_9 extends DelegatingSubResource<FormResource,
 		
 		return description;
 	}
-	
+
+	@Override
+	public Model getGETModel(Representation representation) {
+		return null;
+	}
+
+	@Override
+	public Model getCREATEModel(Representation representation) {
+		return null;
+	}
+
+	@Override
+	public Model getUPDATEModel(Representation representation) {
+		return null;
+	}
+
 	@Override
 	protected void delete(FormResource delegate, String reason, RequestContext context) throws ResponseException {
 		purge(delegate, context);

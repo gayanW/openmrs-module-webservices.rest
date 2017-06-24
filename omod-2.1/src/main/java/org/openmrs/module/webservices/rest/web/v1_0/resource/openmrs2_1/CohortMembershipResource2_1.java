@@ -11,6 +11,7 @@ package org.openmrs.module.webservices.rest.web.v1_0.resource.openmrs2_1;
 
 import java.util.ArrayList;
 
+import io.swagger.models.Model;
 import org.openmrs.Cohort;
 import org.openmrs.CohortMembership;
 import org.openmrs.Patient;
@@ -92,7 +93,22 @@ public class CohortMembershipResource2_1 extends DelegatingSubResource<CohortMem
 		d.addProperty("endDate");
 		return d;
 	}
-	
+
+	@Override
+	public Model getGETModel(Representation representation) {
+		return null;
+	}
+
+	@Override
+	public Model getCREATEModel(Representation representation) {
+		return null;
+	}
+
+	@Override
+	public Model getUPDATEModel(Representation representation) {
+		return null;
+	}
+
 	@PropertyGetter("display")
 	public String getDisplay(CohortMembership cohortMembership) {
 		return "Patient in cohort (see link with rel=patient)";

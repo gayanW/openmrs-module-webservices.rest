@@ -14,6 +14,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import io.swagger.models.Model;
+import io.swagger.models.ModelImpl;
+import io.swagger.models.properties.StringProperty;
 import org.openmrs.Person;
 import org.openmrs.PersonName;
 import org.openmrs.api.context.Context;
@@ -100,7 +103,59 @@ public class PersonNameResource1_8 extends DelegatingSubResource<PersonName, Per
 	public DelegatingResourceDescription getUpdatableProperties() {
 		return getCreatableProperties();
 	}
-	
+
+	@Override
+	public Model getGETModel(Representation representation) {
+		ModelImpl model = new ModelImpl();
+		if (representation instanceof DefaultRepresentation) {
+			model
+					.property("display", new StringProperty())
+					.property("uuid", new StringProperty())
+					.property("givenName", new StringProperty())
+					.property("middleName", new StringProperty())
+					.property("familyName", new StringProperty())
+					.property("familyName2", new StringProperty())
+					.property("voided", new StringProperty());
+		} else if (representation instanceof FullRepresentation) {
+			model
+					.property("display", new StringProperty())
+					.property("uuid", new StringProperty())
+					.property("givenName", new StringProperty())
+					.property("middleName", new StringProperty())
+					.property("familyName", new StringProperty())
+					.property("familyName2", new StringProperty())
+					.property("preferred", new StringProperty())
+					.property("prefix", new StringProperty())
+					.property("familyNamePrefix", new StringProperty())
+					.property("familyNameSuffix", new StringProperty())
+					.property("degree", new StringProperty())
+					.property("voided", new StringProperty())
+					.property("auditInfo", new StringProperty());
+		}
+		return model;
+	}
+
+	@Override
+	public Model getCREATEModel(Representation representation) {
+		return new ModelImpl()
+				.property("givenName", new StringProperty())
+				.property("middleName", new StringProperty())
+				.property("familyName", new StringProperty())
+				.property("familyName2", new StringProperty())
+				.property("preferred", new StringProperty())
+				.property("prefix", new StringProperty())
+				.property("familyNamePrefix", new StringProperty())
+				.property("familyNameSuffix", new StringProperty())
+				.property("degree", new StringProperty())
+				.required("givenName")
+				.required("familyName");
+	}
+
+	@Override
+	public Model getUPDATEModel(Representation representation) {
+		return getCREATEModel(representation);
+	}
+
 	/**
 	 * @see org.openmrs.module.webservices.rest.web.resource.impl.DelegatingSubResource#getParent(java.lang.Object)
 	 */

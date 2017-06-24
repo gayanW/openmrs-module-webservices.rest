@@ -9,6 +9,11 @@
  */
 package org.openmrs.module.webservices.rest.web.v1_0.resource.openmrs1_8;
 
+import io.swagger.models.Model;
+import io.swagger.models.ModelImpl;
+import io.swagger.models.properties.ObjectProperty;
+import io.swagger.models.properties.RefProperty;
+import io.swagger.models.properties.StringProperty;
 import org.openmrs.Patient;
 import org.openmrs.activelist.Allergy;
 import org.openmrs.api.context.Context;
@@ -54,7 +59,36 @@ public class AllergyResource1_8 extends BaseActiveListItemResource1_8<Allergy> {
 		}
 		return null;
 	}
-	
+
+	@Override
+	public Model getGETModel(Representation rep) {
+		ModelImpl modelImpl = new ModelImpl();
+		if (rep instanceof DefaultRepresentation) {
+			modelImpl
+					.property("allergyType", new StringProperty())
+					.property("reaction", new ObjectProperty())
+					.property("severity", new StringProperty())
+					.property("allergen", new StringProperty());
+		} else if (rep instanceof FullRepresentation) {
+			modelImpl
+					.property("allergyType", new StringProperty())
+					.property("reaction", new ObjectProperty())
+					.property("severity", new StringProperty())
+					.property("allergen", new StringProperty());
+		}
+		return modelImpl;
+	}
+
+	@Override
+	public Model getCREATEModel(Representation representation) {
+		return null;
+	}
+
+	@Override
+	public Model getUPDATEModel(Representation representation) {
+		return null;
+	}
+
 	/**
 	 * @see org.openmrs.module.webservices.rest.web.resource.impl.BaseDelegatingResource#newDelegate()
 	 */

@@ -9,11 +9,13 @@
  */
 package org.openmrs.module.webservices.rest.web.resource.impl;
 
+import io.swagger.models.Model;
 import org.openmrs.OpenmrsData;
 import org.openmrs.module.webservices.rest.SimpleObject;
 import org.openmrs.module.webservices.rest.web.annotation.RepHandler;
 import org.openmrs.module.webservices.rest.web.representation.DefaultRepresentation;
 import org.openmrs.module.webservices.rest.web.representation.RefRepresentation;
+import org.openmrs.module.webservices.rest.web.representation.Representation;
 import org.openmrs.module.webservices.rest.web.response.ConversionException;
 
 /**

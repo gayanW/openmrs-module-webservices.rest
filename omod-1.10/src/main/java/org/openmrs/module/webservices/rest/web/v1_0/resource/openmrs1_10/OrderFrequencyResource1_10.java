@@ -9,6 +9,7 @@
  */
 package org.openmrs.module.webservices.rest.web.v1_0.resource.openmrs1_10;
 
+import io.swagger.models.Model;
 import org.openmrs.Concept;
 import org.openmrs.OrderFrequency;
 import org.openmrs.api.context.Context;
@@ -67,7 +68,22 @@ public class OrderFrequencyResource1_10 extends MetadataDelegatingCrudResource<O
 		}
 		return null;
 	}
-	
+
+	@Override
+	public Model getGETModel(Representation representation) {
+		return null;
+	}
+
+	@Override
+	public Model getCREATEModel(Representation representation) {
+		return null;
+	}
+
+	@Override
+	public Model getUPDATEModel(Representation representation) {
+		return null;
+	}
+
 	/**
 	 * @see DelegatingCrudResource#newDelegate()
 	 */

@@ -9,6 +9,7 @@
  */
 package org.openmrs.module.webservices.rest.web.v1_0.resource.openmrs1_8;
 
+import io.swagger.models.Model;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.webservices.rest.web.RequestContext;
 import org.openmrs.module.webservices.rest.web.RestConstants;
@@ -89,7 +90,22 @@ public class HL7MessageResource1_8 extends DataDelegatingCrudResource<IncomingHl
 		description.addRequiredProperty("hl7");
 		return description;
 	}
-	
+
+	@Override
+	public Model getGETModel(Representation representation) {
+		return null;
+	}
+
+	@Override
+	public Model getCREATEModel(Representation representation) {
+		return null;
+	}
+
+	@Override
+	public Model getUPDATEModel(Representation representation) {
+		return null;
+	}
+
 	/**
 	 * It needs to be overwritten to allow for hidden properties: source, sourceKey and data. They
 	 * are automatically extracted from the hl7 property and populated in

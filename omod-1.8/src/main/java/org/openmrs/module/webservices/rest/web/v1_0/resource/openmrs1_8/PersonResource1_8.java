@@ -9,11 +9,11 @@
  */
 package org.openmrs.module.webservices.rest.web.v1_0.resource.openmrs1_8;
 
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
+import io.swagger.models.Model;
+import io.swagger.models.ModelImpl;
+import io.swagger.models.properties.*;
 import org.openmrs.Person;
 import org.openmrs.PersonAddress;
 import org.openmrs.PersonAttribute;
@@ -132,7 +132,87 @@ public class PersonResource1_8 extends DataDelegatingCrudResource<Person> {
 		description.addProperty("deathDate");
 		return description;
 	}
-	
+
+	@Override
+	public Model getGETModel(Representation representation) {
+		ModelImpl model = new ModelImpl();
+		if (representation instanceof DefaultRepresentation) {
+			model
+					.property("uuid", new StringProperty())
+					.property("display", new StringProperty())
+					.property("gender", new StringProperty())
+					.property("age", new IntegerProperty())
+					.property("birthdate", new DateProperty())
+					.property("birthdateEstimated", new DateProperty())
+					.property("dead", new StringProperty())
+					.property("deathDate", new DateProperty())
+					.property("causeOfDeath", new StringProperty()) //FIXME
+					.property("preferredName", new RefProperty("#/definitions/PersonNameGet"))
+					.property("preferredAddress", new RefProperty("#/definitions/PersonAddressGet"))
+					.property("attributes", new ArrayProperty(new RefProperty("#/definitions/PersonAttributeGet")))
+					.property("voided", new StringProperty());
+
+		} else if (representation instanceof FullRepresentation) {
+			model
+					.property("uuid", new StringProperty())
+					.property("display", new StringProperty())
+					.property("gender", new StringProperty())
+					.property("age", new IntegerProperty())
+					.property("birthdate", new DateProperty())
+					.property("birthdateEstimated", new DateProperty())
+					.property("dead", new StringProperty())
+					.property("deathDate", new DateProperty())
+					.property("causeOfDeath", new StringProperty()) //FIXME
+					.property("preferredName", new RefProperty("#/definitions/PersonNameGet"))
+					.property("preferredAddress", new RefProperty("#/definitions/PersonAddressGet"))
+					.property("names", new ArrayProperty(new RefProperty("#/definitions/PersonNameGet")))
+					.property("addresses", new ArrayProperty(new RefProperty("#/definitions/PersonAddressGet")))
+					.property("attributes", new ArrayProperty(new RefProperty("#/definitions/PersonAttributeGet")))
+					.property("voided", new StringProperty())
+					.property("auditInfo", new StringProperty());
+		}
+		return model;
+	}
+
+	@Override
+	public Model getCREATEModel(Representation representation) {
+		ModelImpl model = new ModelImpl()
+				.property("names", new ArrayProperty(new RefProperty("#/definitions/PersonNameCreate")))
+				.property("gender", new StringProperty())
+				.property("age", new IntegerProperty())
+				.property("birthdate", new DateProperty())
+				.property("birthdateEstimated", new DateProperty())
+				.property("date", new DateProperty())
+				.property("deathDate", new DateProperty())
+				.property("causeOfDeath", new StringProperty())
+				.property("addresses", new ArrayProperty(new RefProperty("#/definitions/PersonAddressCreate")))
+				.property("attributes", new ArrayProperty(new RefProperty("#/definitions/PersonAttributeCreate")));
+
+		model.setRequired(Arrays.asList("names", "gender"));
+		return model;
+	}
+
+
+	@Override
+	public Model getUPDATEModel(Representation representation) {
+		return new ModelImpl()
+				.property("names", new ArrayProperty(new RefProperty("#/definitions/PersonNameCreate")))
+				.property("causeOfDeath", new StringProperty())
+				.property("dead", new StringProperty())
+				.property("age", new IntegerProperty())
+				.property("gender", new StringProperty())
+				.property("birthdate", new DateProperty())
+				.property("birthdateEstimated", new DateProperty())
+				.property("preferredName", new StringProperty())
+				.property("preferredAddress", new StringProperty())
+				.property("addresses", new ArrayProperty(new RefProperty("#/definitions/PersonAddressCreate")))
+				.property("attributes", new ArrayProperty(new RefProperty("#/definitions/PersonAttributeCreate")))
+				.property("deathDate", new DateProperty())
+				.required("names")
+				.required("causeOfDeath")
+				.required("dead");
+	}
+
 	/**
 	 * @see org.openmrs.module.webservices.rest.web.resource.impl.BaseDelegatingResource#getPropertiesToExposeAsSubResources()
 	 */

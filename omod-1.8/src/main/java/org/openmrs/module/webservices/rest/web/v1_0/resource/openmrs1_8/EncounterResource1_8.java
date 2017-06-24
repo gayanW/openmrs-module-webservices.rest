@@ -9,6 +9,9 @@
  */
 package org.openmrs.module.webservices.rest.web.v1_0.resource.openmrs1_8;
 
+import io.swagger.models.Model;
+import io.swagger.models.ModelImpl;
+import io.swagger.models.properties.StringProperty;
 import org.openmrs.Encounter;
 import org.openmrs.Obs;
 import org.openmrs.Order;
@@ -36,6 +39,8 @@ import java.util.Date;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+
+import static org.hibernate.criterion.Projections.property;
 
 /**
  * Resource for Encounters, supporting standard CRUD operations
@@ -83,7 +88,52 @@ public class EncounterResource1_8 extends DataDelegatingCrudResource<Encounter> 
 		}
 		return null;
 	}
-	
+
+	public Model getGETModel(Representation rep) {
+		ModelImpl modelImpl = new ModelImpl();
+		if (rep instanceof DefaultRepresentation) {
+			modelImpl
+			.property("uuid", new StringProperty())
+			.property("display", new StringProperty())
+			.property("encounterDatetime", new StringProperty())
+			.property("patient", new StringProperty()) //FIXME
+			.property("location", new StringProperty()) //FIXME
+			.property("form", new StringProperty()) //FIXME
+			.property("encounterType", new StringProperty()) //FIXME
+			.property("provider", new StringProperty()) //FIXME
+			.property("obs", new StringProperty()) //FIXME
+			.property("voided", new StringProperty());
+//			description.addSelfLink();
+//			description.addLink("full", ".?v=" + RestConstants.REPRESENTATION_FULL);
+		} else if (rep instanceof FullRepresentation) {
+			modelImpl
+			.property("uuid", new StringProperty())
+			.property("display", new StringProperty())
+			.property("encounterDatetime", new StringProperty())
+			.property("patient", new StringProperty()) //FIXME
+			.property("location", new StringProperty())
+			.property("form", new StringProperty())
+			.property("encounterType", new StringProperty())
+			.property("provider", new StringProperty())
+			.property("obs", new StringProperty())
+			.property("orders", new StringProperty())
+			.property("voided", new StringProperty())
+			.property("auditInfo", new StringProperty());
+//			description.addSelfLink();
+		}
+		return modelImpl;
+	}
+
+	@Override
+	public Model getCREATEModel(Representation representation) {
+		return null;
+	}
+
+	@Override
+	public Model getUPDATEModel(Representation representation) {
+		return null;
+	}
+
 	/**
 	 * @see org.openmrs.module.webservices.rest.web.resource.impl.BaseDelegatingResource#getCreatableProperties()
 	 * @should create an encounter type

@@ -17,6 +17,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
+import io.swagger.models.Model;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.openmrs.module.webservices.rest.SimpleObject;
 import org.openmrs.module.webservices.rest.util.ReflectionUtil;
@@ -39,7 +40,7 @@ import org.openmrs.module.webservices.rest.web.response.ConversionException;
  * @param <T> the class we're delegating to
  */
 public abstract class BaseDelegatingConverter<T> implements Converter<T>, DelegatingPropertyAccessor<T> {
-	
+
 	/**
 	 * Gets the {@link DelegatingResourceDescription} for the given representation for this
 	 * resource, if it exists

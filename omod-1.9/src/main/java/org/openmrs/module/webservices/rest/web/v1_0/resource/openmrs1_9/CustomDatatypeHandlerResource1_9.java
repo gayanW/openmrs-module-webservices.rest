@@ -9,6 +9,7 @@
  */
 package org.openmrs.module.webservices.rest.web.v1_0.resource.openmrs1_9;
 
+import io.swagger.models.Model;
 import org.openmrs.module.webservices.rest.web.RequestContext;
 import org.openmrs.module.webservices.rest.web.RestConstants;
 import org.openmrs.module.webservices.rest.web.annotation.SubResource;
@@ -34,7 +35,22 @@ public class CustomDatatypeHandlerResource1_9 extends DelegatingSubResource<Cust
 		description.addLink("full", ".?v=" + RestConstants.REPRESENTATION_FULL);
 		return description;
 	}
-	
+
+	@Override
+	public Model getGETModel(Representation representation) {
+		return null;
+	}
+
+	@Override
+	public Model getCREATEModel(Representation representation) {
+		return null;
+	}
+
+	@Override
+	public Model getUPDATEModel(Representation representation) {
+		return null;
+	}
+
 	@Override
 	public CustomDatatypeHandlerRepresentation newDelegate() {
 		return new CustomDatatypeHandlerRepresentation();

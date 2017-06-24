@@ -9,6 +9,7 @@
  */
 package org.openmrs.module.webservices.rest.web.resource.impl;
 
+import io.swagger.models.Model;
 import org.openmrs.module.webservices.rest.SimpleObject;
 import org.openmrs.module.webservices.rest.web.RequestContext;
 import org.openmrs.module.webservices.rest.web.representation.Representation;
@@ -88,5 +89,8 @@ public interface DelegatingResourceHandler<T> extends DelegatingPropertyAccessor
 	 * @throws ResponseException if this resource does not support the operation
 	 */
 	DelegatingResourceDescription getUpdatableProperties() throws ResourceDoesNotSupportOperationException;
-	
+
+	Model getGETModel(Representation representation);
+	Model getCREATEModel(Representation representation);
+	Model getUPDATEModel(Representation representation);
 }

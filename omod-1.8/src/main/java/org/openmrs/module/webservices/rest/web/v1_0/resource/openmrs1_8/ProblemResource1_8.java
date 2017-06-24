@@ -9,6 +9,7 @@
  */
 package org.openmrs.module.webservices.rest.web.v1_0.resource.openmrs1_8;
 
+import io.swagger.models.Model;
 import org.openmrs.Patient;
 import org.openmrs.activelist.Problem;
 import org.openmrs.api.context.Context;
@@ -65,7 +66,17 @@ public class ProblemResource1_8 extends BaseActiveListItemResource1_8<Problem> {
 		
 		return description;
 	}
-	
+
+	@Override
+	public Model getCREATEModel(Representation representation) {
+		return null;
+	}
+
+	@Override
+	public Model getUPDATEModel(Representation representation) {
+		return null;
+	}
+
 	/**
 	 * @see org.openmrs.module.webservices.rest.web.resource.impl.BaseDelegatingResource#newDelegate()
 	 */

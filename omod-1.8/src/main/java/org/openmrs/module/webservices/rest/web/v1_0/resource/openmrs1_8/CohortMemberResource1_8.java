@@ -12,6 +12,10 @@ package org.openmrs.module.webservices.rest.web.v1_0.resource.openmrs1_8;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.swagger.models.Model;
+import io.swagger.models.ModelImpl;
+import io.swagger.models.properties.ObjectProperty;
+import io.swagger.models.properties.StringProperty;
 import org.openmrs.Cohort;
 import org.openmrs.Patient;
 import org.openmrs.api.context.Context;
@@ -115,7 +119,39 @@ public class CohortMemberResource1_8 extends DelegatingSubResource<CohortMember1
 		}
 		return null;
 	}
-	
+
+	public Model getGETModel(Representation rep) {
+		ModelImpl modelImpl = new ModelImpl();
+		if (rep instanceof RefRepresentation) {
+			modelImpl
+					.property("display", new StringProperty());
+//			description.addSelfLink();
+		} else if (rep instanceof DefaultRepresentation) {
+			modelImpl
+					.property("display", new StringProperty())
+					.property("patient", new ObjectProperty());
+//			description.addSelfLink();
+//			description.addLink("full", ".?v=" + RestConstants.REPRESENTATION_FULL);
+		} else if (rep instanceof FullRepresentation) {
+			modelImpl
+					.property("display", new StringProperty())
+					.property("patient", new ObjectProperty());
+			//description.addProperty("auditInfo", findMethod("getAuditInfo"));
+//			description.addSelfLink();
+		}
+		return modelImpl;
+	}
+
+	@Override
+	public Model getCREATEModel(Representation representation) {
+		return null;
+	}
+
+	@Override
+	public Model getUPDATEModel(Representation representation) {
+		return null;
+	}
+
 	/**
 	 * @see org.openmrs.module.webservices.rest.web.resource.impl.BaseDelegatingResource#getCreatableProperties()
 	 */

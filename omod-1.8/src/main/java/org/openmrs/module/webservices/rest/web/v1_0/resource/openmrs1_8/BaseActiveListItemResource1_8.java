@@ -9,6 +9,12 @@
  */
 package org.openmrs.module.webservices.rest.web.v1_0.resource.openmrs1_8;
 
+import io.swagger.models.Model;
+import io.swagger.models.ModelImpl;
+import io.swagger.models.properties.DateProperty;
+import io.swagger.models.properties.ObjectProperty;
+import io.swagger.models.properties.RefProperty;
+import io.swagger.models.properties.StringProperty;
 import org.openmrs.activelist.ActiveListItem;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.webservices.rest.web.RequestContext;
@@ -64,7 +70,41 @@ public abstract class BaseActiveListItemResource1_8<T extends ActiveListItem> ex
 		}
 		return null;
 	}
-	
+
+	public Model getGETModel(Representation rep) {
+		ModelImpl modelImpl = new ModelImpl();
+		if (rep instanceof DefaultRepresentation) {
+			modelImpl
+					.property("uuid", new StringProperty())
+					.property("display", new StringProperty())
+					.property("person", new RefProperty("#/definitions/PersonGet"))
+					.property("activeListType", new StringProperty())
+					.property("startDate", new DateProperty())
+					.property("endDate", new DateProperty())
+					.property("startObs", new ObjectProperty()) //FIXME
+					.property("stopObs", new ObjectProperty()) //FIXME
+					.property("comments", new StringProperty())
+					.property("voided", new StringProperty());
+//			description.addSelfLink();
+//			description.addLink("full", ".?v=" + RestConstants.REPRESENTATION_FULL);
+		} else if (rep instanceof FullRepresentation) {
+			modelImpl
+					.property("uuid", new StringProperty())
+					.property("display", new StringProperty())
+					.property("person", new RefProperty("#/definitions/PersonGet"))
+					.property("activeListType", new StringProperty()) //FIXME
+					.property("startDate", new DateProperty())
+					.property("endDate", new DateProperty())
+					.property("startObs", new ObjectProperty()) //FIXME
+					.property("stopObs", new ObjectProperty()) //FIXME
+					.property("comments", new StringProperty())
+					.property("voided", new StringProperty())
+					.property("auditInfo", new StringProperty());
+//			description.addSelfLink();
+		}
+		return modelImpl;
+	}
+
 	/**
 	 * @see org.openmrs.module.webservices.rest.web.resource.impl.BaseDelegatingResource#getCreatableProperties()
 	 */

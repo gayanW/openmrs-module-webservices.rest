@@ -9,6 +9,7 @@
  */
 package org.openmrs.module.webservices.rest.web.v1_0.resource.openmrs1_8;
 
+import io.swagger.models.Model;
 import org.openmrs.module.Module;
 import org.openmrs.module.ModuleException;
 import org.openmrs.module.webservices.helper.ModuleAction;
@@ -227,7 +228,22 @@ public class ModuleActionResource1_8 extends BaseDelegatingResource<ModuleAction
 		description.addRequiredProperty("action", "action");
 		return description;
 	}
-	
+
+	@Override
+	public Model getGETModel(Representation representation) {
+		return null;
+	}
+
+	@Override
+	public Model getCREATEModel(Representation representation) {
+		return null;
+	}
+
+	@Override
+	public Model getUPDATEModel(Representation representation) {
+		return null;
+	}
+
 	/**
 	 * Converter does not handle getters starting with 'is' instead of 'get'
 	 */
