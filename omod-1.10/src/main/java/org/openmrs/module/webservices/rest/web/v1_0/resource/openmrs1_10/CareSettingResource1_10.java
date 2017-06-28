@@ -67,22 +67,22 @@ public class CareSettingResource1_10 extends MetadataDelegatingCrudResource<Care
 	public DelegatingResourceDescription getCreatableProperties() {
 		throw new ResourceDoesNotSupportOperationException();
 	}
-
+	
 	@Override
 	public Model getGETModel(Representation representation) {
 		return null;
 	}
-
+	
 	@Override
 	public Model getCREATEModel(Representation representation) {
 		return null;
 	}
-
+	
 	@Override
 	public Model getUPDATEModel(Representation representation) {
 		return null;
 	}
-
+	
 	/**
 	 * @see org.openmrs.module.webservices.rest.web.resource.impl.DelegatingCrudResource#newDelegate()
 	 */

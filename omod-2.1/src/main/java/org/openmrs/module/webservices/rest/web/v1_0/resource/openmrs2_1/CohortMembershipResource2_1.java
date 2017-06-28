@@ -93,22 +93,22 @@ public class CohortMembershipResource2_1 extends DelegatingSubResource<CohortMem
 		d.addProperty("endDate");
 		return d;
 	}
-
+	
 	@Override
 	public Model getGETModel(Representation representation) {
 		return null;
 	}
-
+	
 	@Override
 	public Model getCREATEModel(Representation representation) {
 		return null;
 	}
-
+	
 	@Override
 	public Model getUPDATEModel(Representation representation) {
 		return null;
 	}
-
+	
 	@PropertyGetter("display")
 	public String getDisplay(CohortMembership cohortMembership) {
 		return "Patient in cohort (see link with rel=patient)";

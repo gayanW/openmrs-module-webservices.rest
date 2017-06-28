@@ -9,13 +9,9 @@
  */
 package org.openmrs.module.webservices.rest.web.v1_0.resource.openmrs1_8;
 
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
 import io.swagger.models.Model;
 import io.swagger.models.ModelImpl;
+import io.swagger.models.properties.ObjectProperty;
 import io.swagger.models.properties.StringProperty;
 import org.openmrs.Person;
 import org.openmrs.PersonName;
@@ -29,11 +25,17 @@ import org.openmrs.module.webservices.rest.web.annotation.Resource;
 import org.openmrs.module.webservices.rest.web.annotation.SubResource;
 import org.openmrs.module.webservices.rest.web.representation.DefaultRepresentation;
 import org.openmrs.module.webservices.rest.web.representation.FullRepresentation;
+import org.openmrs.module.webservices.rest.web.representation.RefRepresentation;
 import org.openmrs.module.webservices.rest.web.representation.Representation;
 import org.openmrs.module.webservices.rest.web.resource.impl.DelegatingResourceDescription;
 import org.openmrs.module.webservices.rest.web.resource.impl.DelegatingSubResource;
 import org.openmrs.module.webservices.rest.web.resource.impl.NeedsPaging;
 import org.openmrs.module.webservices.rest.web.response.ResponseException;
+
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * {@link Resource} for PersonNames, supporting standard CRUD operations
@@ -103,59 +105,64 @@ public class PersonNameResource1_8 extends DelegatingSubResource<PersonName, Per
 	public DelegatingResourceDescription getUpdatableProperties() {
 		return getCreatableProperties();
 	}
-
+	
 	@Override
 	public Model getGETModel(Representation representation) {
-		ModelImpl model = new ModelImpl();
+		ModelImpl model = (ModelImpl) super.getGETModel(representation);
 		if (representation instanceof DefaultRepresentation) {
 			model
-					.property("display", new StringProperty())
-					.property("uuid", new StringProperty())
-					.property("givenName", new StringProperty())
-					.property("middleName", new StringProperty())
-					.property("familyName", new StringProperty())
-					.property("familyName2", new StringProperty())
-					.property("voided", new StringProperty());
+			        .property("display", new StringProperty())
+			        .property("uuid", new StringProperty())
+			        .property("givenName", new StringProperty())
+			        .property("middleName", new StringProperty())
+			        .property("familyName", new StringProperty())
+			        .property("familyName2", new StringProperty())
+			        .property("voided", new StringProperty());
+			
 		} else if (representation instanceof FullRepresentation) {
 			model
-					.property("display", new StringProperty())
-					.property("uuid", new StringProperty())
-					.property("givenName", new StringProperty())
-					.property("middleName", new StringProperty())
-					.property("familyName", new StringProperty())
-					.property("familyName2", new StringProperty())
-					.property("preferred", new StringProperty())
-					.property("prefix", new StringProperty())
-					.property("familyNamePrefix", new StringProperty())
-					.property("familyNameSuffix", new StringProperty())
-					.property("degree", new StringProperty())
-					.property("voided", new StringProperty())
-					.property("auditInfo", new StringProperty());
+			        .property("display", new StringProperty())
+			        .property("uuid", new StringProperty())
+			        .property("givenName", new StringProperty())
+			        .property("middleName", new StringProperty())
+			        .property("familyName", new StringProperty())
+			        .property("familyName2", new StringProperty())
+			        .property("preferred", new StringProperty())
+			        .property("prefix", new StringProperty())
+			        .property("familyNamePrefix", new StringProperty())
+			        .property("familyNameSuffix", new StringProperty())
+			        .property("degree", new StringProperty())
+			        .property("voided", new StringProperty())
+			        .property("auditInfo", new ObjectProperty());
+			
+		} else if (representation instanceof RefRepresentation) {
+			model
+			        .property("display", new StringProperty())
+			        .property("uuid", new StringProperty());
 		}
 		return model;
 	}
-
+	
 	@Override
 	public Model getCREATEModel(Representation representation) {
 		return new ModelImpl()
 				.property("givenName", new StringProperty())
 				.property("middleName", new StringProperty())
-				.property("familyName", new StringProperty())
+		        .property("familyName", new StringProperty())
 				.property("familyName2", new StringProperty())
-				.property("preferred", new StringProperty())
+		        .property("preferred", new StringProperty())
 				.property("prefix", new StringProperty())
-				.property("familyNamePrefix", new StringProperty())
+		        .property("familyNamePrefix", new StringProperty())
 				.property("familyNameSuffix", new StringProperty())
-				.property("degree", new StringProperty())
-				.required("givenName")
-				.required("familyName");
+		        .property("degree", new StringProperty())
+				.required("givenName").required("familyName");
 	}
-
+	
 	@Override
 	public Model getUPDATEModel(Representation representation) {
 		return getCREATEModel(representation);
 	}
-
+	
 	/**
 	 * @see org.openmrs.module.webservices.rest.web.resource.impl.DelegatingSubResource#getParent(java.lang.Object)
 	 */

@@ -10,6 +10,8 @@
 package org.openmrs.module.webservices.rest.web.v1_0.resource.openmrs1_8;
 
 import io.swagger.models.Model;
+import io.swagger.models.ModelImpl;
+import io.swagger.models.properties.*;
 import org.openmrs.Concept;
 import org.openmrs.PersonAttributeType;
 import org.openmrs.api.PersonService;
@@ -106,22 +108,57 @@ public class PersonAttributeTypeResource1_8 extends MetadataDelegatingCrudResour
 	public DelegatingResourceDescription getUpdatableProperties() {
 		return getCreatableProperties();
 	}
-
+	
 	@Override
 	public Model getGETModel(Representation representation) {
-		return null;
+		ModelImpl model = (ModelImpl) super.getGETModel(representation);
+		if (representation instanceof DefaultRepresentation) {
+			model
+			        .property("display", new StringProperty())
+			        .property("uuid", new StringProperty())
+			        .property("name", new StringProperty())
+			        .property("description", new StringProperty())
+			        .property("format", new StringProperty())
+			        .property("foreignKey", new IntegerProperty())
+			        .property("sortWeight", new DoubleProperty())
+			        .property("searchable", new BooleanProperty()._default(false))
+			        .property("editPrivilege", new RefProperty("#/definitions/PrivilegeGetRef"))
+			        .property("retired", new BooleanProperty());
+		} else if (representation instanceof FullRepresentation) {
+			model
+			        .property("display", new StringProperty())
+			        .property("uuid", new StringProperty())
+			        .property("name", new StringProperty())
+			        .property("description", new StringProperty())
+			        .property("format", new StringProperty())
+			        .property("foreignKey", new IntegerProperty())
+			        .property("sortWeight", new DoubleProperty())
+			        .property("searchable", new BooleanProperty()._default(false))
+			        .property("editPrivilege", new RefProperty("#/definitions/PrivilegeGetRef"))
+			        .property("retired", new BooleanProperty())
+			        .property("concept", new StringProperty());
+		}
+		return model;
 	}
-
+	
 	@Override
 	public Model getCREATEModel(Representation representation) {
-		return null;
+		return new ModelImpl()
+				.property("name", new StringProperty())
+				.property("description", new StringProperty())
+				.property("format", new StringProperty())
+				.property("foreignKey", new IntegerProperty())
+				.property("sortWeight", new DoubleProperty())
+				.property("searchable", new BooleanProperty()._default(false))
+				.property("editPrivilege", new RefProperty("#/definitions/PrivilegeCreate"))
+				.required("name").required("description");
 	}
-
+	
 	@Override
 	public Model getUPDATEModel(Representation representation) {
-		return null;
+		return getCREATEModel(representation);
 	}
-
+	
 	/**
 	 * @see org.openmrs.module.webservices.rest.web.resource.impl.BaseDelegatingResource#getByUniqueId(java.lang.String)
 	 */

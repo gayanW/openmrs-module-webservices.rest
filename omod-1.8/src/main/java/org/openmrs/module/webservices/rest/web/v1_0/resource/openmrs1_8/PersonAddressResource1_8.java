@@ -10,6 +10,8 @@
 package org.openmrs.module.webservices.rest.web.v1_0.resource.openmrs1_8;
 
 import io.swagger.models.Model;
+import io.swagger.models.ModelImpl;
+import io.swagger.models.properties.*;
 import org.openmrs.Person;
 import org.openmrs.PersonAddress;
 import org.openmrs.api.context.Context;
@@ -135,22 +137,57 @@ public class PersonAddressResource1_8 extends DelegatingSubResource<PersonAddres
 	public DelegatingResourceDescription getUpdatableProperties() {
 		return getCreatableProperties();
 	}
-
+	
 	@Override
 	public Model getGETModel(Representation representation) {
-		return null;
+		return  ((ModelImpl) super.getGETModel(representation))
+					.property("display", new StringProperty())
+					.property("uuid", new StringProperty())
+					.property("preferred", new BooleanProperty()._default(false))
+					.property("address1", new StringProperty())
+					.property("address2", new StringProperty())
+					.property("cityVillage", new StringProperty())
+					.property("stateProvince", new StringProperty())
+					.property("country", new StringProperty())
+					.property("postalCode", new StringProperty())
+					.property("countyDistrict", new StringProperty())
+					.property("address3", new StringProperty())
+					.property("address4", new StringProperty())
+					.property("address5", new StringProperty())
+					.property("address6", new StringProperty())
+					.property("startDate", new DateProperty())
+					.property("endDate", new DateProperty())
+					.property("latitude", new StringProperty())
+					.property("longitude", new StringProperty())
+					.property("voided", new BooleanProperty());
 	}
 
 	@Override
 	public Model getCREATEModel(Representation representation) {
-		return null;
+		return new ModelImpl()
+				.property("preferred", new BooleanProperty()._default(false))
+				.property("address1", new StringProperty())
+				.property("address2", new StringProperty())
+				.property("cityVillage", new StringProperty())
+				.property("stateProvince", new StringProperty())
+				.property("country", new StringProperty())
+				.property("postalCode", new StringProperty())
+				.property("countyDistrict", new StringProperty())
+				.property("address3", new StringProperty())
+				.property("address4", new StringProperty())
+				.property("address5", new StringProperty())
+				.property("address6", new StringProperty())
+				.property("startDate", new DateProperty())
+				.property("endDate", new DateProperty())
+				.property("latitude", new StringProperty())
+				.property("longitude", new StringProperty());
 	}
 
 	@Override
 	public Model getUPDATEModel(Representation representation) {
-		return null;
+		return getCREATEModel(representation);
 	}
-
+	
 	/**
 	 * @see org.openmrs.module.webservices.rest.web.resource.impl.BaseDelegatingResource#getByUniqueId(java.lang.String)
 	 */

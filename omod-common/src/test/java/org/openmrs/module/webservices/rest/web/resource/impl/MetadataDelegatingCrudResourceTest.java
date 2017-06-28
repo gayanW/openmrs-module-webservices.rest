@@ -101,17 +101,17 @@ public class MetadataDelegatingCrudResourceTest {
 		public DelegatingResourceDescription getRepresentationDescription(Representation rep) {
 			return null;
 		}
-
+		
 		@Override
 		public Model getGETModel(Representation representation) {
 			return null;
 		}
-
+		
 		@Override
 		public Model getCREATEModel(Representation representation) {
 			return null;
 		}
-
+		
 		@Override
 		public Model getUPDATEModel(Representation representation) {
 			return null;

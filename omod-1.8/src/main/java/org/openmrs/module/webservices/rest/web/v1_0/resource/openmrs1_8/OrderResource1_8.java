@@ -192,22 +192,22 @@ public class OrderResource1_8 extends DataDelegatingCrudResource<Order> {
 		d.addProperty("accessionNumber");
 		return d;
 	}
-
+	
 	@Override
 	public Model getGETModel(Representation representation) {
 		return null;
 	}
-
+	
 	@Override
 	public Model getCREATEModel(Representation representation) {
 		return null;
 	}
-
+	
 	@Override
 	public Model getUPDATEModel(Representation representation) {
 		return null;
 	}
-
+	
 	/**
 	 * Gets orders by given patient (paged according to context if necessary) only if a patient
 	 * parameter exists in the request set on the {@link RequestContext} otherwise

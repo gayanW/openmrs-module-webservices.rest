@@ -110,22 +110,22 @@ public class PatientIdentifierTypeResource1_8 extends MetadataDelegatingCrudReso
 	public DelegatingResourceDescription getUpdatableProperties() {
 		return getCreatableProperties();
 	}
-
+	
 	@Override
 	public Model getGETModel(Representation representation) {
 		return null;
 	}
-
+	
 	@Override
 	public Model getCREATEModel(Representation representation) {
 		return null;
 	}
-
+	
 	@Override
 	public Model getUPDATEModel(Representation representation) {
 		return null;
 	}
-
+	
 	/**
 	 * @see org.openmrs.module.webservices.rest.web.resource.impl.BaseDelegatingResource#getByUniqueId(java.lang.String)
 	 */

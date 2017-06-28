@@ -35,53 +35,45 @@ import java.util.List;
 @Resource(name = RestConstants.VERSION_1 + "/field", supportedClass = Field.class, supportedOpenmrsVersions = { "1.8.*",
         "1.9.*", "1.10.*", "1.11.*", "1.12.*", "2.0.*", "2.1.*" })
 public class FieldResource1_8 extends MetadataDelegatingCrudResource<Field> {
-
+	
 	public Model getGETModel(Representation rep) {
 		ModelImpl modelImpl = new ModelImpl();
 		if (rep instanceof DefaultRepresentation) {
-			modelImpl
-					.property("uuid", new StringProperty())
-					.property("display", new StringProperty())
-					.property("name", new StringProperty())
-					.property("description", new StringProperty())
-					.property("fieldType", new StringProperty()) //FIXME
-					.property("concept", new StringProperty()) //FIXME
-					.property("tableName", new StringProperty())
-					.property("attributeName", new StringProperty())
-					.property("defaultValue", new StringProperty())
-					.property("selectMultiple", new StringProperty())
-					.property("retired", new StringProperty());
-//			description.addSelfLink();
-//			description.addLink("full", ".?v=" + RestConstants.REPRESENTATION_FULL);
+			modelImpl.property("uuid", new StringProperty())
+			        .property("display", new StringProperty())
+			        .property("name", new StringProperty())
+			        .property("description", new StringProperty())
+			        .property("fieldType", new StringProperty())
+			        //FIXME
+			        .property("concept", new StringProperty())
+			        //FIXME
+			        .property("tableName", new StringProperty()).property("attributeName", new StringProperty())
+			        .property("defaultValue", new StringProperty()).property("selectMultiple", new StringProperty())
+			        .property("retired", new StringProperty());
+			//			description.addSelfLink();
+			//			description.addLink("full", ".?v=" + RestConstants.REPRESENTATION_FULL);
 		} else if (rep instanceof FullRepresentation) {
-			modelImpl
-					.property("uuid", new StringProperty())
-					.property("display", new StringProperty())
-					.property("name", new StringProperty())
-					.property("description", new StringProperty())
-					.property("fieldType", new ObjectProperty())
-					.property("concept", new ObjectProperty())
-					.property("tableName", new StringProperty())
-					.property("attributeName", new StringProperty())
-					.property("defaultValue", new StringProperty())
-					.property("selectMultiple", new StringProperty())
-					.property("retired", new StringProperty())
-					.property("auditInfo", new StringProperty());
-//			description.addSelfLink();
+			modelImpl.property("uuid", new StringProperty()).property("display", new StringProperty())
+			        .property("name", new StringProperty()).property("description", new StringProperty())
+			        .property("fieldType", new ObjectProperty()).property("concept", new ObjectProperty())
+			        .property("tableName", new StringProperty()).property("attributeName", new StringProperty())
+			        .property("defaultValue", new StringProperty()).property("selectMultiple", new StringProperty())
+			        .property("retired", new StringProperty()).property("auditInfo", new StringProperty());
+			//			description.addSelfLink();
 		}
 		return modelImpl;
 	}
-
+	
 	@Override
 	public Model getCREATEModel(Representation representation) {
 		return null;
 	}
-
+	
 	@Override
 	public Model getUPDATEModel(Representation representation) {
 		return null;
 	}
-
+	
 	/**
 	 * @see org.openmrs.module.webservices.rest.web.resource.impl.DelegatingCrudResource#getRepresentationDescription(org.openmrs.module.webservices.rest.web.representation.Representation)
 	 */

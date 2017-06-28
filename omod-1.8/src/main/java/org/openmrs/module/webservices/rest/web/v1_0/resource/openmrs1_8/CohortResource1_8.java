@@ -89,42 +89,34 @@ public class CohortResource1_8 extends DataDelegatingCrudResource<Cohort> {
 		}
 		return null;
 	}
-
+	
 	public Model getGETModel(Representation rep) {
 		ModelImpl modelImpl = new ModelImpl();
 		if (rep instanceof DefaultRepresentation) {
-			modelImpl
-					.property("uuid", new StringProperty())
-					.property("display", new StringProperty())
-					.property("name", new StringProperty())
-					.property("description", new StringProperty())
-					.property("voided", new StringProperty())
-					.property("memberIds", new StringProperty()); //FIXME
-//			description.addSelfLink();
-//			description.addLink("full", ".?v=" + RestConstants.REPRESENTATION_FULL);
+			modelImpl.property("uuid", new StringProperty()).property("display", new StringProperty())
+			        .property("name", new StringProperty()).property("description", new StringProperty())
+			        .property("voided", new StringProperty()).property("memberIds", new StringProperty()); //FIXME
+			//			description.addSelfLink();
+			//			description.addLink("full", ".?v=" + RestConstants.REPRESENTATION_FULL);
 		} else if (rep instanceof FullRepresentation) {
-			modelImpl
-					.property("uuid", new StringProperty())
-					.property("display", new StringProperty())
-					.property("name", new StringProperty())
-					.property("description", new StringProperty())
-					.property("memberIds", new StringProperty())
-					.property("voided", new StringProperty())
-					.property("auditInfo", new StringProperty());
+			modelImpl.property("uuid", new StringProperty()).property("display", new StringProperty())
+			        .property("name", new StringProperty()).property("description", new StringProperty())
+			        .property("memberIds", new StringProperty()).property("voided", new StringProperty())
+			        .property("auditInfo", new StringProperty());
 		}
 		return modelImpl;
 	}
-
+	
 	@Override
 	public Model getCREATEModel(Representation representation) {
 		return null;
 	}
-
+	
 	@Override
 	public Model getUPDATEModel(Representation representation) {
 		return null;
 	}
-
+	
 	/**
 	 * @see org.openmrs.module.webservices.rest.web.resource.impl.BaseDelegatingResource#getCreatableProperties()
 	 */

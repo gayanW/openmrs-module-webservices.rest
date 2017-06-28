@@ -55,22 +55,22 @@ public class HL7SourceResource1_8 extends MetadataDelegatingCrudResource<HL7Sour
 		
 		return description;
 	}
-
+	
 	@Override
 	public Model getGETModel(Representation representation) {
 		return null;
 	}
-
+	
 	@Override
 	public Model getCREATEModel(Representation representation) {
 		return null;
 	}
-
+	
 	@Override
 	public Model getUPDATEModel(Representation representation) {
 		return null;
 	}
-
+	
 	/**
 	 * @see org.openmrs.module.webservices.rest.web.resource.impl.BaseDelegatingResource#newDelegate()
 	 */

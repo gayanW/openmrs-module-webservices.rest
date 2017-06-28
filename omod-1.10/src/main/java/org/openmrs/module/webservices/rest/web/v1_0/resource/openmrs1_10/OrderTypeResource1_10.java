@@ -147,17 +147,17 @@ public class OrderTypeResource1_10 extends MetadataDelegatingCrudResource<OrderT
 		d.addProperty("conceptClasses");
 		return d;
 	}
-
+	
 	@Override
 	public Model getGETModel(Representation representation) {
 		return null;
 	}
-
+	
 	@Override
 	public Model getCREATEModel(Representation representation) {
 		return null;
 	}
-
+	
 	@Override
 	public Model getUPDATEModel(Representation representation) {
 		return null;

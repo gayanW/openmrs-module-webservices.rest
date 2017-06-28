@@ -123,22 +123,22 @@ public class TestOrderSubclassHandler1_10 extends BaseDelegatingSubclassHandler<
 		//this actually throws a ResourceDoesNotSupportOperationException
 		return orderResource.getUpdatableProperties();
 	}
-
+	
 	@Override
 	public Model getGETModel(Representation representation) {
 		return null;
 	}
-
+	
 	@Override
 	public Model getCREATEModel(Representation representation) {
 		return null;
 	}
-
+	
 	@Override
 	public Model getUPDATEModel(Representation representation) {
 		return null;
 	}
-
+	
 	public PageableResult getActiveOrders(Patient patient, RequestContext context) {
 		String careSettingUuid = context.getRequest().getParameter("careSetting");
 		String asOfDateString = context.getRequest().getParameter("asOfDate");

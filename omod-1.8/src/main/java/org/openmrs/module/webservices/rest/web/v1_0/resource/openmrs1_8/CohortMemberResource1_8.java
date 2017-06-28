@@ -119,39 +119,34 @@ public class CohortMemberResource1_8 extends DelegatingSubResource<CohortMember1
 		}
 		return null;
 	}
-
+	
 	public Model getGETModel(Representation rep) {
 		ModelImpl modelImpl = new ModelImpl();
 		if (rep instanceof RefRepresentation) {
-			modelImpl
-					.property("display", new StringProperty());
-//			description.addSelfLink();
+			modelImpl.property("display", new StringProperty());
+			//			description.addSelfLink();
 		} else if (rep instanceof DefaultRepresentation) {
-			modelImpl
-					.property("display", new StringProperty())
-					.property("patient", new ObjectProperty());
-//			description.addSelfLink();
-//			description.addLink("full", ".?v=" + RestConstants.REPRESENTATION_FULL);
+			modelImpl.property("display", new StringProperty()).property("patient", new ObjectProperty());
+			//			description.addSelfLink();
+			//			description.addLink("full", ".?v=" + RestConstants.REPRESENTATION_FULL);
 		} else if (rep instanceof FullRepresentation) {
-			modelImpl
-					.property("display", new StringProperty())
-					.property("patient", new ObjectProperty());
+			modelImpl.property("display", new StringProperty()).property("patient", new ObjectProperty());
 			//description.addProperty("auditInfo", findMethod("getAuditInfo"));
-//			description.addSelfLink();
+			//			description.addSelfLink();
 		}
 		return modelImpl;
 	}
-
+	
 	@Override
 	public Model getCREATEModel(Representation representation) {
 		return null;
 	}
-
+	
 	@Override
 	public Model getUPDATEModel(Representation representation) {
 		return null;
 	}
-
+	
 	/**
 	 * @see org.openmrs.module.webservices.rest.web.resource.impl.BaseDelegatingResource#getCreatableProperties()
 	 */

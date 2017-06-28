@@ -11,10 +11,7 @@ package org.openmrs.module.webservices.rest.web.v1_0.resource.openmrs1_8;
 
 import io.swagger.models.Model;
 import io.swagger.models.ModelImpl;
-import io.swagger.models.properties.DateProperty;
-import io.swagger.models.properties.ObjectProperty;
-import io.swagger.models.properties.RefProperty;
-import io.swagger.models.properties.StringProperty;
+import io.swagger.models.properties.*;
 import org.openmrs.activelist.ActiveListItem;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.webservices.rest.web.RequestContext;
@@ -31,7 +28,18 @@ import org.openmrs.module.webservices.rest.web.response.ResponseException;
  * {@link ActiveListItem}
  */
 public abstract class BaseActiveListItemResource1_8<T extends ActiveListItem> extends DataDelegatingCrudResource<T> {
-	
+
+	@Override
+	public Model getCREATEModel(Representation representation) {
+		return new ModelImpl()
+				.property("person", new RefProperty("#/definitions/PersonCreate"))
+				.property("startDate", new DateProperty())
+				.property("comments", new StringProperty())
+				.property("startObs", new RefProperty("#/definitions/ObsCreate"))
+				.property("stopObs", new RefProperty("#/definitions/ObsCreate"))
+				.required("person").required("startDate");
+	}
+
 	/**
 	 * @see org.openmrs.module.webservices.rest.web.resource.impl.BaseDelegatingResource#getRepresentationDescription(org.openmrs.module.webservices.rest.web.representation.Representation)
 	 */
@@ -72,39 +80,29 @@ public abstract class BaseActiveListItemResource1_8<T extends ActiveListItem> ex
 	}
 
 	public Model getGETModel(Representation rep) {
-		ModelImpl modelImpl = new ModelImpl();
+		ModelImpl model = ((ModelImpl) super.getGETModel(rep))
+				.property("uuid", new StringProperty())
+				.property("display", new StringProperty())
+				.property("startDate", new DateProperty())
+				.property("endDate", new DateProperty())
+				.property("comments", new StringProperty())
+				.property("voided", new BooleanProperty());
 		if (rep instanceof DefaultRepresentation) {
-			modelImpl
-					.property("uuid", new StringProperty())
-					.property("display", new StringProperty())
+			model
 					.property("person", new RefProperty("#/definitions/PersonGet"))
-					.property("activeListType", new StringProperty())
-					.property("startDate", new DateProperty())
-					.property("endDate", new DateProperty())
-					.property("startObs", new ObjectProperty()) //FIXME
-					.property("stopObs", new ObjectProperty()) //FIXME
-					.property("comments", new StringProperty())
-					.property("voided", new StringProperty());
-//			description.addSelfLink();
-//			description.addLink("full", ".?v=" + RestConstants.REPRESENTATION_FULL);
+					.property("activeListType", new RefProperty("#/definitions/ActivelisttypeGet"))
+					.property("startObs", new RefProperty("#/definitions/ObsGet"))
+					.property("stopObs", new RefProperty("#/definitions/ObsGetRef"));
 		} else if (rep instanceof FullRepresentation) {
-			modelImpl
-					.property("uuid", new StringProperty())
-					.property("display", new StringProperty())
-					.property("person", new RefProperty("#/definitions/PersonGet"))
-					.property("activeListType", new StringProperty()) //FIXME
-					.property("startDate", new DateProperty())
-					.property("endDate", new DateProperty())
-					.property("startObs", new ObjectProperty()) //FIXME
-					.property("stopObs", new ObjectProperty()) //FIXME
-					.property("comments", new StringProperty())
-					.property("voided", new StringProperty())
-					.property("auditInfo", new StringProperty());
-//			description.addSelfLink();
+			model
+					.property("person", new RefProperty("#/definitions/PersonGetRef"))
+					.property("activeListType", new RefProperty("#/definitions/ActivelisttypeGetRef"))
+					.property("startObs", new RefProperty("#/definitions/ObsGetRef"))
+					.property("stopObs", new RefProperty("#/definitions/ObsGetRef"));
 		}
-		return modelImpl;
+		return model;
 	}
-
+	
 	/**
 	 * @see org.openmrs.module.webservices.rest.web.resource.impl.BaseDelegatingResource#getCreatableProperties()
 	 */

@@ -62,20 +62,20 @@ public class OrderTypeResource1_8 extends MetadataDelegatingCrudResource<OrderTy
 		}
 		Context.getOrderService().purgeOrderType(delegate);
 	}
-
+	
 	@Override
 	public Model getGETModel(Representation representation) {
 		return null;
 	}
-
+	
 	@Override
 	public Model getCREATEModel(Representation representation) {
 		return null;
 	}
-
+	
 	@Override
 	public Model getUPDATEModel(Representation representation) {
 		return null;
 	}
-
+	
 }

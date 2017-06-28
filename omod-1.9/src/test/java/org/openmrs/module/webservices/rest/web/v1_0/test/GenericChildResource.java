@@ -40,22 +40,22 @@ public class GenericChildResource extends DelegatingCrudResource<GenericChild> {
 		
 		return description;
 	}
-
+	
 	@Override
 	public Model getGETModel(Representation representation) {
 		return null;
 	}
-
+	
 	@Override
 	public Model getCREATEModel(Representation representation) {
 		return null;
 	}
-
+	
 	@Override
 	public Model getUPDATEModel(Representation representation) {
 		return null;
 	}
-
+	
 	@Override
 	public GenericChild newDelegate() {
 		return new GenericChild();

@@ -81,22 +81,22 @@ public class ConceptStopwordResource1_9 extends DelegatingCrudResource<ConceptSt
 		description.addProperty("locale");
 		return description;
 	}
-
+	
 	@Override
 	public Model getGETModel(Representation representation) {
 		return null;
 	}
-
+	
 	@Override
 	public Model getCREATEModel(Representation representation) {
 		return null;
 	}
-
+	
 	@Override
 	public Model getUPDATEModel(Representation representation) {
 		return null;
 	}
-
+	
 	/**
 	 * @see DelegatingCrudResource#getByUniqueId(java.lang.String)
 	 */

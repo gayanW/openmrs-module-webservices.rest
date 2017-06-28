@@ -23,6 +23,11 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import io.swagger.models.Model;
+import io.swagger.models.ModelImpl;
+import io.swagger.models.properties.ArrayProperty;
+import io.swagger.models.properties.ObjectProperty;
+import io.swagger.models.properties.StringProperty;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
@@ -41,10 +46,7 @@ import org.openmrs.module.webservices.rest.web.annotation.PropertyGetter;
 import org.openmrs.module.webservices.rest.web.annotation.RepHandler;
 import org.openmrs.module.webservices.rest.web.annotation.SubClassHandler;
 import org.openmrs.module.webservices.rest.web.api.RestService;
-import org.openmrs.module.webservices.rest.web.representation.CustomRepresentation;
-import org.openmrs.module.webservices.rest.web.representation.NamedRepresentation;
-import org.openmrs.module.webservices.rest.web.representation.RefRepresentation;
-import org.openmrs.module.webservices.rest.web.representation.Representation;
+import org.openmrs.module.webservices.rest.web.representation.*;
 import org.openmrs.module.webservices.rest.web.resource.api.Converter;
 import org.openmrs.module.webservices.rest.web.resource.api.Resource;
 import org.openmrs.module.webservices.rest.web.resource.impl.DelegatingResourceDescription.Property;
@@ -64,6 +66,33 @@ import org.openmrs.util.OpenmrsUtil;
 public abstract class BaseDelegatingResource<T> extends BaseDelegatingConverter<T> implements Converter<T>, Resource, DelegatingResourceHandler<T> {
 	
 	private final Log log = LogFactory.getLog(getClass());
+	
+	@Override
+	public Model getGETModel(Representation representation) {
+		ModelImpl model = new ModelImpl();
+		if (representation instanceof DefaultRepresentation) {
+			model
+			        .property("links", new ArrayProperty()
+			                .items(new ObjectProperty()
+			                        .property("rel", new StringProperty().example("self|full"))
+			                        .property("uri", new StringProperty(StringProperty.Format.URI))));
+			
+		} else if (representation instanceof FullRepresentation) {
+			model
+			        .property("auditInfo", new StringProperty())
+			        .property("links", new ArrayProperty()
+			                .items(new ObjectProperty()
+			                        .property("rel", new StringProperty()).example("self")
+			                        .property("uri", new StringProperty(StringProperty.Format.URI))));
+			
+		} else if (representation instanceof RefRepresentation) {
+			model
+			        .property("links", new ObjectProperty()
+			                .property("rel", new StringProperty()).example("self")
+			                .property("uri", new StringProperty(StringProperty.Format.URI)));
+		}
+		return model;
+	}
 	
 	protected Set<String> propertiesIgnoredWhenUpdating = new HashSet<String>();
 	

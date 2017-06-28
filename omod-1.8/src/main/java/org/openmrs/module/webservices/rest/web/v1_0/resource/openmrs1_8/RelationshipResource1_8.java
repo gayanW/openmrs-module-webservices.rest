@@ -146,17 +146,17 @@ public class RelationshipResource1_8 extends DataDelegatingCrudResource<Relation
 		description.addProperty("voided");
 		return description;
 	}
-
+	
 	@Override
 	public Model getGETModel(Representation representation) {
 		return null;
 	}
-
+	
 	@Override
 	public Model getCREATEModel(Representation representation) {
 		return null;
 	}
-
+	
 	@Override
 	public Model getUPDATEModel(Representation representation) {
 		return null;

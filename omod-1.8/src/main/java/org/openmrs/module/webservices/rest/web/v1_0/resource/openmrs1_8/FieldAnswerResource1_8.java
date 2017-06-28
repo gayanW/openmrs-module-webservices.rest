@@ -81,39 +81,34 @@ public class FieldAnswerResource1_8 extends DelegatingSubResource<FieldAnswer, F
 		}
 		return null;
 	}
-
+	
 	public Model getGETModel(Representation rep) {
 		ModelImpl modelImpl = new ModelImpl();
 		if (rep instanceof DefaultRepresentation) {
-			modelImpl
-					.property("uuid", new StringProperty())
-					.property("display", new StringProperty())
-					.property("concept", new ObjectProperty()) //FIXME
-					.property("field", new ObjectProperty()); //FIXME
-//			description.addSelfLink();
-//			description.addLink("full", ".?v=" + RestConstants.REPRESENTATION_FULL);
+			modelImpl.property("uuid", new StringProperty()).property("display", new StringProperty())
+			        .property("concept", new ObjectProperty()) //FIXME
+			        .property("field", new ObjectProperty()); //FIXME
+			//			description.addSelfLink();
+			//			description.addLink("full", ".?v=" + RestConstants.REPRESENTATION_FULL);
 		} else if (rep instanceof FullRepresentation) {
-			modelImpl
-					.property("uuid", new StringProperty())
-					.property("display", new StringProperty())
-					.property("concept", new StringProperty())
-					.property("field", new StringProperty())
-					.property("auditInfo", new StringProperty());
-//			description.addSelfLink();
+			modelImpl.property("uuid", new StringProperty()).property("display", new StringProperty())
+			        .property("concept", new StringProperty()).property("field", new StringProperty())
+			        .property("auditInfo", new StringProperty());
+			//			description.addSelfLink();
 		}
 		return modelImpl;
 	}
-
+	
 	@Override
 	public Model getCREATEModel(Representation representation) {
 		return null;
 	}
-
+	
 	@Override
 	public Model getUPDATEModel(Representation representation) {
 		return null;
 	}
-
+	
 	/**
 	 * @see org.openmrs.module.webservices.rest.web.resource.impl.MetadataDelegatingCrudResource#getCreatableProperties()
 	 */

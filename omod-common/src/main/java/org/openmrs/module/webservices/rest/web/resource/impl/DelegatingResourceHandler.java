@@ -89,8 +89,10 @@ public interface DelegatingResourceHandler<T> extends DelegatingPropertyAccessor
 	 * @throws ResponseException if this resource does not support the operation
 	 */
 	DelegatingResourceDescription getUpdatableProperties() throws ResourceDoesNotSupportOperationException;
-
-	Model getGETModel(Representation representation);
-	Model getCREATEModel(Representation representation);
-	Model getUPDATEModel(Representation representation);
+	
+	Model getGETModel(Representation rep);
+	
+	Model getCREATEModel(Representation rep);
+	
+	Model getUPDATEModel(Representation rep);
 }

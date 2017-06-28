@@ -112,22 +112,22 @@ public class ProgramEnrollmentResource1_8 extends DataDelegatingCrudResource<Pat
 		d.addProperty("voided");
 		return d;
 	}
-
+	
 	@Override
 	public Model getGETModel(Representation representation) {
 		return null;
 	}
-
+	
 	@Override
 	public Model getCREATEModel(Representation representation) {
 		return null;
 	}
-
+	
 	@Override
 	public Model getUPDATEModel(Representation representation) {
 		return null;
 	}
-
+	
 	/**
 	 * Gets all the programs (excluding voided) of the given patient
 	 * 

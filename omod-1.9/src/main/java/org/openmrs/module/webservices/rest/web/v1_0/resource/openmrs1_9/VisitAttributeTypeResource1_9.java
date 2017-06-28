@@ -84,22 +84,22 @@ public class VisitAttributeTypeResource1_9 extends BaseAttributeTypeCrudResource
 	public void purge(VisitAttributeType delegate, RequestContext context) throws ResponseException {
 		getService().purgeVisitAttributeType(delegate);
 	}
-
+	
 	@Override
 	public Model getGETModel(Representation representation) {
 		return null;
 	}
-
+	
 	@Override
 	public Model getCREATEModel(Representation representation) {
 		return null;
 	}
-
+	
 	@Override
 	public Model getUPDATEModel(Representation representation) {
 		return null;
 	}
-
+	
 	/**
 	 * @see org.openmrs.module.webservices.rest.web.resource.impl.DelegatingCrudResource#doSearch(org.openmrs.module.webservices.rest.web.RequestContext)
 	 */

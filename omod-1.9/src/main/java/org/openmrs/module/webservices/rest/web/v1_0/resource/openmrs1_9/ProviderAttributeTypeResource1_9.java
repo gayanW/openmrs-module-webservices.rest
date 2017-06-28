@@ -78,22 +78,22 @@ public class ProviderAttributeTypeResource1_9 extends BaseAttributeTypeCrudResou
 	public void purge(ProviderAttributeType delegate, RequestContext context) throws ResponseException {
 		service().purgeProviderAttributeType(delegate);
 	}
-
+	
 	@Override
 	public Model getGETModel(Representation representation) {
 		return null;
 	}
-
+	
 	@Override
 	public Model getCREATEModel(Representation representation) {
 		return null;
 	}
-
+	
 	@Override
 	public Model getUPDATEModel(Representation representation) {
 		return null;
 	}
-
+	
 	/**
 	 * @see org.openmrs.module.webservices.rest.web.resource.impl.DelegatingCrudResource#doSearch(org.openmrs.module.webservices.rest.web.RequestContext)
 	 */

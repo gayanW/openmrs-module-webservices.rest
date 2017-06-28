@@ -137,22 +137,22 @@ public class VisitResource1_9 extends DataDelegatingCrudResource<Visit> {
 		description.removeProperty("patient");
 		return description;
 	}
-
+	
 	@Override
 	public Model getGETModel(Representation representation) {
 		return null;
 	}
-
+	
 	@Override
 	public Model getCREATEModel(Representation representation) {
 		return null;
 	}
-
+	
 	@Override
 	public Model getUPDATEModel(Representation representation) {
 		return null;
 	}
-
+	
 	/**
 	 * @see DelegatingCrudResource#newDelegate()
 	 */

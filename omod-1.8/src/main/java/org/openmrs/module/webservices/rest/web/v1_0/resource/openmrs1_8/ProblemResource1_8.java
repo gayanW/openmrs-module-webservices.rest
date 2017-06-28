@@ -66,17 +66,17 @@ public class ProblemResource1_8 extends BaseActiveListItemResource1_8<Problem> {
 		
 		return description;
 	}
-
+	
 	@Override
 	public Model getCREATEModel(Representation representation) {
 		return null;
 	}
-
+	
 	@Override
 	public Model getUPDATEModel(Representation representation) {
 		return null;
 	}
-
+	
 	/**
 	 * @see org.openmrs.module.webservices.rest.web.resource.impl.BaseDelegatingResource#newDelegate()
 	 */

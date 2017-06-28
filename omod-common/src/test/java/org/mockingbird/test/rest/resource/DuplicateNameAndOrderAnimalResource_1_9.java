@@ -60,22 +60,22 @@ public class DuplicateNameAndOrderAnimalResource_1_9 extends DelegatingCrudResou
 	public DelegatingResourceDescription getRepresentationDescription(Representation rep) {
 		return null;
 	}
-
+	
 	@Override
 	public Model getGETModel(Representation representation) {
 		return null;
 	}
-
+	
 	@Override
 	public Model getCREATEModel(Representation representation) {
 		return null;
 	}
-
+	
 	@Override
 	public Model getUPDATEModel(Representation representation) {
 		return null;
 	}
-
+	
 	/**
 	 * @see DelegatingCrudResource#getByUniqueId(String)
 	 */

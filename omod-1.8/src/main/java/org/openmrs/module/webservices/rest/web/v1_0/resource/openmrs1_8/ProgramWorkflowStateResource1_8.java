@@ -115,17 +115,17 @@ public class ProgramWorkflowStateResource1_8 extends DelegatingSubResource<Progr
 		}
 		return null;
 	}
-
+	
 	@Override
 	public Model getGETModel(Representation representation) {
 		return null;
 	}
-
+	
 	@Override
 	public Model getCREATEModel(Representation representation) {
 		return null;
 	}
-
+	
 	@Override
 	public Model getUPDATEModel(Representation representation) {
 		return null;

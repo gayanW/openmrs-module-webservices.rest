@@ -137,17 +137,15 @@ public class PatientResource1_8 extends DataDelegatingCrudResource<Patient> {
 		}
 		return null;
 	}
-
+	
 	@Override
 	public Model getGETModel(Representation representation) {
-		ModelImpl modelImpl = new ModelImpl()
-				.property("uuid", new StringProperty().example("204-bca1-11de-913d-0010c6d0f"))
-				.property("display", new StringProperty())
-				.property("identifiers", new ArrayProperty().items(new ObjectProperty()))
-				.property("person", new ObjectProperty())
-				.property("voided", new StringProperty())
-				.example("{\"uuid\":\"204-bca1-11de-913d-0010c6d0f\",\"id\":123456\"}");
-
+		ModelImpl modelImpl = new ModelImpl().property("uuid", new StringProperty().example("204-bca1-11de-913d-0010c6d0f"))
+		        .property("display", new StringProperty())
+		        .property("identifiers", new ArrayProperty().items(new ObjectProperty()))
+		        .property("person", new ObjectProperty()).property("voided", new StringProperty())
+		        .example("{\"uuid\":\"204-bca1-11de-913d-0010c6d0f\",\"id\":123456\"}");
+		
 		if (representation instanceof DefaultRepresentation) {
 			//FIXME
 		} else if (representation instanceof FullRepresentation) {
@@ -155,17 +153,17 @@ public class PatientResource1_8 extends DataDelegatingCrudResource<Patient> {
 		}
 		return modelImpl;
 	}
-
+	
 	@Override
 	public Model getCREATEModel(Representation representation) {
 		return null;
 	}
-
+	
 	@Override
 	public Model getUPDATEModel(Representation representation) {
 		return null;
 	}
-
+	
 	/**
 	 * @see org.openmrs.module.webservices.rest.web.resource.impl.BaseDelegatingResource#getCreatableProperties()
 	 */

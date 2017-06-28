@@ -79,22 +79,22 @@ public class ConceptMapTypeResource1_9 extends MetadataDelegatingCrudResource<Co
 		
 		return description;
 	}
-
+	
 	@Override
 	public Model getGETModel(Representation representation) {
 		return null;
 	}
-
+	
 	@Override
 	public Model getCREATEModel(Representation representation) {
 		return null;
 	}
-
+	
 	@Override
 	public Model getUPDATEModel(Representation representation) {
 		return null;
 	}
-
+	
 	/**
 	 * @see DelegatingCrudResource#newDelegate()
 	 */

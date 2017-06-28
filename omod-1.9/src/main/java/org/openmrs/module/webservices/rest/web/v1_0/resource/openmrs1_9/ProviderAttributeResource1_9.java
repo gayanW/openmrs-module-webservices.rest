@@ -123,17 +123,17 @@ public class ProviderAttributeResource1_9 extends BaseAttributeCrudResource1_9<P
 	public void purge(ProviderAttribute delegate, RequestContext context) throws ResponseException {
 		throw new UnsupportedOperationException("Cannot purge ProviderAttribute");
 	}
-
+	
 	@Override
 	public Model getGETModel(Representation representation) {
 		return null;
 	}
-
+	
 	@Override
 	public Model getCREATEModel(Representation representation) {
 		return null;
 	}
-
+	
 	@Override
 	public Model getUPDATEModel(Representation representation) {
 		return null;

@@ -68,22 +68,22 @@ public class OrderFrequencyResource1_10 extends MetadataDelegatingCrudResource<O
 		}
 		return null;
 	}
-
+	
 	@Override
 	public Model getGETModel(Representation representation) {
 		return null;
 	}
-
+	
 	@Override
 	public Model getCREATEModel(Representation representation) {
 		return null;
 	}
-
+	
 	@Override
 	public Model getUPDATEModel(Representation representation) {
 		return null;
 	}
-
+	
 	/**
 	 * @see DelegatingCrudResource#newDelegate()
 	 */

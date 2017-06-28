@@ -65,40 +65,34 @@ public class ConceptMapResource1_8 extends DelegatingSubResource<ConceptMap, Con
 		}
 		return null;
 	}
-
+	
 	public Model getGETModel(Representation rep) {
 		ModelImpl modelImpl = new ModelImpl();
 		if (rep instanceof DefaultRepresentation) {
-			modelImpl
-					.property("display", new StringProperty())
-					.property("uuid", new StringProperty())
-					.property("source", new ObjectProperty()) //FIXME
-					.property("sourceCode", new StringProperty()); //FIXME
-//			description.addSelfLink();
-//			description.addLink("full", ".?v=" + RestConstants.REPRESENTATION_FULL);
+			modelImpl.property("display", new StringProperty()).property("uuid", new StringProperty())
+			        .property("source", new ObjectProperty()) //FIXME
+			        .property("sourceCode", new StringProperty()); //FIXME
+			//			description.addSelfLink();
+			//			description.addLink("full", ".?v=" + RestConstants.REPRESENTATION_FULL);
 		} else if (rep instanceof FullRepresentation) {
-			modelImpl
-					.property("display", new StringProperty())
-					.property("uuid", new StringProperty())
-					.property("source", new ObjectProperty()) //FIXME
-					.property("sourceCode", new StringProperty()) //FIXME
-					.property("comment", new StringProperty())
-					.property("auditInfo", new StringProperty());
+			modelImpl.property("display", new StringProperty()).property("uuid", new StringProperty())
+			        .property("source", new ObjectProperty()) //FIXME
+			        .property("sourceCode", new StringProperty()) //FIXME
+			        .property("comment", new StringProperty()).property("auditInfo", new StringProperty());
 		}
 		return modelImpl;
 	}
-
+	
 	@Override
 	public Model getCREATEModel(Representation representation) {
 		return null;
 	}
-
+	
 	@Override
 	public Model getUPDATEModel(Representation representation) {
 		return null;
 	}
-
-
+	
 	/**
 	 * @see org.openmrs.module.webservices.rest.web.resource.impl.BaseDelegatingResource#getCreatableProperties()
 	 */

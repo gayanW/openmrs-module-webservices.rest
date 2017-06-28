@@ -85,22 +85,22 @@ public class EncounterProviderResource1_9 extends DelegatingSubResource<Encounte
 		description.addProperty("voidReason");
 		return description;
 	}
-
+	
 	@Override
 	public Model getGETModel(Representation representation) {
 		return null;
 	}
-
+	
 	@Override
 	public Model getCREATEModel(Representation representation) {
 		return null;
 	}
-
+	
 	@Override
 	public Model getUPDATEModel(Representation representation) {
 		return null;
 	}
-
+	
 	@Override
 	public Encounter getParent(EncounterProvider instance) {
 		return instance.getEncounter();

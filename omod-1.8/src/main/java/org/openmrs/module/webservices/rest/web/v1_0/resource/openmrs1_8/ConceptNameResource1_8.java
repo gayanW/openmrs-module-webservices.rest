@@ -66,43 +66,35 @@ public class ConceptNameResource1_8 extends DelegatingSubResource<ConceptName, C
 		}
 		return null;
 	}
-
+	
 	public Model getGETModel(Representation rep) {
 		ModelImpl modelImpl = new ModelImpl();
 		if (rep instanceof DefaultRepresentation) {
-			modelImpl
-					.property("display", new StringProperty())
-					.property("uuid", new StringProperty())
-					.property("name", new StringProperty())
-					.property("locale", new StringProperty())
-					.property("localePreferred", new StringProperty())
-					.property("conceptNameType", new StringProperty());
-//			description.addSelfLink();
-//			description.addLink("full", ".?v=" + RestConstants.REPRESENTATION_FULL);
+			modelImpl.property("display", new StringProperty()).property("uuid", new StringProperty())
+			        .property("name", new StringProperty()).property("locale", new StringProperty())
+			        .property("localePreferred", new StringProperty()).property("conceptNameType", new StringProperty());
+			//			description.addSelfLink();
+			//			description.addLink("full", ".?v=" + RestConstants.REPRESENTATION_FULL);
 		} else if (rep instanceof FullRepresentation) {
-			modelImpl
-					.property("display", new StringProperty())
-					.property("uuid", new StringProperty())
-					.property("name", new StringProperty())
-					.property("locale", new StringProperty())
-					.property("localePreferred", new StringProperty())
-					.property("conceptNameType", new StringProperty())
-					.property("auditInfo", new StringProperty());
-//			description.addSelfLink();
+			modelImpl.property("display", new StringProperty()).property("uuid", new StringProperty())
+			        .property("name", new StringProperty()).property("locale", new StringProperty())
+			        .property("localePreferred", new StringProperty()).property("conceptNameType", new StringProperty())
+			        .property("auditInfo", new StringProperty());
+			//			description.addSelfLink();
 		}
 		return modelImpl;
 	}
-
+	
 	@Override
 	public Model getCREATEModel(Representation representation) {
 		return null;
 	}
-
+	
 	@Override
 	public Model getUPDATEModel(Representation representation) {
 		return null;
 	}
-
+	
 	/**
 	 * @see org.openmrs.module.webservices.rest.web.resource.impl.BaseDelegatingResource#getCreatableProperties()
 	 */

@@ -98,22 +98,22 @@ public class OrderSetMemberResource1_12 extends DelegatingSubResource<OrderSetMe
 		DelegatingResourceDescription creatableProperties = getCreatableProperties();
 		return creatableProperties;
 	}
-
+	
 	@Override
 	public Model getGETModel(Representation representation) {
 		return null;
 	}
-
+	
 	@Override
 	public Model getCREATEModel(Representation representation) {
 		return null;
 	}
-
+	
 	@Override
 	public Model getUPDATEModel(Representation representation) {
 		return null;
 	}
-
+	
 	@Override
 	public OrderSetMember getByUniqueId(String uniqueId) {
 		return Context.getOrderSetService().getOrderSetMemberByUuid(uniqueId);

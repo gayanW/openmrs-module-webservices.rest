@@ -63,22 +63,22 @@ public class ProgramWorkflowResource1_8 extends MetadataDelegatingCrudResource<P
 		}
 		return null;
 	}
-
+	
 	@Override
 	public Model getGETModel(Representation representation) {
 		return null;
 	}
-
+	
 	@Override
 	public Model getCREATEModel(Representation representation) {
 		return null;
 	}
-
+	
 	@Override
 	public Model getUPDATEModel(Representation representation) {
 		return null;
 	}
-
+	
 	@Override
 	public ProgramWorkflow getByUniqueId(String uniqueId) {
 		return Context.getProgramWorkflowService().getWorkflowByUuid(uniqueId);

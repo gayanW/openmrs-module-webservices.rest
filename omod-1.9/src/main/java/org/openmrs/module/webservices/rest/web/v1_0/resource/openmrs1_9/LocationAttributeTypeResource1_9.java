@@ -78,22 +78,22 @@ public class LocationAttributeTypeResource1_9 extends BaseAttributeTypeCrudResou
 	public void purge(LocationAttributeType delegate, RequestContext context) throws ResponseException {
 		service().purgeLocationAttributeType(delegate);
 	}
-
+	
 	@Override
 	public Model getGETModel(Representation representation) {
 		return null;
 	}
-
+	
 	@Override
 	public Model getCREATEModel(Representation representation) {
 		return null;
 	}
-
+	
 	@Override
 	public Model getUPDATEModel(Representation representation) {
 		return null;
 	}
-
+	
 	/**
 	 * @see org.openmrs.module.webservices.rest.web.resource.impl.DelegatingCrudResource#doSearch(org.openmrs.module.webservices.rest.web.RequestContext)
 	 */

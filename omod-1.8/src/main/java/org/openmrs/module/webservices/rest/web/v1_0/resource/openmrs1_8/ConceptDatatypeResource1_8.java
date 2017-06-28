@@ -65,43 +65,35 @@ public class ConceptDatatypeResource1_8 extends MetadataDelegatingCrudResource<C
 		}
 		return null;
 	}
-
+	
 	public Model getGETModel(Representation rep) {
 		ModelImpl modelImpl = new ModelImpl();
 		if (rep instanceof DefaultRepresentation) {
-			modelImpl
-					.property("uuid", new StringProperty())
-					.property("display", new StringProperty())
-					.property("name", new StringProperty())
-					.property("description", new StringProperty())
-					.property("hl7Abbreviation", new StringProperty())
-					.property("retired", new StringProperty());
-//			description.addSelfLink();
-//			description.addLink("full", ".?v=" + RestConstants.REPRESENTATION_FULL);
+			modelImpl.property("uuid", new StringProperty()).property("display", new StringProperty())
+			        .property("name", new StringProperty()).property("description", new StringProperty())
+			        .property("hl7Abbreviation", new StringProperty()).property("retired", new StringProperty());
+			//			description.addSelfLink();
+			//			description.addLink("full", ".?v=" + RestConstants.REPRESENTATION_FULL);
 		} else if (rep instanceof FullRepresentation) {
-			modelImpl
-					.property("uuid", new StringProperty())
-					.property("display", new StringProperty())
-					.property("name", new StringProperty())
-					.property("description", new StringProperty())
-					.property("hl7Abbreviation", new StringProperty())
-					.property("retired", new StringProperty())
-					.property("auditInfo", new StringProperty());
-//			description.addSelfLink();
+			modelImpl.property("uuid", new StringProperty()).property("display", new StringProperty())
+			        .property("name", new StringProperty()).property("description", new StringProperty())
+			        .property("hl7Abbreviation", new StringProperty()).property("retired", new StringProperty())
+			        .property("auditInfo", new StringProperty());
+			//			description.addSelfLink();
 		}
 		return modelImpl;
 	}
-
+	
 	@Override
 	public Model getCREATEModel(Representation representation) {
 		return null;
 	}
-
+	
 	@Override
 	public Model getUPDATEModel(Representation representation) {
 		return null;
 	}
-
+	
 	/**
 	 * @see DelegatingCrudResource#newDelegate()
 	 */

@@ -10,6 +10,10 @@
 package org.openmrs.module.webservices.rest.web.v1_0.resource.openmrs1_8;
 
 import io.swagger.models.Model;
+import io.swagger.models.ModelImpl;
+import io.swagger.models.properties.BooleanProperty;
+import io.swagger.models.properties.RefProperty;
+import io.swagger.models.properties.StringProperty;
 import org.openmrs.Attributable;
 import org.openmrs.Concept;
 import org.openmrs.Person;
@@ -139,22 +143,42 @@ public class PersonAttributeResource1_8 extends DelegatingSubResource<PersonAttr
 	public DelegatingResourceDescription getUpdatableProperties() {
 		return getCreatableProperties();
 	}
-
+	
 	@Override
 	public Model getGETModel(Representation representation) {
-		return null;
+		ModelImpl model = (ModelImpl) super.getGETModel(representation);
+		if (representation instanceof DefaultRepresentation) {
+			model
+			        .property("display", new StringProperty())
+			        .property("uuid", new StringProperty())
+			        .property("value", new StringProperty())
+			        .property("attributeType", new RefProperty("#/definitions/PersonattributetypeGetRef"))
+			        .property("voided", new BooleanProperty());
+		} else if (representation instanceof FullRepresentation) {
+			model
+			        .property("display", new StringProperty())
+			        .property("uuid", new StringProperty())
+			        .property("value", new StringProperty())
+			        .property("attributeType", new RefProperty("#/definitions/PersonattributetypeGetRef"))
+			        .property("voided", new BooleanProperty())
+			        .property("hydratedObject", new StringProperty());
+		}
+		return model;
 	}
-
+	
 	@Override
 	public Model getCREATEModel(Representation representation) {
-		return null;
+		return new ModelImpl()
+				.property("attributeType", new RefProperty("#/definitions/PersonattributetypeCreate"))
+				.property("value", new StringProperty())
+				.property("hydratedObject", new BooleanProperty());
 	}
-
+	
 	@Override
 	public Model getUPDATEModel(Representation representation) {
-		return null;
+		return getCREATEModel(representation);
 	}
-
+	
 	/**
 	 * @see org.openmrs.module.webservices.rest.web.resource.impl.DelegatingSubResource#getParent(java.lang.Object)
 	 */

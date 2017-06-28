@@ -129,22 +129,22 @@ public class DrugOrderSubclassHandler1_8 extends BaseDelegatingSubclassHandler<O
 		d.removeProperty("orderType");
 		return d;
 	}
-
+	
 	@Override
 	public Model getGETModel(Representation representation) {
 		return null;
 	}
-
+	
 	@Override
 	public Model getCREATEModel(Representation representation) {
 		return null;
 	}
-
+	
 	@Override
 	public Model getUPDATEModel(Representation representation) {
 		return null;
 	}
-
+	
 	/**
 	 * Handles getOrdersByPatient for {@link OrderResource1_8} when type=drugorder
 	 * 

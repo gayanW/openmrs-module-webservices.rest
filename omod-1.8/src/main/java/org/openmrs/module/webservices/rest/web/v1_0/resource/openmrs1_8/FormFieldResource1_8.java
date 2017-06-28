@@ -37,57 +37,48 @@ import org.openmrs.module.webservices.rest.web.response.ResponseException;
 @SubResource(parent = FormResource1_8.class, path = "formfield", supportedClass = FormField.class, supportedOpenmrsVersions = {
         "1.8.*", "1.9.*", "1.10.*", "1.11.*", "1.12.*", "2.0.*", "2.1.*" })
 public class FormFieldResource1_8 extends DelegatingSubResource<FormField, Form, FormResource1_8> {
-
+	
 	public Model getGETModel(Representation rep) {
 		ModelImpl modelImpl = new ModelImpl();
 		if (rep instanceof DefaultRepresentation) {
 			modelImpl
-			.property("uuid", new StringProperty())
-			.property("display", new StringProperty())
-			.property("parent", new StringProperty()) //FIXME
-			.property("form", new StringProperty()) //FIXME
-			.property("field", new StringProperty()) //FIXME
-			.property("fieldNumber", new StringProperty())
-			.property("fieldPart", new StringProperty())
-			.property("pageNumber", new StringProperty())
-			.property("minOccurs", new StringProperty())
-			.property("maxOccurs", new StringProperty())
-			.property("required", new StringProperty())
-			.property("sortWeight", new StringProperty())
-			.property("retired", new StringProperty());
-//			description.addSelfLink();
-//			description.addLink("full", ".?v=" + RestConstants.REPRESENTATION_FULL);
+			        .property("uuid", new StringProperty())
+			        .property("display", new StringProperty())
+			        .property("parent", new StringProperty())
+			        //FIXME
+			        .property("form", new StringProperty())
+			        //FIXME
+			        .property("field", new StringProperty())
+			        //FIXME
+			        .property("fieldNumber", new StringProperty()).property("fieldPart", new StringProperty())
+			        .property("pageNumber", new StringProperty()).property("minOccurs", new StringProperty())
+			        .property("maxOccurs", new StringProperty()).property("required", new StringProperty())
+			        .property("sortWeight", new StringProperty()).property("retired", new StringProperty());
+			//			description.addSelfLink();
+			//			description.addLink("full", ".?v=" + RestConstants.REPRESENTATION_FULL);
 		} else if (rep instanceof FullRepresentation) {
-			modelImpl
-			.property("uuid", new StringProperty())
-			.property("display", new StringProperty())
-			.property("parent", new StringProperty())
-			.property("form", new StringProperty())
-			.property("field", new StringProperty())
-			.property("fieldNumber", new StringProperty())
-			.property("fieldPart", new StringProperty())
-			.property("pageNumber", new StringProperty())
-			.property("minOccurs", new StringProperty())
-			.property("maxOccurs", new StringProperty())
-			.property("required", new StringProperty())
-			.property("sortWeight", new StringProperty())
-			.property("retired", new StringProperty())
-			.property("auditInfo", new StringProperty());
-//			description.addSelfLink();
+			modelImpl.property("uuid", new StringProperty()).property("display", new StringProperty())
+			        .property("parent", new StringProperty()).property("form", new StringProperty())
+			        .property("field", new StringProperty()).property("fieldNumber", new StringProperty())
+			        .property("fieldPart", new StringProperty()).property("pageNumber", new StringProperty())
+			        .property("minOccurs", new StringProperty()).property("maxOccurs", new StringProperty())
+			        .property("required", new StringProperty()).property("sortWeight", new StringProperty())
+			        .property("retired", new StringProperty()).property("auditInfo", new StringProperty());
+			//			description.addSelfLink();
 		}
 		return modelImpl;
 	}
-
+	
 	@Override
 	public Model getCREATEModel(Representation representation) {
 		return null;
 	}
-
+	
 	@Override
 	public Model getUPDATEModel(Representation representation) {
 		return null;
 	}
-
+	
 	/**
 	 * @see org.openmrs.module.webservices.rest.web.resource.impl.DelegatingCrudResource#getRepresentationDescription(org.openmrs.module.webservices.rest.web.representation.Representation)
 	 */

@@ -84,22 +84,22 @@ public class ConceptReferenceTermMapResource1_9 extends DelegatingCrudResource<C
 		
 		return description;
 	}
-
+	
 	@Override
 	public Model getGETModel(Representation representation) {
 		return null;
 	}
-
+	
 	@Override
 	public Model getCREATEModel(Representation representation) {
 		return null;
 	}
-
+	
 	@Override
 	public Model getUPDATEModel(Representation representation) {
 		return null;
 	}
-
+	
 	/**
 	 * Gets the display string for a concept map.
 	 * 

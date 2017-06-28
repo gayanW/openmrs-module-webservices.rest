@@ -16,7 +16,11 @@ import io.swagger.models.properties.RefProperty;
 import io.swagger.models.properties.StringProperty;
 import org.openmrs.Patient;
 import org.openmrs.activelist.Allergy;
+import org.openmrs.activelist.AllergySeverity;
+import org.openmrs.activelist.AllergyType;
 import org.openmrs.api.context.Context;
+import org.openmrs.module.webservices.docs.swagger.SwaggerSpecification;
+import org.openmrs.module.webservices.docs.swagger.SwaggerSpecificationCreator;
 import org.openmrs.module.webservices.rest.web.RequestContext;
 import org.openmrs.module.webservices.rest.web.RestConstants;
 import org.openmrs.module.webservices.rest.web.annotation.PropertyGetter;
@@ -30,6 +34,8 @@ import org.openmrs.module.webservices.rest.web.resource.api.PageableResult;
 import org.openmrs.module.webservices.rest.web.resource.impl.DelegatingResourceDescription;
 import org.openmrs.module.webservices.rest.web.resource.impl.EmptySearchResult;
 import org.openmrs.module.webservices.rest.web.resource.impl.NeedsPaging;
+
+import java.util.Arrays;
 
 /**
  * {@link Resource} for Allergy, supporting standard CRUD operations
@@ -59,36 +65,34 @@ public class AllergyResource1_8 extends BaseActiveListItemResource1_8<Allergy> {
 		}
 		return null;
 	}
-
+	
 	@Override
 	public Model getGETModel(Representation rep) {
-		ModelImpl modelImpl = new ModelImpl();
-		if (rep instanceof DefaultRepresentation) {
-			modelImpl
-					.property("allergyType", new StringProperty())
-					.property("reaction", new ObjectProperty())
-					.property("severity", new StringProperty())
-					.property("allergen", new StringProperty());
-		} else if (rep instanceof FullRepresentation) {
-			modelImpl
-					.property("allergyType", new StringProperty())
-					.property("reaction", new ObjectProperty())
-					.property("severity", new StringProperty())
-					.property("allergen", new StringProperty());
-		}
-		return modelImpl;
+		return ((ModelImpl) super.getGETModel(rep))
+				.property("allergyType", new StringProperty()
+						._enum(SwaggerSpecificationCreator.getEnumsAsList(AllergyType.class)))
+				.property("reaction", new ObjectProperty())
+				.property("severity", new StringProperty()
+						._enum(SwaggerSpecificationCreator.getEnumsAsList(AllergySeverity.class)))
+				.property("allergen", new ObjectProperty()); //FIXME
 	}
-
+	
 	@Override
-	public Model getCREATEModel(Representation representation) {
-		return null;
+	public Model getCREATEModel(Representation rep) {
+		return ((ModelImpl) super.getCREATEModel(rep))
+				.property("allergyType", new StringProperty()
+						._enum(SwaggerSpecificationCreator.getEnumsAsList(AllergyType.class)))
+				.property("reaction", new ObjectProperty())
+				.property("severity", new StringProperty()
+						._enum(SwaggerSpecificationCreator.getEnumsAsList(AllergySeverity.class)))
+				.property("allergen", new ObjectProperty()); //FIXME
 	}
-
+	
 	@Override
 	public Model getUPDATEModel(Representation representation) {
 		return null;
 	}
-
+	
 	/**
 	 * @see org.openmrs.module.webservices.rest.web.resource.impl.BaseDelegatingResource#newDelegate()
 	 */

@@ -47,13 +47,13 @@ import org.openmrs.web.test.BaseModuleWebContextSensitiveTest;
 import static junit.framework.TestCase.assertNotNull;
 
 public class SwaggerSpecificationCreatorTest extends BaseModuleWebContextSensitiveTest {
-
+	
 	@Test
 	public void mainTest() {
-		String str = new SwaggerSpecificationCreator("swagger.io").BuildJSON();
+		String str = new SwaggerSpecificationCreator("openmrs.org").BuildJSON();
 		assertNotNull(str);
 	}
-
+	
 	@Test
 	public void modelResolveTest() {
 		final ModelResolver modelResolver = new ModelResolver(new ObjectMapper());
@@ -61,29 +61,23 @@ public class SwaggerSpecificationCreatorTest extends BaseModuleWebContextSensiti
 		final Model model = context.resolve(Patient.class);
 		assertNotNull(model);
 	}
-
+	
 	@Test
 	public void swaggerSerializeTest() throws JsonProcessingException {
-		final io.swagger.models.Info info = new Info()
-				.version("1.0.0")
-				.title("Swagger WebServices REST");
-
-		Swagger swagger = new Swagger()
-				.info(info)
-				.securityDefinition("basicAuth", new BasicAuthDefinition())
-				.scheme(Scheme.HTTP)
-				.consumes("application/json")
-				.produces("application/json");
-
+		final io.swagger.models.Info info = new Info().version("1.0.0").title("Swagger WebServices REST");
+		
+		Swagger swagger = new Swagger().info(info).securityDefinition("basicAuth", new BasicAuthDefinition())
+		        .scheme(Scheme.HTTP).consumes("application/json").produces("application/json");
+		
 		final Model patientModel = ModelConverters.getInstance().read(Patient.class).get("Patient");
 		swagger.addDefinition("Patient", patientModel);
-
+		
 		final String swaggerJson = Json.pretty(swagger);
 		assertNotNull(swaggerJson);
 	}
-
+	
 	Map<String, Integer> beforeCounts;
-
+	
 	public Map<String, Integer> getRowCounts() throws Exception {
 		Map<String, Integer> ret = new HashMap<String, Integer>();
 		
@@ -114,7 +108,7 @@ public class SwaggerSpecificationCreatorTest extends BaseModuleWebContextSensiti
 		
 		beforeCounts = getRowCounts();
 	}
-
+	
 	@Test
 	public void checkNoDatabaseChanges() throws Exception {
 		SwaggerSpecificationCreator ssc = new SwaggerSpecificationCreator("/v1/");

@@ -117,56 +117,46 @@ public class DrugResource1_8 extends MetadataDelegatingCrudResource<Drug> {
 		//Let the superclass handle this
 		return null;
 	}
-
+	
 	public Model getGETModel(Representation rep) {
 		ModelImpl modelImpl = new ModelImpl();
 		if (rep instanceof DefaultRepresentation) {
-			modelImpl
-			.property("display", new StringProperty())
-			.property("uuid", new StringProperty())
-			.property("name", new StringProperty())
-			.property("description", new StringProperty())
-			.property("retired", new StringProperty())
-			.property("dosageForm", new ObjectProperty()) //FIXME
-			.property("doseStrength", new StringProperty())
-			.property("maximumDailyDose", new StringProperty())
-			.property("minimumDailyDose", new StringProperty())
-			.property("units", new StringProperty())
-			.property("concept", new ObjectProperty()) //FIXME
-			.property("combination", new StringProperty())
-			.property("route", new ObjectProperty()); //FIXME
-//			description.addSelfLink();
-//			description.addLink("full", ".?v=" + RestConstants.REPRESENTATION_FULL);
+			modelImpl.property("display", new StringProperty()).property("uuid", new StringProperty())
+			        .property("name", new StringProperty()).property("description", new StringProperty())
+			        .property("retired", new StringProperty())
+			        .property("dosageForm", new ObjectProperty())
+			        //FIXME
+			        .property("doseStrength", new StringProperty()).property("maximumDailyDose", new StringProperty())
+			        .property("minimumDailyDose", new StringProperty()).property("units", new StringProperty())
+			        .property("concept", new ObjectProperty()) //FIXME
+			        .property("combination", new StringProperty()).property("route", new ObjectProperty()); //FIXME
+			//			description.addSelfLink();
+			//			description.addLink("full", ".?v=" + RestConstants.REPRESENTATION_FULL);
 		} else if (rep instanceof FullRepresentation) {
-			modelImpl
-					.property("display", new StringProperty())
-					.property("uuid", new StringProperty())
-					.property("name", new StringProperty())
-					.property("description", new StringProperty())
-					.property("retired", new StringProperty())
-					.property("dosageForm", new ObjectProperty()) //FIXME
-					.property("doseStrength", new StringProperty())
-					.property("maximumDailyDose", new StringProperty())
-					.property("minimumDailyDose", new StringProperty())
-					.property("units", new StringProperty())
-					.property("concept", new ObjectProperty()) //FIXME
-					.property("combination", new StringProperty())
-					.property("route", new ObjectProperty()) //FIXME
-					.property("auditInfo", new ObjectProperty()); //FIXME
+			modelImpl.property("display", new StringProperty()).property("uuid", new StringProperty())
+			        .property("name", new StringProperty()).property("description", new StringProperty())
+			        .property("retired", new StringProperty())
+			        .property("dosageForm", new ObjectProperty())
+			        //FIXME
+			        .property("doseStrength", new StringProperty()).property("maximumDailyDose", new StringProperty())
+			        .property("minimumDailyDose", new StringProperty()).property("units", new StringProperty())
+			        .property("concept", new ObjectProperty()) //FIXME
+			        .property("combination", new StringProperty()).property("route", new ObjectProperty()) //FIXME
+			        .property("auditInfo", new ObjectProperty()); //FIXME
 		}
 		return modelImpl;
 	}
-
+	
 	@Override
 	public Model getCREATEModel(Representation representation) {
 		return null;
 	}
-
+	
 	@Override
 	public Model getUPDATEModel(Representation representation) {
 		return null;
 	}
-
+	
 	/**
 	 * @see org.openmrs.module.webservices.rest.web.resource.impl.MetadataDelegatingCrudResource#getCreatableProperties()
 	 */

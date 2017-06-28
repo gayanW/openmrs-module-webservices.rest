@@ -35,22 +35,22 @@ public class CustomDatatypeHandlerResource1_9 extends DelegatingSubResource<Cust
 		description.addLink("full", ".?v=" + RestConstants.REPRESENTATION_FULL);
 		return description;
 	}
-
+	
 	@Override
 	public Model getGETModel(Representation representation) {
 		return null;
 	}
-
+	
 	@Override
 	public Model getCREATEModel(Representation representation) {
 		return null;
 	}
-
+	
 	@Override
 	public Model getUPDATEModel(Representation representation) {
 		return null;
 	}
-
+	
 	@Override
 	public CustomDatatypeHandlerRepresentation newDelegate() {
 		return new CustomDatatypeHandlerRepresentation();
