@@ -10,6 +10,8 @@
 package org.openmrs.module.webservices.rest.web.v1_0.resource.openmrs1_9;
 
 import io.swagger.models.Model;
+import io.swagger.models.ModelImpl;
+import io.swagger.models.properties.StringProperty;
 import org.apache.commons.lang.StringUtils;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.webservices.rest.web.RequestContext;
@@ -83,17 +85,30 @@ public class ConceptStopwordResource1_9 extends DelegatingCrudResource<ConceptSt
 	}
 	
 	@Override
-	public Model getGETModel(Representation representation) {
-		return null;
+	public Model getGETModel(Representation rep) {
+		ModelImpl modelImpl = ((ModelImpl) super.getGETModel(rep))
+		        .property("uuid", new StringProperty())
+		        .property("display", new StringProperty());
+		
+		if (rep instanceof DefaultRepresentation || rep instanceof FullRepresentation) {
+			modelImpl
+			        .property("value", new StringProperty())
+			        .property("locale", new StringProperty()); //FIXME type
+		}
+		return modelImpl;
 	}
 	
 	@Override
-	public Model getCREATEModel(Representation representation) {
-		return null;
+	public Model getCREATEModel(Representation rep) {
+		return new ModelImpl()
+		        .property("value", new StringProperty())
+		        .property("locale", new StringProperty())
+		        
+		        .required("value");
 	}
 	
 	@Override
-	public Model getUPDATEModel(Representation representation) {
+	public Model getUPDATEModel(Representation rep) {
 		return null;
 	}
 	

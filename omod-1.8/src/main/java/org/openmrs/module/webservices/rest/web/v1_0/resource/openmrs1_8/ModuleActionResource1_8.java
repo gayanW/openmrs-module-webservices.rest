@@ -10,8 +10,14 @@
 package org.openmrs.module.webservices.rest.web.v1_0.resource.openmrs1_8;
 
 import io.swagger.models.Model;
+import io.swagger.models.ModelImpl;
+import io.swagger.models.properties.ArrayProperty;
+import io.swagger.models.properties.BooleanProperty;
+import io.swagger.models.properties.RefProperty;
+import io.swagger.models.properties.StringProperty;
 import org.openmrs.module.Module;
 import org.openmrs.module.ModuleException;
+import org.openmrs.module.webservices.docs.swagger.SwaggerSpecificationCreator;
 import org.openmrs.module.webservices.helper.ModuleAction;
 import org.openmrs.module.webservices.helper.ModuleFactoryWrapper;
 import org.openmrs.module.webservices.rest.SimpleObject;
@@ -230,13 +236,22 @@ public class ModuleActionResource1_8 extends BaseDelegatingResource<ModuleAction
 	}
 	
 	@Override
-	public Model getGETModel(Representation representation) {
-		return null;
+	public Model getGETModel(Representation rep) {
+		return ((ModelImpl) super.getGETModel(rep))
+		        .property("modules", new ArrayProperty(new RefProperty("#/definitions/ModuleGetRef")))
+		        .property("action", new StringProperty()
+		                ._enum(SwaggerSpecificationCreator.getEnumsAsList(ModuleAction.Action.class)));
 	}
 	
 	@Override
-	public Model getCREATEModel(Representation representation) {
-		return null;
+	public Model getCREATEModel(Representation rep) {
+		return new ModelImpl()
+		        .property("modules", new ArrayProperty(new RefProperty("#/definitions/ModuleGetRef")))
+		        .property("allModules", new BooleanProperty())
+		        .property("action", new StringProperty()
+		                ._enum(SwaggerSpecificationCreator.getEnumsAsList(ModuleAction.Action.class)))
+		        
+		        .required("action");
 	}
 	
 	@Override

@@ -145,16 +145,16 @@ public class PersonAttributeResource1_8 extends DelegatingSubResource<PersonAttr
 	}
 	
 	@Override
-	public Model getGETModel(Representation representation) {
-		ModelImpl model = (ModelImpl) super.getGETModel(representation);
-		if (representation instanceof DefaultRepresentation) {
+	public Model getGETModel(Representation rep) {
+		ModelImpl model = (ModelImpl) super.getGETModel(rep);
+		if (rep instanceof DefaultRepresentation) {
 			model
 			        .property("display", new StringProperty())
 			        .property("uuid", new StringProperty())
 			        .property("value", new StringProperty())
 			        .property("attributeType", new RefProperty("#/definitions/PersonattributetypeGetRef"))
 			        .property("voided", new BooleanProperty());
-		} else if (representation instanceof FullRepresentation) {
+		} else if (rep instanceof FullRepresentation) {
 			model
 			        .property("display", new StringProperty())
 			        .property("uuid", new StringProperty())
@@ -167,16 +167,18 @@ public class PersonAttributeResource1_8 extends DelegatingSubResource<PersonAttr
 	}
 	
 	@Override
-	public Model getCREATEModel(Representation representation) {
+	public Model getCREATEModel(Representation rep) {
 		return new ModelImpl()
-				.property("attributeType", new RefProperty("#/definitions/PersonattributetypeCreate"))
-				.property("value", new StringProperty())
-				.property("hydratedObject", new BooleanProperty());
+		        .property("attributeType", new RefProperty("#/definitions/PersonattributetypeCreate"))
+		        .property("value", new StringProperty())
+		        .property("hydratedObject", new BooleanProperty())
+		        
+		        .required("attributeType");
 	}
 	
 	@Override
-	public Model getUPDATEModel(Representation representation) {
-		return getCREATEModel(representation);
+	public Model getUPDATEModel(Representation rep) {
+		return getCREATEModel(rep);
 	}
 	
 	/**

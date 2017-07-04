@@ -14,7 +14,7 @@ import java.util.List;
 
 import io.swagger.models.Model;
 import io.swagger.models.ModelImpl;
-import io.swagger.models.properties.StringProperty;
+import io.swagger.models.properties.*;
 import org.openmrs.Form;
 import org.openmrs.FormField;
 import org.openmrs.api.context.Context;
@@ -39,44 +39,54 @@ import org.openmrs.module.webservices.rest.web.response.ResponseException;
 public class FormFieldResource1_8 extends DelegatingSubResource<FormField, Form, FormResource1_8> {
 	
 	public Model getGETModel(Representation rep) {
-		ModelImpl modelImpl = new ModelImpl();
-		if (rep instanceof DefaultRepresentation) {
+		ModelImpl modelImpl = (ModelImpl) super.getGETModel(rep);
+		if (rep instanceof DefaultRepresentation || rep instanceof FullRepresentation) {
 			modelImpl
 			        .property("uuid", new StringProperty())
 			        .property("display", new StringProperty())
-			        .property("parent", new StringProperty())
-			        //FIXME
-			        .property("form", new StringProperty())
-			        //FIXME
-			        .property("field", new StringProperty())
-			        //FIXME
-			        .property("fieldNumber", new StringProperty()).property("fieldPart", new StringProperty())
-			        .property("pageNumber", new StringProperty()).property("minOccurs", new StringProperty())
-			        .property("maxOccurs", new StringProperty()).property("required", new StringProperty())
-			        .property("sortWeight", new StringProperty()).property("retired", new StringProperty());
-			//			description.addSelfLink();
-			//			description.addLink("full", ".?v=" + RestConstants.REPRESENTATION_FULL);
+			        .property("fieldNumber", new IntegerProperty())
+			        .property("fieldPart", new StringProperty())
+			        .property("pageNumber", new IntegerProperty())
+			        .property("minOccurs", new IntegerProperty())
+			        .property("maxOccurs", new IntegerProperty())
+			        .property("required", new BooleanProperty()._default(false))
+			        .property("sortWeight", new FloatProperty())
+			        .property("retired", new BooleanProperty()); //FIXME
+		}
+		if (rep instanceof DefaultRepresentation) {
+			modelImpl
+			        .property("parent", new RefProperty("#/definitions/FormFormfieldGetRef"))
+			        .property("form", new RefProperty("#/definitions/FormGetRef"))
+			        .property("field", new RefProperty("#/definitions/FieldGetRef"));
 		} else if (rep instanceof FullRepresentation) {
-			modelImpl.property("uuid", new StringProperty()).property("display", new StringProperty())
-			        .property("parent", new StringProperty()).property("form", new StringProperty())
-			        .property("field", new StringProperty()).property("fieldNumber", new StringProperty())
-			        .property("fieldPart", new StringProperty()).property("pageNumber", new StringProperty())
-			        .property("minOccurs", new StringProperty()).property("maxOccurs", new StringProperty())
-			        .property("required", new StringProperty()).property("sortWeight", new StringProperty())
-			        .property("retired", new StringProperty()).property("auditInfo", new StringProperty());
-			//			description.addSelfLink();
+			modelImpl
+			        .property("parent", new RefProperty("#/definitions/FormFormfieldGet"))
+			        .property("form", new RefProperty("#/definitions/FormGet"))
+			        .property("field", new RefProperty("#/definitions/FieldGet"));
 		}
 		return modelImpl;
 	}
 	
 	@Override
-	public Model getCREATEModel(Representation representation) {
-		return null;
+	public Model getCREATEModel(Representation rep) {
+		return new ModelImpl()
+		        .property("form", new RefProperty("#/definitions/FormCreate"))
+		        .property("field", new RefProperty("#/definitions/FieldCreate"))
+		        .property("required", new BooleanProperty()._default(false))
+		        .property("parent", new RefProperty("#/definitions/FormFormfieldCreate"))
+		        .property("fieldNumber", new IntegerProperty())
+		        .property("fieldPart", new StringProperty())
+		        .property("pageNumber", new IntegerProperty())
+		        .property("minOccurs", new IntegerProperty())
+		        .property("maxOccurs", new IntegerProperty())
+		        .property("sortWeight", new BooleanProperty()._default(false))
+		        
+		        .required("form").required("field").required("required");
 	}
 	
 	@Override
-	public Model getUPDATEModel(Representation representation) {
-		return null;
+	public Model getUPDATEModel(Representation rep) {
+		return new ModelImpl(); //FIXME missing props
 	}
 	
 	/**

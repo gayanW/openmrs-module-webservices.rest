@@ -11,7 +11,7 @@ package org.openmrs.module.webservices.rest.web.v1_0.resource.openmrs1_8;
 
 import io.swagger.models.Model;
 import io.swagger.models.ModelImpl;
-import io.swagger.models.properties.StringProperty;
+import io.swagger.models.properties.BooleanProperty;
 import org.openmrs.FieldType;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.webservices.rest.web.RequestContext;
@@ -33,30 +33,21 @@ import org.openmrs.module.webservices.rest.web.response.ResponseException;
 public class FieldTypeResource1_8 extends MetadataDelegatingCrudResource<FieldType> {
 	
 	public Model getGETModel(Representation rep) {
-		ModelImpl modelImpl = new ModelImpl();
-		if (rep instanceof DefaultRepresentation) {
-			modelImpl.property("uuid", new StringProperty()).property("display", new StringProperty())
-			        .property("name", new StringProperty()).property("description", new StringProperty())
-			        .property("isSet", new StringProperty()).property("retired", new StringProperty());
-			//			description.addSelfLink();
-			//			description.addLink("full", ".?v=" + RestConstants.REPRESENTATION_FULL);
-		} else if (rep instanceof FullRepresentation) {
-			modelImpl.property("uuid", new StringProperty()).property("display", new StringProperty())
-			        .property("name", new StringProperty()).property("description", new StringProperty())
-			        .property("isSet", new StringProperty()).property("retired", new StringProperty())
-			        .property("auditInfo", new StringProperty());
-			//			description.addSelfLink();
+		ModelImpl modelImpl = (ModelImpl) super.getGETModel(rep);
+		if (rep instanceof DefaultRepresentation || rep instanceof FullRepresentation) {
+			modelImpl
+			        .property("isSet", new BooleanProperty()._default(false));
 		}
 		return modelImpl;
 	}
 	
 	@Override
-	public Model getCREATEModel(Representation representation) {
-		return null;
+	public Model getCREATEModel(Representation rep) {
+		return super.getCREATEModel(rep); //FIXME missing props
 	}
 	
 	@Override
-	public Model getUPDATEModel(Representation representation) {
+	public Model getUPDATEModel(Representation rep) {
 		return null;
 	}
 	

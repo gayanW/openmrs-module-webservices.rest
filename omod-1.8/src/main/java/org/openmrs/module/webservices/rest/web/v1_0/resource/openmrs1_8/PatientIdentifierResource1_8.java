@@ -10,6 +10,11 @@
 package org.openmrs.module.webservices.rest.web.v1_0.resource.openmrs1_8;
 
 import io.swagger.models.Model;
+import io.swagger.models.ModelImpl;
+import io.swagger.models.properties.BooleanProperty;
+import io.swagger.models.properties.DateProperty;
+import io.swagger.models.properties.RefProperty;
+import io.swagger.models.properties.StringProperty;
 import org.openmrs.Location;
 import org.openmrs.Patient;
 import org.openmrs.PatientIdentifier;
@@ -118,18 +123,42 @@ public class PatientIdentifierResource1_8 extends DelegatingSubResource<PatientI
 	}
 	
 	@Override
-	public Model getGETModel(Representation representation) {
-		return null;
+	public Model getGETModel(Representation rep) {
+		ModelImpl model = (ModelImpl) super.getGETModel(rep);
+		if (rep instanceof DefaultRepresentation || rep instanceof FullRepresentation) {
+			model
+			        .property("uuid", new StringProperty())
+			        .property("display", new StringProperty())
+			        .property("identifier", new StringProperty())
+			        .property("preferred", new BooleanProperty()._default(false))
+			        .property("voided", new BooleanProperty());
+		}
+		if (rep instanceof DefaultRepresentation) {
+			model
+			        .property("identifierType", new RefProperty("#/definitions/PatientidentifiertypeGetRef"))
+			        .property("location", new RefProperty("#/definitions/LocationGetRef"));
+		} else if (rep instanceof FullRepresentation) {
+			model
+			        .property("identifierType", new RefProperty("#/definitions/PatientidentifiertypeGet"))
+			        .property("location", new RefProperty("#/definitions/LocationGet"));
+		}
+		return model;
 	}
 	
 	@Override
-	public Model getCREATEModel(Representation representation) {
-		return null;
+	public Model getCREATEModel(Representation rep) {
+		return new ModelImpl()
+		        .property("identifier", new StringProperty())
+		        .property("identifierType", new RefProperty("#/definitions/PatientidentifiertypeCreate"))
+		        .property("location", new RefProperty("#/definitions/LocationCreate"))
+		        .property("preferred", new BooleanProperty()._default(false))
+		        
+		        .required("identifier").required("identifierType");
 	}
 	
 	@Override
-	public Model getUPDATEModel(Representation representation) {
-		return null;
+	public Model getUPDATEModel(Representation rep) {
+		return getCREATEModel(rep);
 	}
 	
 	private PatientService service() {

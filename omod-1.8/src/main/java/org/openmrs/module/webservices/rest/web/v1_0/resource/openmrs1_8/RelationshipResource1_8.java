@@ -10,6 +10,8 @@
 package org.openmrs.module.webservices.rest.web.v1_0.resource.openmrs1_8;
 
 import io.swagger.models.Model;
+import io.swagger.models.ModelImpl;
+import io.swagger.models.properties.*;
 import org.openmrs.Person;
 import org.openmrs.Relationship;
 import org.openmrs.api.context.Context;
@@ -148,17 +150,43 @@ public class RelationshipResource1_8 extends DataDelegatingCrudResource<Relation
 	}
 	
 	@Override
-	public Model getGETModel(Representation representation) {
-		return null;
+	public Model getGETModel(Representation rep) {
+		ModelImpl model = (ModelImpl) super.getGETModel(rep);
+		if (rep instanceof DefaultRepresentation || rep instanceof FullRepresentation) {
+			model
+			        .property("uuid", new StringProperty())
+			        .property("display", new StringProperty())
+			        .property("voided", new BooleanProperty());
+		}
+		if (rep instanceof DefaultRepresentation) {
+			model
+			        .property("personA", new RefProperty("#/definitions/PersonGetRef"))
+			        .property("relationshipType", new RefProperty("#/definitions/RelationshiptypeGetRef"))
+			        .property("personB", new RefProperty("#/definitions/PersonGetRef"));
+		} else if (rep instanceof FullRepresentation) {
+			model
+			        .property("personA", new RefProperty("#/definitions/PersonGet"))
+			        .property("relationshipType", new RefProperty("#/definitions/RelationshiptypeGet"))
+			        .property("personB", new RefProperty("#/definitions/PersonGet"));
+		}
+		return model;
 	}
 	
 	@Override
-	public Model getCREATEModel(Representation representation) {
-		return null;
+	public Model getCREATEModel(Representation rep) {
+		return new ModelImpl()
+		        .property("personA", new RefProperty("#/definitions/PersonCreate"))
+		        .property("relationshipType", new RefProperty("#/definitions/RelationshiptypeCreate"))
+		        .property("personB", new RefProperty("#/definitions/PersonCreate"))
+		        .property("startDate", new DateProperty())
+		        .property("endDate", new DateProperty())
+		        
+		        .required("personA").required("relationshipType").required("personB");
 	}
 	
 	@Override
-	public Model getUPDATEModel(Representation representation) {
-		return null;
+	public Model getUPDATEModel(Representation rep) {
+		return new ModelImpl()
+		        .property("voided", new BooleanProperty()); //FIXME missing properties
 	}
 }

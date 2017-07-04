@@ -67,25 +67,30 @@ public class ConceptMapResource1_8 extends DelegatingSubResource<ConceptMap, Con
 	}
 	
 	public Model getGETModel(Representation rep) {
-		ModelImpl modelImpl = new ModelImpl();
+		ModelImpl modelImpl = (ModelImpl) super.getGETModel(rep);
 		if (rep instanceof DefaultRepresentation) {
-			modelImpl.property("display", new StringProperty()).property("uuid", new StringProperty())
-			        .property("source", new ObjectProperty()) //FIXME
-			        .property("sourceCode", new StringProperty()); //FIXME
-			//			description.addSelfLink();
-			//			description.addLink("full", ".?v=" + RestConstants.REPRESENTATION_FULL);
+			modelImpl
+			        .property("display", new StringProperty())
+			        .property("uuid", new StringProperty())
+			        .property("source", new StringProperty()) //FIXME
+			        .property("sourceCode", new StringProperty());
 		} else if (rep instanceof FullRepresentation) {
-			modelImpl.property("display", new StringProperty()).property("uuid", new StringProperty())
-			        .property("source", new ObjectProperty()) //FIXME
-			        .property("sourceCode", new StringProperty()) //FIXME
-			        .property("comment", new StringProperty()).property("auditInfo", new StringProperty());
+			modelImpl
+			        .property("display", new StringProperty())
+			        .property("uuid", new StringProperty())
+			        .property("source", new StringProperty()) //FIXME
+			        .property("sourceCode", new StringProperty())
+			        .property("comment", new StringProperty());
 		}
 		return modelImpl;
 	}
 	
 	@Override
 	public Model getCREATEModel(Representation representation) {
-		return null;
+		return new ModelImpl()
+		        .property("source", new StringProperty())
+		        .property("sourceCode", new StringProperty())
+		        .required("source").required("sourceCode");
 	}
 	
 	@Override

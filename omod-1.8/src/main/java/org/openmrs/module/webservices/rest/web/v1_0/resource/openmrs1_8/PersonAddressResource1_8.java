@@ -139,53 +139,58 @@ public class PersonAddressResource1_8 extends DelegatingSubResource<PersonAddres
 	}
 	
 	@Override
-	public Model getGETModel(Representation representation) {
-		return  ((ModelImpl) super.getGETModel(representation))
-					.property("display", new StringProperty())
-					.property("uuid", new StringProperty())
-					.property("preferred", new BooleanProperty()._default(false))
-					.property("address1", new StringProperty())
-					.property("address2", new StringProperty())
-					.property("cityVillage", new StringProperty())
-					.property("stateProvince", new StringProperty())
-					.property("country", new StringProperty())
-					.property("postalCode", new StringProperty())
-					.property("countyDistrict", new StringProperty())
-					.property("address3", new StringProperty())
-					.property("address4", new StringProperty())
-					.property("address5", new StringProperty())
-					.property("address6", new StringProperty())
-					.property("startDate", new DateProperty())
-					.property("endDate", new DateProperty())
-					.property("latitude", new StringProperty())
-					.property("longitude", new StringProperty())
-					.property("voided", new BooleanProperty());
-	}
+	public Model getGETModel(Representation rep) {
+		ModelImpl model = ((ModelImpl) super.getGETModel(rep))
+				.property("uuid", new StringProperty())
+				.property("display", new StringProperty());
 
+		if (rep instanceof DefaultRepresentation || rep instanceof FullRepresentation) {
+			model
+			        .property("preferred", new BooleanProperty()._default(false))
+			        .property("address1", new StringProperty())
+			        .property("address2", new StringProperty())
+			        .property("cityVillage", new StringProperty())
+			        .property("stateProvince", new StringProperty())
+			        .property("country", new StringProperty())
+			        .property("postalCode", new StringProperty())
+			        .property("countyDistrict", new StringProperty())
+			        .property("address3", new StringProperty())
+			        .property("address4", new StringProperty())
+			        .property("address5", new StringProperty())
+			        .property("address6", new StringProperty())
+			        .property("startDate", new DateProperty())
+			        .property("endDate", new DateProperty())
+			        .property("latitude", new StringProperty())
+			        .property("longitude", new StringProperty())
+			        .property("voided", new BooleanProperty());
+		}
+		return model;
+	}
+	
 	@Override
-	public Model getCREATEModel(Representation representation) {
+	public Model getCREATEModel(Representation rep) {
 		return new ModelImpl()
-				.property("preferred", new BooleanProperty()._default(false))
-				.property("address1", new StringProperty())
-				.property("address2", new StringProperty())
-				.property("cityVillage", new StringProperty())
-				.property("stateProvince", new StringProperty())
-				.property("country", new StringProperty())
-				.property("postalCode", new StringProperty())
-				.property("countyDistrict", new StringProperty())
-				.property("address3", new StringProperty())
-				.property("address4", new StringProperty())
-				.property("address5", new StringProperty())
-				.property("address6", new StringProperty())
-				.property("startDate", new DateProperty())
-				.property("endDate", new DateProperty())
-				.property("latitude", new StringProperty())
-				.property("longitude", new StringProperty());
+		        .property("preferred", new BooleanProperty()._default(false))
+		        .property("address1", new StringProperty())
+		        .property("address2", new StringProperty())
+		        .property("cityVillage", new StringProperty())
+		        .property("stateProvince", new StringProperty())
+		        .property("country", new StringProperty())
+		        .property("postalCode", new StringProperty())
+		        .property("countyDistrict", new StringProperty())
+		        .property("address3", new StringProperty())
+		        .property("address4", new StringProperty())
+		        .property("address5", new StringProperty())
+		        .property("address6", new StringProperty())
+		        .property("startDate", new DateProperty())
+		        .property("endDate", new DateProperty())
+		        .property("latitude", new StringProperty())
+		        .property("longitude", new StringProperty());
 	}
-
+	
 	@Override
-	public Model getUPDATEModel(Representation representation) {
-		return getCREATEModel(representation);
+	public Model getUPDATEModel(Representation rep) {
+		return getCREATEModel(rep);
 	}
 	
 	/**

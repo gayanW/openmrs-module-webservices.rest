@@ -10,6 +10,9 @@
 package org.openmrs.module.webservices.rest.web.v1_0.resource.openmrs1_8;
 
 import io.swagger.models.Model;
+import io.swagger.models.ModelImpl;
+import io.swagger.models.properties.BooleanProperty;
+import io.swagger.models.properties.StringProperty;
 import org.openmrs.LocationTag;
 import org.openmrs.api.LocationService;
 import org.openmrs.api.context.Context;
@@ -91,17 +94,19 @@ public class LocationTagResource1_8 extends MetadataDelegatingCrudResource<Locat
 	}
 	
 	@Override
-	public Model getGETModel(Representation representation) {
-		return null;
+	public Model getGETModel(Representation rep) {
+		return super.getGETModel(rep);
 	}
 	
 	@Override
-	public Model getCREATEModel(Representation representation) {
-		return null;
+	public Model getCREATEModel(Representation rep) {
+		return ((ModelImpl) super.getCREATEModel(rep))
+		        .property("retired", new BooleanProperty())
+		        .property("retiredReason", new StringProperty());
 	}
 	
 	@Override
-	public Model getUPDATEModel(Representation representation) {
+	public Model getUPDATEModel(Representation rep) {
 		return null;
 	}
 	

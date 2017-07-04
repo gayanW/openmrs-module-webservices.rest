@@ -69,23 +69,23 @@ public class AllergyResource1_8 extends BaseActiveListItemResource1_8<Allergy> {
 	@Override
 	public Model getGETModel(Representation rep) {
 		return ((ModelImpl) super.getGETModel(rep))
-				.property("allergyType", new StringProperty()
-						._enum(SwaggerSpecificationCreator.getEnumsAsList(AllergyType.class)))
-				.property("reaction", new ObjectProperty())
-				.property("severity", new StringProperty()
-						._enum(SwaggerSpecificationCreator.getEnumsAsList(AllergySeverity.class)))
-				.property("allergen", new ObjectProperty()); //FIXME
+		        .property("allergyType", new StringProperty()
+		                ._enum(SwaggerSpecificationCreator.getEnumsAsList(AllergyType.class)))
+		        .property("reaction", new ObjectProperty())
+		        .property("severity", new StringProperty()
+		                ._enum(SwaggerSpecificationCreator.getEnumsAsList(AllergySeverity.class)))
+		        .property("allergen", new ObjectProperty()); //FIXME
 	}
 	
 	@Override
 	public Model getCREATEModel(Representation rep) {
 		return ((ModelImpl) super.getCREATEModel(rep))
-				.property("allergyType", new StringProperty()
-						._enum(SwaggerSpecificationCreator.getEnumsAsList(AllergyType.class)))
-				.property("reaction", new ObjectProperty())
-				.property("severity", new StringProperty()
-						._enum(SwaggerSpecificationCreator.getEnumsAsList(AllergySeverity.class)))
-				.property("allergen", new ObjectProperty()); //FIXME
+		        .property("allergyType", new StringProperty()
+		                ._enum(SwaggerSpecificationCreator.getEnumsAsList(AllergyType.class)))
+		        .property("reaction", new ObjectProperty())
+		        .property("severity", new StringProperty()
+		                ._enum(SwaggerSpecificationCreator.getEnumsAsList(AllergySeverity.class)))
+		        .property("allergen", new ObjectProperty()); //FIXME
 	}
 	
 	@Override

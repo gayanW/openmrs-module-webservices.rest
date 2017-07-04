@@ -12,6 +12,11 @@ package org.openmrs.module.webservices.rest.web.v1_0.resource.openmrs1_8;
 import java.util.List;
 
 import io.swagger.models.Model;
+import io.swagger.models.ModelImpl;
+import io.swagger.models.properties.ArrayProperty;
+import io.swagger.models.properties.BooleanProperty;
+import io.swagger.models.properties.RefProperty;
+import io.swagger.models.properties.StringProperty;
 import org.apache.commons.collections.CollectionUtils;
 import org.openmrs.Location;
 import org.openmrs.LocationTag;
@@ -136,13 +141,57 @@ public class LocationResource1_8 extends MetadataDelegatingCrudResource<Location
 	}
 	
 	@Override
-	public Model getGETModel(Representation representation) {
-		return null;
+	public Model getGETModel(Representation rep) {
+		ModelImpl modelImpl = (ModelImpl) super.getGETModel(rep);
+		if (rep instanceof DefaultRepresentation || rep instanceof FullRepresentation) {
+			modelImpl
+			        .property("address1", new StringProperty())
+			        .property("address2", new StringProperty())
+			        .property("cityVillage", new StringProperty())
+			        .property("stateProvince", new StringProperty())
+			        .property("country", new StringProperty())
+			        .property("postalCode", new StringProperty())
+			        .property("latitude", new StringProperty())
+			        .property("longitude", new StringProperty())
+			        .property("countyDistrict", new StringProperty())
+			        .property("address3", new StringProperty())
+			        .property("address4", new StringProperty())
+			        .property("address5", new StringProperty())
+			        .property("address6", new StringProperty());
+		}
+		if (rep instanceof DefaultRepresentation) {
+			modelImpl
+			        .property("tags", new ArrayProperty(new RefProperty("#/definitions/LocationtagGetRef")))
+			        .property("parentLocation", new RefProperty("#/definitions/LocationGetRef"))
+			        .property("childLocations", new ArrayProperty(new RefProperty("#/definitions/LocationGetRef")));
+		} else if (rep instanceof FullRepresentation) {
+			modelImpl
+			        .property("tags", new ArrayProperty(new RefProperty("#/definitions/LocationtagGet")))
+			        .property("parentLocation", new RefProperty("#/definitions/LocationGet"))
+			        .property("childLocations", new ArrayProperty(new RefProperty("#/definitions/LocationGet")));
+		}
+		return modelImpl;
 	}
 	
 	@Override
-	public Model getCREATEModel(Representation representation) {
-		return null;
+	public Model getCREATEModel(Representation rep) {
+		return ((ModelImpl) super.getCREATEModel(rep))
+		        .property("address1", new StringProperty())
+		        .property("address2", new StringProperty())
+		        .property("cityVillage", new StringProperty())
+		        .property("stateProvince", new StringProperty())
+		        .property("country", new StringProperty())
+		        .property("postalCode", new StringProperty())
+		        .property("latitude", new StringProperty())
+		        .property("longitude", new StringProperty())
+		        .property("countyDistrict", new StringProperty())
+		        .property("address3", new StringProperty())
+		        .property("address4", new StringProperty())
+		        .property("address5", new StringProperty())
+		        .property("address6", new StringProperty())
+		        .property("tags", new ArrayProperty(new RefProperty("#/definitions/LocationtagCreate")))
+		        .property("parentLocation", new RefProperty("#/definitions/LocationCreate"))
+		        .property("childLocations", new ArrayProperty(new RefProperty("#/definitions/LocationCreate")));
 	}
 	
 	@Override

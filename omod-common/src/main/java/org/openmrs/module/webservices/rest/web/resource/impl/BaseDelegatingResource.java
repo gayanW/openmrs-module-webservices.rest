@@ -87,9 +87,10 @@ public abstract class BaseDelegatingResource<T> extends BaseDelegatingConverter<
 			
 		} else if (representation instanceof RefRepresentation) {
 			model
-			        .property("links", new ObjectProperty()
-			                .property("rel", new StringProperty()).example("self")
-			                .property("uri", new StringProperty(StringProperty.Format.URI)));
+					.property("links", new ArrayProperty()
+							.items(new ObjectProperty()
+									.property("rel", new StringProperty().example("self"))
+									.property("uri", new StringProperty(StringProperty.Format.URI))));
 		}
 		return model;
 	}

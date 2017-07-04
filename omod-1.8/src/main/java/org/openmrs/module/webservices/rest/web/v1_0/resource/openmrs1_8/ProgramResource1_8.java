@@ -10,6 +10,10 @@
 package org.openmrs.module.webservices.rest.web.v1_0.resource.openmrs1_8;
 
 import io.swagger.models.Model;
+import io.swagger.models.ModelImpl;
+import io.swagger.models.properties.ArrayProperty;
+import io.swagger.models.properties.BooleanProperty;
+import io.swagger.models.properties.RefProperty;
 import org.openmrs.Program;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.webservices.rest.web.RequestContext;
@@ -109,17 +113,34 @@ public class ProgramResource1_8 extends MetadataDelegatingCrudResource<Program> 
 	}
 	
 	@Override
-	public Model getGETModel(Representation representation) {
-		return null;
+	public Model getGETModel(Representation rep) {
+		ModelImpl model = (ModelImpl) super.getGETModel(rep);
+		if (rep instanceof DefaultRepresentation) {
+			model
+			        .property("concept", new RefProperty("#/definitions/ConceptGetRef"))
+			        .property("allWorkflows", new ArrayProperty(new RefProperty("#/definitions/WorkflowGetRef")));
+		} else if (rep instanceof FullRepresentation) {
+			model
+			        .property("concept", new RefProperty("#/definitions/ConceptGet"))
+			        .property("allWorkflows", new ArrayProperty(new RefProperty("#/definitions/WorkflowGet")));
+		} else if (rep instanceof RefRepresentation) {
+			model
+			        .property("allWorkflows", new ArrayProperty(new RefProperty("#/definitions/WorkflowGetRef")));
+		}
+		return model;
 	}
 	
 	@Override
-	public Model getCREATEModel(Representation representation) {
-		return null;
+	public Model getCREATEModel(Representation rep) {
+		return ((ModelImpl) super.getCREATEModel(rep))
+		        .property("concept", new RefProperty("#/definitions/ConceptGetRef"))
+		        .property("retired", new BooleanProperty())
+		        
+		        .required("concept").required("description");
 	}
 	
 	@Override
-	public Model getUPDATEModel(Representation representation) {
+	public Model getUPDATEModel(Representation rep) {
 		return null;
 	}
 	

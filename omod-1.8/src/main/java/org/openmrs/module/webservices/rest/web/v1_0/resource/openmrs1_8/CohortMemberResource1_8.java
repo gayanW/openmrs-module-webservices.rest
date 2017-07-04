@@ -15,6 +15,7 @@ import java.util.List;
 import io.swagger.models.Model;
 import io.swagger.models.ModelImpl;
 import io.swagger.models.properties.ObjectProperty;
+import io.swagger.models.properties.RefProperty;
 import io.swagger.models.properties.StringProperty;
 import org.openmrs.Cohort;
 import org.openmrs.Patient;
@@ -121,30 +122,32 @@ public class CohortMemberResource1_8 extends DelegatingSubResource<CohortMember1
 	}
 	
 	public Model getGETModel(Representation rep) {
-		ModelImpl modelImpl = new ModelImpl();
+		ModelImpl modelImpl = (ModelImpl) super.getGETModel(rep);
 		if (rep instanceof RefRepresentation) {
-			modelImpl.property("display", new StringProperty());
-			//			description.addSelfLink();
+			modelImpl
+			        .property("display", new StringProperty());
 		} else if (rep instanceof DefaultRepresentation) {
-			modelImpl.property("display", new StringProperty()).property("patient", new ObjectProperty());
-			//			description.addSelfLink();
-			//			description.addLink("full", ".?v=" + RestConstants.REPRESENTATION_FULL);
+			modelImpl
+			        .property("display", new StringProperty())
+			        .property("patient", new RefProperty("#/definitions/PatientGetRef"));
 		} else if (rep instanceof FullRepresentation) {
-			modelImpl.property("display", new StringProperty()).property("patient", new ObjectProperty());
-			//description.addProperty("auditInfo", findMethod("getAuditInfo"));
-			//			description.addSelfLink();
+			modelImpl
+			        .property("display", new StringProperty())
+			        .property("patient", new RefProperty("#/definitions/PatientGetRef"));
 		}
 		return modelImpl;
 	}
 	
 	@Override
-	public Model getCREATEModel(Representation representation) {
-		return null;
+	public Model getCREATEModel(Representation rep) {
+		return new ModelImpl()
+		        .property("patient", new RefProperty("#/definitions/PatientCreate"))
+		        .required("patient");
 	}
 	
 	@Override
-	public Model getUPDATEModel(Representation representation) {
-		return null;
+	public Model getUPDATEModel(Representation rep) {
+		return getCREATEModel(rep);
 	}
 	
 	/**

@@ -11,10 +11,7 @@ package org.openmrs.module.webservices.rest.web.v1_0.resource.openmrs1_8;
 
 import io.swagger.models.Model;
 import io.swagger.models.ModelImpl;
-import io.swagger.models.properties.ArrayProperty;
-import io.swagger.models.properties.ObjectProperty;
-import io.swagger.models.properties.RefProperty;
-import io.swagger.models.properties.StringProperty;
+import io.swagger.models.properties.*;
 import org.openmrs.Patient;
 import org.openmrs.PatientIdentifier;
 import org.openmrs.Person;
@@ -139,29 +136,41 @@ public class PatientResource1_8 extends DataDelegatingCrudResource<Patient> {
 	}
 	
 	@Override
-	public Model getGETModel(Representation representation) {
-		ModelImpl modelImpl = new ModelImpl().property("uuid", new StringProperty().example("204-bca1-11de-913d-0010c6d0f"))
-		        .property("display", new StringProperty())
-		        .property("identifiers", new ArrayProperty().items(new ObjectProperty()))
-		        .property("person", new ObjectProperty()).property("voided", new StringProperty())
-		        .example("{\"uuid\":\"204-bca1-11de-913d-0010c6d0f\",\"id\":123456\"}");
-		
-		if (representation instanceof DefaultRepresentation) {
-			//FIXME
-		} else if (representation instanceof FullRepresentation) {
-			modelImpl.property("auditInfo", new StringProperty());
+	public Model getGETModel(Representation rep) {
+		ModelImpl model = (ModelImpl) super.getGETModel(rep);
+		if (rep instanceof DefaultRepresentation || rep instanceof FullRepresentation) {
+			model
+			        .property("uuid", new StringProperty())
+			        .property("display", new StringProperty())
+			        .property("identifiers", new ArrayProperty(new RefProperty("#/definitions/PatientIdentifierGetRef")))
+			        .property("preferred", new BooleanProperty()._default(false))
+			        .property("voided", new BooleanProperty());
 		}
-		return modelImpl;
+		if (rep instanceof DefaultRepresentation) {
+			model
+			        .property("person", new RefProperty("#/definitions/PersonGetRef"));
+		} else if (rep instanceof FullRepresentation) {
+			model
+			        .property("person", new RefProperty("#/definitions/PersonGet"));
+		}
+		return model;
 	}
 	
 	@Override
-	public Model getCREATEModel(Representation representation) {
-		return null;
+	public Model getCREATEModel(Representation rep) {
+		return new ModelImpl()
+		        .property("person", new RefProperty("#/definitions/PersonCreate"))
+		        .property("identifiers", new ArrayProperty(new RefProperty("#/definitions/PatientIdentifierCreate")))
+		        
+		        .required("person").required("identifiers");
 	}
 	
 	@Override
-	public Model getUPDATEModel(Representation representation) {
-		return null;
+	public Model getUPDATEModel(Representation rep) {
+		return new ModelImpl()
+		        .property("person", new RefProperty("#/definitions/PersonGet"))
+		        
+		        .required("person");
 	}
 	
 	/**

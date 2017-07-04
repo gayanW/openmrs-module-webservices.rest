@@ -10,6 +10,8 @@
 package org.openmrs.module.webservices.rest.web.v1_0.resource.openmrs1_8;
 
 import io.swagger.models.Model;
+import io.swagger.models.ModelImpl;
+import io.swagger.models.properties.*;
 import org.apache.commons.lang.StringUtils;
 import org.openmrs.Concept;
 import org.openmrs.ConceptNumeric;
@@ -159,17 +161,65 @@ public class ObsResource1_8 extends DataDelegatingCrudResource<Obs> implements U
 	}
 	
 	@Override
-	public Model getGETModel(Representation representation) {
-		return null;
+	public Model getGETModel(Representation rep) {
+		ModelImpl model = (ModelImpl) super.getGETModel(rep);
+		if (rep instanceof DefaultRepresentation || rep instanceof FullRepresentation) {
+			model
+			        .property("uuid", new StringProperty())
+			        .property("display", new StringProperty())
+			        .property("obsDatetime", new DateProperty())
+			        .property("accessionNumber", new StringProperty())
+			        .property("comment", new StringProperty())
+			        .property("voided", new BooleanProperty())
+			        .property("value", new StringProperty())
+			        .property("valueModifier", new StringProperty());
+		}
+		if (rep instanceof DefaultRepresentation) {
+			model
+			        .property("concept", new RefProperty("#/definitions/ConceptGetRef"))
+			        .property("person", new RefProperty("#/definitions/PersonGetRef"))
+			        .property("obsGroup", new RefProperty("#/definitions/ObsGetRef"))
+			        .property("groupMembers", new ArrayProperty(new RefProperty("#/definitions/ObsGetRef")))
+			        .property("valueCodedName", new RefProperty("#/definitions/ConceptNameGetRef"))
+			        .property("location", new RefProperty("#/definitions/LocationGetRef"))
+			        .property("order", new RefProperty("#/definitions/OrderGetRef"))
+			        .property("encounter", new RefProperty("#/definitions/EncounterGetRef"));
+		} else if (rep instanceof FullRepresentation) {
+			model
+			        .property("concept", new RefProperty("#/definitions/ConceptGet"))
+			        .property("person", new RefProperty("#/definitions/PersonGet"))
+			        .property("obsGroup", new RefProperty("#/definitions/ObsGet"))
+			        .property("groupMembers", new ArrayProperty(new RefProperty("#/definitions/ObsGet")))
+			        .property("valueCodedName", new RefProperty("#/definitions/ConceptNameGet"))
+			        .property("location", new RefProperty("#/definitions/LocationGet"))
+			        .property("order", new RefProperty("#/definitions/OrderGet"))
+			        .property("encounter", new RefProperty("#/definitions/EncounterGet"));
+		}
+		return model;
 	}
 	
 	@Override
-	public Model getCREATEModel(Representation representation) {
-		return null;
+	public Model getCREATEModel(Representation rep) {
+		return new ModelImpl()
+		        .property("person", new RefProperty("#/definitions/PersonCreate"))
+		        .property("obsDatetime", new DateProperty())
+		        .property("concept", new RefProperty("#/definitions/ConceptCreate"))
+		        .property("location", new RefProperty("#/definitions/LocationCreate"))
+		        .property("order", new RefProperty("#/definitions/OrderCreate"))
+		        .property("encounter", new RefProperty("#/definitions/EncounterCreate"))
+		        .property("accessionNumber", new StringProperty())
+		        .property("groupMembers", new ArrayProperty(new RefProperty("#/definitions/ObsCreate")))
+		        .property("valueCodedName", new RefProperty("#/definitions/ConceptNameCreate"))
+		        .property("comment", new StringProperty())
+		        .property("voided", new BooleanProperty())
+		        .property("value", new StringProperty()) //FIXME type
+		        .property("valueModifier", new StringProperty())
+		        
+		        .required("person").required("obsDatetime").required("concept");
 	}
 	
 	@Override
-	public Model getUPDATEModel(Representation representation) {
+	public Model getUPDATEModel(Representation rep) {
 		return null;
 	}
 	

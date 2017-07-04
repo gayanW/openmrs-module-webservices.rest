@@ -28,7 +28,10 @@ import io.swagger.models.auth.BasicAuthDefinition;
 import io.swagger.models.parameters.BodyParameter;
 import io.swagger.models.parameters.PathParameter;
 import io.swagger.models.parameters.QueryParameter;
+import io.swagger.models.properties.ArrayProperty;
+import io.swagger.models.properties.ObjectProperty;
 import io.swagger.models.properties.RefProperty;
+import io.swagger.models.properties.StringProperty;
 import io.swagger.util.Json;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Level;
@@ -98,6 +101,7 @@ public class SwaggerSpecificationCreator {
 				initSwagger();
 				addPaths();
 				//				addDefinitions();
+				addDefaultDefinitions();
 				addSubclassOperations();
 			}
 			catch (Exception e) {
@@ -111,7 +115,19 @@ public class SwaggerSpecificationCreator {
 		//		return createJSON();
 		return createJSON();
 	}
-	
+
+	private void addDefaultDefinitions() {
+		swagger.addDefinition("FetchAll", new ModelImpl()
+				.property("results", new ArrayProperty()
+						.items(new ObjectProperty()
+								.property("uuid", new StringProperty())
+								.property("display", new StringProperty())
+								.property("links", new ArrayProperty()
+										.items(new ObjectProperty()
+												.property("rel", new StringProperty().example("self"))
+												.property("uri", new StringProperty(StringProperty.Format.URI)))))));
+	}
+
 	private void addDefinitions() {
 		Definitions definitions = new Definitions();
 		definitions.setDefinitions(definitionMap);
@@ -160,14 +176,21 @@ public class SwaggerSpecificationCreator {
 	}
 	
 	private void initSwagger() {
-		final io.swagger.models.Info info = new io.swagger.models.Info().version(OpenmrsConstants.OPENMRS_VERSION_SHORT)
-		        .title("OpenMRS API Docs").description("OpenMRS RESTful API specification")
+		final io.swagger.models.Info info = new io.swagger.models.Info()
+		        .version(OpenmrsConstants.OPENMRS_VERSION_SHORT)
+		        .title("OpenMRS API Docs")
+		        .description("OpenMRS RESTful API specification")
 		        .contact(new io.swagger.models.Contact().url("http://openmrs.org"))
 		        .license(new io.swagger.models.License().name("MPL-2.0 w/ HD").url("http://openmrs.org/license"));
 		
-		this.swagger.info(info).host(baseUrl).basePath("/" + RestConstants.VERSION_1).scheme(Scheme.HTTP)
+		this.swagger
+		        .info(info)
+		        .host(baseUrl)
+		        .basePath("/" + RestConstants.VERSION_1)
+		        .scheme(Scheme.HTTP)
 		        .securityDefinition("basic_auth", new BasicAuthDefinition())
-		        .security(new SecurityRequirement().requirement("basic_auth")).consumes("application/json")
+		        .security(new SecurityRequirement().requirement("basic_auth"))
+		        .consumes("application/json")
 		        .produces("application/json");
 	}
 	
@@ -469,55 +492,22 @@ public class SwaggerSpecificationCreator {
 	private io.swagger.models.Path buildFetchAllPath(io.swagger.models.Path path,
 	        DelegatingResourceHandler<?> resourceHandler, String resourceName, String resourceParentName) {
 		
-			io.swagger.models.Operation getOperation = null;
-			if (resourceParentName == null) {
-				if (testOperationImplemented(OperationEnum.get, resourceHandler)) {
-					
-					getOperation = createOperation(resourceHandler, "get", resourceName, resourceParentName,
-							OperationEnum.get);
-				}
-			} else {
-				if (testOperationImplemented(OperationEnum.getSubresource, resourceHandler)) {
-					getOperation = createOperation(resourceHandler, "get", resourceName, resourceParentName,
-							OperationEnum.getSubresource);
-				}
+		io.swagger.models.Operation getOperation = null;
+		if (resourceParentName == null) {
+			if (testOperationImplemented(OperationEnum.get, resourceHandler)) {
+				
+				getOperation = createOperation(resourceHandler, "get", resourceName, resourceParentName,
+				    OperationEnum.get);
 			}
-			
-			if (getOperation != null) {
-				path.setGet(getOperation);
-				//				Map<String, Operation> operationsMap = path.getOperations();
-				//
-				//				String tag = resourceParentName == null ? resourceName : resourceParentName;
-				//				tag = tag.replaceAll("/", "_");
-				//				addResourceTag(tag);
-				//
-				//				getOperation.setTags(Arrays.asList(tag));
-				//				operationsMap.put("get", getOperation);
-				//				path.setOperations(operationsMap);
+		} else {
+			if (testOperationImplemented(OperationEnum.getSubresource, resourceHandler)) {
+				getOperation = createOperation(resourceHandler, "get", resourceName, resourceParentName,
+				    OperationEnum.getSubresource);
 			}
-
-		return path;
-	}
-	
-	private io.swagger.models.Path buildGetWithUUIDPath(io.swagger.models.Path path,
-	        DelegatingResourceHandler<?> resourceHandler, String resourceName, String resourceParentName) {
+		}
 		
-			io.swagger.models.Operation getOperation = null;
-			
-			if (testOperationImplemented(OperationEnum.getWithUUID, resourceHandler)) {
-				if (resourceParentName == null) {
-					getOperation = createOperation(resourceHandler, "get", resourceName, resourceParentName,
-							OperationEnum.getWithUUID);
-				} else {
-					getOperation = createOperation(resourceHandler, "get", resourceName, resourceParentName,
-							OperationEnum.getSubresourceWithUUID);
-				}
-			}
-			
-			if (getOperation != null) {
-				path.get(getOperation);
-			}
-			//			if (getOperation != null) {
+		if (getOperation != null) {
+			path.setGet(getOperation);
 			//				Map<String, Operation> operationsMap = path.getOperations();
 			//
 			//				String tag = resourceParentName == null ? resourceName : resourceParentName;
@@ -527,72 +517,105 @@ public class SwaggerSpecificationCreator {
 			//				getOperation.setTags(Arrays.asList(tag));
 			//				operationsMap.put("get", getOperation);
 			//				path.setOperations(operationsMap);
-			//			}
-
+		}
+		
+		return path;
+	}
+	
+	private io.swagger.models.Path buildGetWithUUIDPath(io.swagger.models.Path path,
+	        DelegatingResourceHandler<?> resourceHandler, String resourceName, String resourceParentName) {
+		
+		io.swagger.models.Operation getOperation = null;
+		
+		if (testOperationImplemented(OperationEnum.getWithUUID, resourceHandler)) {
+			if (resourceParentName == null) {
+				getOperation = createOperation(resourceHandler, "get", resourceName, resourceParentName,
+				    OperationEnum.getWithUUID);
+			} else {
+				getOperation = createOperation(resourceHandler, "get", resourceName, resourceParentName,
+				    OperationEnum.getSubresourceWithUUID);
+			}
+		}
+		
+		if (getOperation != null) {
+			path.get(getOperation);
+		}
+		//			if (getOperation != null) {
+		//				Map<String, Operation> operationsMap = path.getOperations();
+		//
+		//				String tag = resourceParentName == null ? resourceName : resourceParentName;
+		//				tag = tag.replaceAll("/", "_");
+		//				addResourceTag(tag);
+		//
+		//				getOperation.setTags(Arrays.asList(tag));
+		//				operationsMap.put("get", getOperation);
+		//				path.setOperations(operationsMap);
+		//			}
+		
 		return path;
 	}
 	
 	private io.swagger.models.Path buildCreatePath(io.swagger.models.Path path,
 	        DelegatingResourceHandler<?> resourceHandler, String resourceName, String resourceParentName) {
 		
-			io.swagger.models.Operation postCreateOperation = null;
-			
-			if (resourceParentName == null) {
-				if (testOperationImplemented(OperationEnum.postCreate, resourceHandler)) {
-					postCreateOperation = createOperation(resourceHandler, "post", resourceName, resourceParentName,
-					    OperationEnum.postCreate);
-				}
-			} else {
-				if (testOperationImplemented(OperationEnum.postSubresource, resourceHandler)) {
-					postCreateOperation = createOperation(resourceHandler, "post", resourceName, resourceParentName,
-					    OperationEnum.postSubresource);
-				}
+		io.swagger.models.Operation postCreateOperation = null;
+		
+		if (resourceParentName == null) {
+			if (testOperationImplemented(OperationEnum.postCreate, resourceHandler)) {
+				postCreateOperation = createOperation(resourceHandler, "post", resourceName, resourceParentName,
+				    OperationEnum.postCreate);
 			}
-			
-			if (postCreateOperation != null) {
-				path.post(postCreateOperation);
-				//				Map<String, Operation> operationsMap = path.getOperations();
-				//
-				//				String tag = resourceParentName == null ? resourceName : resourceParentName;
-				//				tag = tag.replaceAll("/", "_");
-				//				addResourceTag(tag);
-				//
-				//				postCreateOperation.setTags(Arrays.asList(tag));
-				//				operationsMap.put("post", postCreateOperation);
-				//				path.setOperations(operationsMap);
+		} else {
+			if (testOperationImplemented(OperationEnum.postSubresource, resourceHandler)) {
+				postCreateOperation = createOperation(resourceHandler, "post", resourceName, resourceParentName,
+				    OperationEnum.postSubresource);
 			}
+		}
+		
+		if (postCreateOperation != null) {
+			path.post(postCreateOperation);
+			//				Map<String, Operation> operationsMap = path.getOperations();
+			//
+			//				String tag = resourceParentName == null ? resourceName : resourceParentName;
+			//				tag = tag.replaceAll("/", "_");
+			//				addResourceTag(tag);
+			//
+			//				postCreateOperation.setTags(Arrays.asList(tag));
+			//				operationsMap.put("post", postCreateOperation);
+			//				path.setOperations(operationsMap);
+		}
 		return path;
 	}
 	
 	private io.swagger.models.Path buildUpdatePath(io.swagger.models.Path path,
 	        DelegatingResourceHandler<?> resourceHandler, String resourceName, String resourceParentName) {
 		
-			io.swagger.models.Operation postUpdateOperation = null;
-			
-			if (resourceParentName == null) {
-				if (testOperationImplemented(OperationEnum.postUpdate, resourceHandler)) {
-					postUpdateOperation = createOperation(resourceHandler, "post", resourceName, resourceParentName,
-					    OperationEnum.postUpdate);
-				}
-			} else {
-				if (testOperationImplemented(OperationEnum.postUpdateSubresouce, resourceHandler)) {
-					postUpdateOperation = createOperation(resourceHandler, "post", resourceName, resourceParentName,
-					    OperationEnum.postUpdateSubresouce);
-				}
+		io.swagger.models.Operation postUpdateOperation = null;
+		
+		if (resourceParentName == null) {
+			if (testOperationImplemented(OperationEnum.postUpdate, resourceHandler)) {
+				postUpdateOperation = createOperation(resourceHandler, "post", resourceName, resourceParentName,
+				    OperationEnum.postUpdate);
 			}
-			
-			if (postUpdateOperation != null) {
-				path.post(postUpdateOperation);
-				//				Map<String, Operation> operationsMap = path.getOperations();
-				//
-				//				String tag = resourceParentName == null ? resourceName : resourceParentName;
-				//				tag = tag.replaceAll("/", "_");
-				//				addResourceTag(tag);
-				//
-				//				postUpdateOperation.setTags(Arrays.asList(tag));
-				//				operationsMap.put("post", postUpdateOperation);
-				//				path.setOperations(operationsMap);
+		} else {
+			if (testOperationImplemented(OperationEnum.postUpdateSubresouce, resourceHandler)) {
+				postUpdateOperation = createOperation(resourceHandler, "post", resourceName, resourceParentName,
+				    OperationEnum.postUpdateSubresouce);
 			}
+		}
+		
+		if (postUpdateOperation != null) {
+			path.post(postUpdateOperation);
+			//				Map<String, Operation> operationsMap = path.getOperations();
+			//
+			//				String tag = resourceParentName == null ? resourceName : resourceParentName;
+			//				tag = tag.replaceAll("/", "_");
+			//				addResourceTag(tag);
+			//
+			//				postUpdateOperation.setTags(Arrays.asList(tag));
+			//				operationsMap.put("post", postUpdateOperation);
+			//				path.setOperations(operationsMap);
+		}
 		return path;
 	}
 	
@@ -1297,7 +1320,7 @@ public class SwaggerSpecificationCreator {
 		
 		// create definition
 		if (operationName == "post" || operationName == "get") {
-//			createDefinition(operationEnum, resourceName, resourceParentName, representation);
+			//			createDefinition(operationEnum, resourceName, resourceParentName, representation);
 			createDefinitionNew(operationEnum, resourceName, resourceParentName, resourceHandler);
 		}
 		
@@ -1322,8 +1345,8 @@ public class SwaggerSpecificationCreator {
 		// representations query parameter
 		io.swagger.models.parameters.Parameter v = new QueryParameter().name("v")
 		        .description("The representation to return (ref, default, full or custom)")
-				.type("string")
-				._enum(Arrays.asList("ref", "default", "full", "custom"));
+		        .type("string")
+		        ._enum(Arrays.asList("ref", "default", "full", "custom"));
 		
 		// query parameter
 		io.swagger.models.parameters.Parameter q = new QueryParameter().name("q").description("The search query")
@@ -1333,8 +1356,9 @@ public class SwaggerSpecificationCreator {
 			
 			operation.setSummary("Fetch all non-retired");
 			operation.setOperationId("getAll" + getOperationTitle(resourceHandler, true));
-			operation.addResponse("200",
-			    response200.schema(new RefProperty(getSchemaRef(resourceName, resourceParentName, OperationEnum.get))));
+//			operation.addResponse("200",
+//			    response200.schema(new RefProperty(getSchemaRef(resourceName, resourceParentName, OperationEnum.get))));
+			operation.addResponse("200", response200.schema(new RefProperty("#/definitions/FetchAll")));
 			operation.setParameters(buildPagingParameters());
 			operation.parameter(v);
 			operation.parameter(q);
@@ -1400,8 +1424,11 @@ public class SwaggerSpecificationCreator {
 			operation.parameter(buildRequiredUUIDParameter("parent-uuid", "parent resource uuid"));
 			operation.parameter(v);
 			operation.parameter(q);
-			operation.addResponse("200",
-			    response200.schema(new RefProperty(getSchemaRef(resourceName, resourceParentName, OperationEnum.get))));
+//			operation.addResponse("200",
+//			    response200.schema(new RefProperty(getSchemaRef(resourceName, resourceParentName, OperationEnum.get))));
+			operation.addResponse("200", response200.schema(new ObjectProperty()
+					.property("results", new ArrayProperty(
+					new RefProperty(getSchemaRef(resourceName, resourceParentName, OperationEnum.get))))));
 			//			operation.setSummary("Fetch all non-retired " + resourceName + " subresources");
 			//			operation.setOperationId("getAll" + getOperationTitle(resourceHandler, true));
 			//			parameters.add(buildRequiredUUIDParameter("parent-uuid", "parent resource uuid"));
@@ -1786,17 +1813,18 @@ public class SwaggerSpecificationCreator {
 	public String getBaseUrl() {
 		return baseUrl;
 	}
-
+	
 	public SwaggerSpecification getSwaggerSpecification() {
 		return swaggerSpecification;
 	}
-
+	
 	//FIXME: move to separate util calls
 	// see: https://stackoverflow.com/q/13783295/3647002
 	public static String[] getEnums(Class<? extends Enum<?>> e) {
 		return Arrays.toString(e.getEnumConstants())
-				.replaceAll("^.|.$", "").split(", ");
+		        .replaceAll("^.|.$", "").split(", ");
 	}
+	
 	public static List<String> getEnumsAsList(Class<? extends Enum<?>> e) {
 		return Arrays.asList(getEnums(e));
 	}

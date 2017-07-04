@@ -9,6 +9,7 @@
  */
 package org.openmrs.module.webservices.rest.web.v1_0.resource.openmrs1_8;
 
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import io.swagger.models.Model;
 import io.swagger.models.ModelImpl;
 import io.swagger.models.properties.*;
@@ -110,53 +111,41 @@ public class PersonAttributeTypeResource1_8 extends MetadataDelegatingCrudResour
 	}
 	
 	@Override
-	public Model getGETModel(Representation representation) {
-		ModelImpl model = (ModelImpl) super.getGETModel(representation);
-		if (representation instanceof DefaultRepresentation) {
+	public Model getGETModel(Representation rep) {
+		ModelImpl model = (ModelImpl) super.getGETModel(rep);
+		if (rep instanceof DefaultRepresentation || rep instanceof FullRepresentation) {
 			model
-			        .property("display", new StringProperty())
-			        .property("uuid", new StringProperty())
-			        .property("name", new StringProperty())
-			        .property("description", new StringProperty())
 			        .property("format", new StringProperty())
 			        .property("foreignKey", new IntegerProperty())
 			        .property("sortWeight", new DoubleProperty())
-			        .property("searchable", new BooleanProperty()._default(false))
-			        .property("editPrivilege", new RefProperty("#/definitions/PrivilegeGetRef"))
-			        .property("retired", new BooleanProperty());
-		} else if (representation instanceof FullRepresentation) {
+			        .property("searchable", new BooleanProperty()._default(false));
+		}
+		if (rep instanceof DefaultRepresentation) {
 			model
-			        .property("display", new StringProperty())
-			        .property("uuid", new StringProperty())
-			        .property("name", new StringProperty())
-			        .property("description", new StringProperty())
-			        .property("format", new StringProperty())
-			        .property("foreignKey", new IntegerProperty())
-			        .property("sortWeight", new DoubleProperty())
-			        .property("searchable", new BooleanProperty()._default(false))
-			        .property("editPrivilege", new RefProperty("#/definitions/PrivilegeGetRef"))
-			        .property("retired", new BooleanProperty())
+			        .property("editPrivilege", new RefProperty("#/definitions/PrivilegeGetRef"));
+		} else if (rep instanceof FullRepresentation) {
+			model
+			        .property("editPrivilege", new RefProperty("#/definitions/PrivilegeGet"))
 			        .property("concept", new StringProperty());
 		}
 		return model;
 	}
 	
 	@Override
-	public Model getCREATEModel(Representation representation) {
-		return new ModelImpl()
-				.property("name", new StringProperty())
-				.property("description", new StringProperty())
-				.property("format", new StringProperty())
-				.property("foreignKey", new IntegerProperty())
-				.property("sortWeight", new DoubleProperty())
-				.property("searchable", new BooleanProperty()._default(false))
-				.property("editPrivilege", new RefProperty("#/definitions/PrivilegeCreate"))
-				.required("name").required("description");
+	public Model getCREATEModel(Representation rep) {
+		return ((ModelImpl) super.getCREATEModel(rep))
+		        .property("format", new StringProperty())
+		        .property("foreignKey", new IntegerProperty())
+		        .property("sortWeight", new DoubleProperty())
+		        .property("searchable", new BooleanProperty()._default(false))
+		        .property("editPrivilege", new RefProperty("#/definitions/PrivilegeCreate"))
+		        
+		        .required("description");
 	}
 	
 	@Override
-	public Model getUPDATEModel(Representation representation) {
-		return getCREATEModel(representation);
+	public Model getUPDATEModel(Representation rep) {
+		return getCREATEModel(rep);
 	}
 	
 	/**

@@ -15,10 +15,13 @@ import java.util.List;
 
 import io.swagger.models.Model;
 import io.swagger.models.ModelImpl;
+import io.swagger.models.properties.BooleanProperty;
 import io.swagger.models.properties.StringProperty;
 import org.openmrs.Concept;
 import org.openmrs.ConceptName;
+import org.openmrs.api.ConceptNameType;
 import org.openmrs.api.context.Context;
+import org.openmrs.module.webservices.docs.swagger.SwaggerSpecificationCreator;
 import org.openmrs.module.webservices.rest.web.RequestContext;
 import org.openmrs.module.webservices.rest.web.RestConstants;
 import org.openmrs.module.webservices.rest.web.annotation.PropertyGetter;
@@ -68,31 +71,31 @@ public class ConceptNameResource1_8 extends DelegatingSubResource<ConceptName, C
 	}
 	
 	public Model getGETModel(Representation rep) {
-		ModelImpl modelImpl = new ModelImpl();
-		if (rep instanceof DefaultRepresentation) {
-			modelImpl.property("display", new StringProperty()).property("uuid", new StringProperty())
-			        .property("name", new StringProperty()).property("locale", new StringProperty())
-			        .property("localePreferred", new StringProperty()).property("conceptNameType", new StringProperty());
-			//			description.addSelfLink();
-			//			description.addLink("full", ".?v=" + RestConstants.REPRESENTATION_FULL);
-		} else if (rep instanceof FullRepresentation) {
-			modelImpl.property("display", new StringProperty()).property("uuid", new StringProperty())
-			        .property("name", new StringProperty()).property("locale", new StringProperty())
-			        .property("localePreferred", new StringProperty()).property("conceptNameType", new StringProperty())
-			        .property("auditInfo", new StringProperty());
-			//			description.addSelfLink();
-		}
-		return modelImpl;
+		return ((ModelImpl) super.getGETModel(rep))
+		        .property("display", new StringProperty())
+		        .property("uuid", new StringProperty())
+		        .property("name", new StringProperty())
+		        .property("locale", new StringProperty())
+		        .property("localePreferred", new BooleanProperty())
+		        .property("conceptNameType", new StringProperty()
+		                ._enum(SwaggerSpecificationCreator.getEnumsAsList(ConceptNameType.class)));
 	}
 	
 	@Override
-	public Model getCREATEModel(Representation representation) {
-		return null;
+	public Model getCREATEModel(Representation rep) {
+		return new ModelImpl()
+		        .property("name", new StringProperty())
+		        .property("locale", new StringProperty())
+		        .property("localePreferred", new StringProperty())
+		        .property("conceptNameType", new StringProperty()
+		                ._enum(SwaggerSpecificationCreator.getEnumsAsList(ConceptNameType.class)))
+		        .required("name").required("locale");
 	}
 	
 	@Override
 	public Model getUPDATEModel(Representation representation) {
-		return null;
+		return new ModelImpl()
+		        .property("name", new StringProperty()); //FIXME missing props
 	}
 	
 	/**

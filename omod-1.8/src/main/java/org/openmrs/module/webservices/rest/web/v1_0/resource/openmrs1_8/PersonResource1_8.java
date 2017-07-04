@@ -135,9 +135,9 @@ public class PersonResource1_8 extends DataDelegatingCrudResource<Person> {
 	}
 	
 	@Override
-	public Model getGETModel(Representation representation) {
-		ModelImpl model = (ModelImpl) super.getGETModel(representation);
-		if (representation instanceof DefaultRepresentation) {
+	public Model getGETModel(Representation rep) {
+		ModelImpl model = (ModelImpl) super.getGETModel(rep);
+		if (rep instanceof DefaultRepresentation || rep instanceof FullRepresentation) {
 			model
 			        .property("uuid", new StringProperty())
 			        .property("display", new StringProperty())
@@ -148,34 +148,20 @@ public class PersonResource1_8 extends DataDelegatingCrudResource<Person> {
 			        .property("dead", new BooleanProperty())
 			        .property("deathDate", new DateProperty())
 			        .property("causeOfDeath", new StringProperty())
-			        .property("preferredName", new RefProperty("#/definitions/PersonNameGetRef"))
-			        .property("preferredAddress", new RefProperty("#/definitions/PersonAddressGetRef"))
 			        .property("attributes", new ArrayProperty(new RefProperty("#/definitions/PersonAttributeGetRef")))
 			        .property("voided", new BooleanProperty());
+		}
+		if (rep instanceof DefaultRepresentation) {
+			model
+			        .property("preferredName", new RefProperty("#/definitions/PersonNameGetRef"))
+			        .property("preferredAddress", new RefProperty("#/definitions/PersonAddressGetRef"));
 			
-		} else if (representation instanceof FullRepresentation) {
-			model.property("uuid", new StringProperty())
-			        .property("display", new StringProperty())
-			        .property("gender", new StringProperty()._enum("M")._enum("F"))
-			        .property("age", new IntegerProperty())
-			        .property("birthdate", new DateProperty())
-			        .property("birthdateEstimated", new BooleanProperty())
-			        .property("dead", new BooleanProperty())
-			        .property("deathDate", new DateProperty())
-			        .property("causeOfDeath", new StringProperty())
+		} else if (rep instanceof FullRepresentation) {
+			model
 			        .property("preferredName", new RefProperty("#/definitions/PersonNameGet"))
 			        .property("preferredAddress", new RefProperty("#/definitions/PersonAddressGet"))
 			        .property("names", new ArrayProperty(new RefProperty("#/definitions/PersonNameGet")))
-			        .property("addresses", new ArrayProperty(new RefProperty("#/definitions/PersonAddressGet")))
-			        .property("attributes", new ArrayProperty(new RefProperty("#/definitions/PersonAttributeGet")))
-			        .property("voided", new BooleanProperty())
-			        .property("auditInfo", new StringProperty())
-			        .property("links", new ArrayProperty());
-			
-		} else if (representation instanceof RefRepresentation) {
-			model
-			        .property("display", new StringProperty())
-			        .property("uuid", new StringProperty());
+			        .property("addresses", new ArrayProperty(new RefProperty("#/definitions/PersonAddressGet")));
 		}
 		return model;
 	}
@@ -185,14 +171,15 @@ public class PersonResource1_8 extends DataDelegatingCrudResource<Person> {
 		ModelImpl model = new ModelImpl()
 		        .property("names", new ArrayProperty(new RefProperty("#/definitions/PersonNameCreate")))
 		        .property("gender", new StringProperty()).example("M")
-				.property("age", new IntegerProperty())
+		        .property("age", new IntegerProperty())
 		        .property("birthdate", new DateProperty())
-				.property("birthdateEstimated", new DateProperty())
-		        .property("date", new DateProperty())
-				.property("deathDate", new DateProperty())
+		        .property("birthdateEstimated", new BooleanProperty()._default(false))
+		        .property("dead", new BooleanProperty()._default(false))
+		        .property("deathDate", new DateProperty())
 		        .property("causeOfDeath", new StringProperty())
 		        .property("addresses", new ArrayProperty(new RefProperty("#/definitions/PersonAddressCreate")))
 		        .property("attributes", new ArrayProperty(new RefProperty("#/definitions/PersonAttributeCreate")))
+		        
 		        .example("{\"names\":[{\"givenName\":\"Gayan\",\"familyName\":\"Weerakutti\"}],\"gender\":\"M\"}");
 		
 		model.setRequired(Arrays.asList("names", "gender"));
@@ -201,18 +188,20 @@ public class PersonResource1_8 extends DataDelegatingCrudResource<Person> {
 	
 	@Override
 	public Model getUPDATEModel(Representation representation) {
-		return new ModelImpl().property("names", new ArrayProperty(new RefProperty("#/definitions/PersonNameCreate")))
-		        .property("dead", new StringProperty())
-				.property("causeOfDeath", new StringProperty())
+		return new ModelImpl()
+		        .property("names", new ArrayProperty(new RefProperty("#/definitions/PersonNameCreate")))
+		        .property("dead", new BooleanProperty())
+		        .property("causeOfDeath", new StringProperty())
 		        .property("deathDate", new DateProperty())
-				.property("age", new IntegerProperty())
+		        .property("age", new IntegerProperty())
 		        .property("gender", new StringProperty()._enum("M")._enum("F"))
-				.property("birthdate", new DateProperty())
-		        .property("birthdateEstimated", new DateProperty())
-				.property("preferredName", new StringProperty())
-		        .property("preferredAddress", new StringProperty())
+		        .property("birthdate", new DateProperty())
+		        .property("birthdateEstimated", new BooleanProperty()._default(false))
+		        .property("preferredName", new StringProperty()) //FIXME type
+		        .property("preferredAddress", new StringProperty()) //FIXME type
 		        .property("addresses", new ArrayProperty(new RefProperty("#/definitions/PersonAddressCreate")))
 		        .property("attributes", new ArrayProperty(new RefProperty("#/definitions/PersonAttributeCreate")))
+		        
 		        .required("dead").required("causeOfDeath");
 	}
 	

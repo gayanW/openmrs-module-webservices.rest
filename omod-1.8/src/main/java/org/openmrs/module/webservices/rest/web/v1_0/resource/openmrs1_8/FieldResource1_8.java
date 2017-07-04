@@ -11,7 +11,9 @@ package org.openmrs.module.webservices.rest.web.v1_0.resource.openmrs1_8;
 
 import io.swagger.models.Model;
 import io.swagger.models.ModelImpl;
+import io.swagger.models.properties.BooleanProperty;
 import io.swagger.models.properties.ObjectProperty;
+import io.swagger.models.properties.RefProperty;
 import io.swagger.models.properties.StringProperty;
 import org.openmrs.Field;
 import org.openmrs.api.context.Context;
@@ -37,36 +39,37 @@ import java.util.List;
 public class FieldResource1_8 extends MetadataDelegatingCrudResource<Field> {
 	
 	public Model getGETModel(Representation rep) {
-		ModelImpl modelImpl = new ModelImpl();
+		ModelImpl modelImpl = (ModelImpl) super.getGETModel(rep);
+		if (rep instanceof DefaultRepresentation || rep instanceof FullRepresentation) {
+			modelImpl
+			        .property("tableName", new StringProperty())
+			        .property("attributeName", new StringProperty())
+			        .property("defaultValue", new StringProperty())
+			        .property("selectMultiple", new BooleanProperty()._default(false));
+		}
 		if (rep instanceof DefaultRepresentation) {
-			modelImpl.property("uuid", new StringProperty())
-			        .property("display", new StringProperty())
-			        .property("name", new StringProperty())
-			        .property("description", new StringProperty())
-			        .property("fieldType", new StringProperty())
-			        //FIXME
-			        .property("concept", new StringProperty())
-			        //FIXME
-			        .property("tableName", new StringProperty()).property("attributeName", new StringProperty())
-			        .property("defaultValue", new StringProperty()).property("selectMultiple", new StringProperty())
-			        .property("retired", new StringProperty());
-			//			description.addSelfLink();
-			//			description.addLink("full", ".?v=" + RestConstants.REPRESENTATION_FULL);
+			modelImpl
+			        .property("fieldType", new RefProperty("#/definitions/FieldtypeGetRef"))
+			        .property("concept", new RefProperty("#/definitions/ConceptGetRef"));
 		} else if (rep instanceof FullRepresentation) {
-			modelImpl.property("uuid", new StringProperty()).property("display", new StringProperty())
-			        .property("name", new StringProperty()).property("description", new StringProperty())
-			        .property("fieldType", new ObjectProperty()).property("concept", new ObjectProperty())
-			        .property("tableName", new StringProperty()).property("attributeName", new StringProperty())
-			        .property("defaultValue", new StringProperty()).property("selectMultiple", new StringProperty())
-			        .property("retired", new StringProperty()).property("auditInfo", new StringProperty());
-			//			description.addSelfLink();
+			modelImpl
+			        .property("fieldType", new RefProperty("#/definitions/FieldtypeGet"))
+			        .property("concept", new RefProperty("#/definitions/ConceptGet"));
 		}
 		return modelImpl;
 	}
 	
 	@Override
-	public Model getCREATEModel(Representation representation) {
-		return null;
+	public Model getCREATEModel(Representation rep) {
+		return ((ModelImpl) super.getCREATEModel(rep))
+		        .property("fieldType", new RefProperty("#/definitions/FieldtypeCreate"))
+		        .property("selectMultiple", new BooleanProperty()._default(false))
+		        .property("concept", new RefProperty("#/definitions/ConceptCreate"))
+		        .property("tableName", new StringProperty())
+		        .property("attributeName", new StringProperty())
+		        .property("defaultValue", new StringProperty())
+		        
+		        .required("fieldType").required("selectMultiple");
 	}
 	
 	@Override

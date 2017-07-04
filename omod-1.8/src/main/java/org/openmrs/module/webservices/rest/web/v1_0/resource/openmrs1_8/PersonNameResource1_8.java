@@ -11,6 +11,7 @@ package org.openmrs.module.webservices.rest.web.v1_0.resource.openmrs1_8;
 
 import io.swagger.models.Model;
 import io.swagger.models.ModelImpl;
+import io.swagger.models.properties.BooleanProperty;
 import io.swagger.models.properties.ObjectProperty;
 import io.swagger.models.properties.StringProperty;
 import org.openmrs.Person;
@@ -107,9 +108,9 @@ public class PersonNameResource1_8 extends DelegatingSubResource<PersonName, Per
 	}
 	
 	@Override
-	public Model getGETModel(Representation representation) {
-		ModelImpl model = (ModelImpl) super.getGETModel(representation);
-		if (representation instanceof DefaultRepresentation) {
+	public Model getGETModel(Representation rep) {
+		ModelImpl model = (ModelImpl) super.getGETModel(rep);
+		if (rep instanceof DefaultRepresentation || rep instanceof FullRepresentation) {
 			model
 			        .property("display", new StringProperty())
 			        .property("uuid", new StringProperty())
@@ -117,50 +118,38 @@ public class PersonNameResource1_8 extends DelegatingSubResource<PersonName, Per
 			        .property("middleName", new StringProperty())
 			        .property("familyName", new StringProperty())
 			        .property("familyName2", new StringProperty())
-			        .property("voided", new StringProperty());
-			
-		} else if (representation instanceof FullRepresentation) {
+			        .property("voided", new BooleanProperty());
+		}
+		if (rep instanceof FullRepresentation) {
 			model
-			        .property("display", new StringProperty())
-			        .property("uuid", new StringProperty())
-			        .property("givenName", new StringProperty())
-			        .property("middleName", new StringProperty())
-			        .property("familyName", new StringProperty())
-			        .property("familyName2", new StringProperty())
-			        .property("preferred", new StringProperty())
+			        .property("preferred", new BooleanProperty())
 			        .property("prefix", new StringProperty())
 			        .property("familyNamePrefix", new StringProperty())
 			        .property("familyNameSuffix", new StringProperty())
-			        .property("degree", new StringProperty())
-			        .property("voided", new StringProperty())
-			        .property("auditInfo", new ObjectProperty());
-			
-		} else if (representation instanceof RefRepresentation) {
-			model
-			        .property("display", new StringProperty())
-			        .property("uuid", new StringProperty());
+			        .property("degree", new StringProperty());
 		}
 		return model;
 	}
 	
 	@Override
-	public Model getCREATEModel(Representation representation) {
+	public Model getCREATEModel(Representation rep) {
 		return new ModelImpl()
-				.property("givenName", new StringProperty())
-				.property("middleName", new StringProperty())
+		        .property("givenName", new StringProperty())
+		        .property("middleName", new StringProperty())
 		        .property("familyName", new StringProperty())
-				.property("familyName2", new StringProperty())
-		        .property("preferred", new StringProperty())
-				.property("prefix", new StringProperty())
+		        .property("familyName2", new StringProperty())
+		        .property("preferred", new BooleanProperty()._default(false))
+		        .property("prefix", new StringProperty())
 		        .property("familyNamePrefix", new StringProperty())
-				.property("familyNameSuffix", new StringProperty())
+		        .property("familyNameSuffix", new StringProperty())
 		        .property("degree", new StringProperty())
-				.required("givenName").required("familyName");
+		        
+		        .required("givenName").required("familyName");
 	}
 	
 	@Override
-	public Model getUPDATEModel(Representation representation) {
-		return getCREATEModel(representation);
+	public Model getUPDATEModel(Representation rep) {
+		return getCREATEModel(rep);
 	}
 	
 	/**

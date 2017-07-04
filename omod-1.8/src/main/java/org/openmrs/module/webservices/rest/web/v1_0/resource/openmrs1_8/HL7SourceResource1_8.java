@@ -62,8 +62,8 @@ public class HL7SourceResource1_8 extends MetadataDelegatingCrudResource<HL7Sour
 	}
 	
 	@Override
-	public Model getCREATEModel(Representation representation) {
-		return null;
+	public Model getCREATEModel(Representation rep) {
+		return super.getCREATEModel(rep);
 	}
 	
 	@Override

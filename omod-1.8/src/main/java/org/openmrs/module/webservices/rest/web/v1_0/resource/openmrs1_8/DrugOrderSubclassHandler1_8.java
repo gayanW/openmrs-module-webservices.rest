@@ -11,7 +11,10 @@ package org.openmrs.module.webservices.rest.web.v1_0.resource.openmrs1_8;
 
 import java.util.List;
 
+import ca.uhn.hl7v2.model.v23.datatype.MO;
 import io.swagger.models.Model;
+import io.swagger.models.ModelImpl;
+import io.swagger.models.properties.*;
 import org.openmrs.DrugOrder;
 import org.openmrs.Order;
 import org.openmrs.Patient;
@@ -131,13 +134,46 @@ public class DrugOrderSubclassHandler1_8 extends BaseDelegatingSubclassHandler<O
 	}
 	
 	@Override
-	public Model getGETModel(Representation representation) {
-		return null;
+	public Model getGETModel(Representation rep) {
+		OrderResource1_8 orderResource = (OrderResource1_8) Context.getService(RestService.class)
+		        .getResourceBySupportedClass(Order.class);
+		ModelImpl orderModel = (ModelImpl) orderResource.getGETModel(rep);
+		orderModel
+		        .property("dose", new DoubleProperty())
+		        .property("units", new StringProperty())
+		        .property("frequency", new StringProperty())
+		        .property("prn", new BooleanProperty())
+		        .property("complex", new BooleanProperty())
+		        .property("quantity", new IntegerProperty());
+		
+		if (rep instanceof DefaultRepresentation) {
+			orderModel
+			        .property("drug", new RefProperty("#/definitions/DrugGetRef"));
+		} else if (rep instanceof FullRepresentation) {
+			orderModel
+			        .property("drug", new RefProperty("#/definitions/DrugGet"));
+		}
+		return orderModel;
 	}
 	
 	@Override
-	public Model getCREATEModel(Representation representation) {
-		return null;
+	public Model getCREATEModel(Representation rep) {
+		OrderResource1_8 orderResource = (OrderResource1_8) Context.getService(RestService.class)
+		        .getResourceBySupportedClass(Order.class);
+		ModelImpl orderModel = (ModelImpl) orderResource.getCREATEModel(rep);
+		orderModel
+		        .property("dose", new DoubleProperty())
+		        .property("units", new StringProperty())
+		        .property("frequency", new StringProperty())
+		        .property("prn", new BooleanProperty())
+		        .property("complex", new BooleanProperty())
+		        .property("quantity", new IntegerProperty())
+		        .property("drug", new RefProperty("#/definitions/DrugCreate"));
+		
+		// DrugOrders have a specific hardcoded value for this property
+		orderModel.getProperties().remove("orderType");
+		
+		return orderModel;
 	}
 	
 	@Override

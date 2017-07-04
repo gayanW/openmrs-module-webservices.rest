@@ -13,6 +13,9 @@ import java.util.List;
 
 import io.swagger.models.Model;
 import io.swagger.models.ModelImpl;
+import io.swagger.models.properties.ArrayProperty;
+import io.swagger.models.properties.IntegerProperty;
+import io.swagger.models.properties.RefProperty;
 import io.swagger.models.properties.StringProperty;
 import org.openmrs.Cohort;
 import org.openmrs.api.context.Context;
@@ -91,30 +94,30 @@ public class CohortResource1_8 extends DataDelegatingCrudResource<Cohort> {
 	}
 	
 	public Model getGETModel(Representation rep) {
-		ModelImpl modelImpl = new ModelImpl();
-		if (rep instanceof DefaultRepresentation) {
-			modelImpl.property("uuid", new StringProperty()).property("display", new StringProperty())
-			        .property("name", new StringProperty()).property("description", new StringProperty())
-			        .property("voided", new StringProperty()).property("memberIds", new StringProperty()); //FIXME
-			//			description.addSelfLink();
-			//			description.addLink("full", ".?v=" + RestConstants.REPRESENTATION_FULL);
-		} else if (rep instanceof FullRepresentation) {
-			modelImpl.property("uuid", new StringProperty()).property("display", new StringProperty())
-			        .property("name", new StringProperty()).property("description", new StringProperty())
-			        .property("memberIds", new StringProperty()).property("voided", new StringProperty())
-			        .property("auditInfo", new StringProperty());
-		}
-		return modelImpl;
+		return ((ModelImpl) super.getGETModel(rep))
+		        .property("uuid", new StringProperty())
+		        .property("display", new StringProperty())
+		        .property("name", new StringProperty())
+		        .property("description", new StringProperty())
+		        .property("voided", new StringProperty())
+		        .property("memberIds", new ArrayProperty(new IntegerProperty())); //FIXME
 	}
 	
 	@Override
-	public Model getCREATEModel(Representation representation) {
-		return null;
+	public Model getCREATEModel(Representation rep) {
+		return new ModelImpl()
+		        .property("name", new StringProperty())
+		        .property("description", new StringProperty())
+		        .property("memberIds", new ArrayProperty(new IntegerProperty())) //FIXME
+		        .required("name").required("description").required("memberIds");
 	}
 	
 	@Override
 	public Model getUPDATEModel(Representation representation) {
-		return null;
+		return new ModelImpl()
+		        .property("name", new StringProperty())
+		        .property("description", new StringProperty())
+		        .required("name").required("description");
 	}
 	
 	/**

@@ -68,25 +68,33 @@ public class ConceptDescriptionResource1_8 extends DelegatingSubResource<Concept
 	}
 	
 	public Model getGETModel(Representation rep) {
-		ModelImpl modelImpl = new ModelImpl();
+		ModelImpl modelImpl = (ModelImpl) super.getGETModel(rep);
 		if (rep instanceof RefRepresentation) {
-			modelImpl.property("uuid", new StringProperty()).property("display", new StringProperty());
-			//			description.addSelfLink();
+			modelImpl
+			        .property("uuid", new StringProperty())
+			        .property("display", new StringProperty());
 		} else if (rep instanceof DefaultRepresentation) {
-			modelImpl.property("display", new StringProperty()).property("uuid", new StringProperty())
-			        .property("description", new StringProperty()).property("locale", new StringProperty());
-			//			description.addSelfLink();
-			//			description.addLink("full", ".?v=" + RestConstants.REPRESENTATION_FULL);
+			modelImpl
+			        .property("uuid", new StringProperty())
+			        .property("display", new StringProperty())
+			        .property("description", new StringProperty())
+			        .property("locale", new StringProperty());
 		} else if (rep instanceof FullRepresentation) {
-			modelImpl.property("uuid", new StringProperty()).property("description", new StringProperty())
-			        .property("locale", new StringProperty()).property("auditInfo", new StringProperty());
+			modelImpl
+			        .property("uuid", new StringProperty())
+			        .property("display", new StringProperty())
+			        .property("description", new StringProperty())
+			        .property("locale", new StringProperty());
 		}
 		return modelImpl;
 	}
 	
 	@Override
 	public Model getCREATEModel(Representation representation) {
-		return null;
+		return new ModelImpl()
+		        .property("description", new StringProperty())
+		        .property("locale", new StringProperty())
+		        .required("description").required("locale");
 	}
 	
 	@Override

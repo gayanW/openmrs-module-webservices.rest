@@ -94,22 +94,19 @@ public class PrivilegeResource1_8 extends MetadataDelegatingCrudResource<Privile
 	}
 	
 	@Override
-	public Model getGETModel(Representation representation) {
-		return super.getGETModel(representation); //FIXME
+	public Model getGETModel(Representation rep) {
+		return super.getGETModel(rep); //FIXME
 	}
 	
 	@Override
-	public Model getCREATEModel(Representation representation) {
-		return new ModelImpl()
-				.property("name", new StringProperty())
-				.property("description", new StringProperty())
-				.required("name");
+	public Model getCREATEModel(Representation rep) {
+		return super.getCREATEModel(rep);
 	}
 	
 	@Override
-	public Model getUPDATEModel(Representation representation) {
+	public Model getUPDATEModel(Representation rep) {
 		return new ModelImpl()
-				.property("description", new StringProperty());
+		        .property("description", new StringProperty());
 	}
 	
 	/**

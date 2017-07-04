@@ -10,6 +10,9 @@
 package org.openmrs.module.webservices.rest.web.v1_0.resource.openmrs1_8;
 
 import io.swagger.models.Model;
+import io.swagger.models.ModelImpl;
+import io.swagger.models.properties.ArrayProperty;
+import io.swagger.models.properties.RefProperty;
 import org.openmrs.Program;
 import org.openmrs.ProgramWorkflow;
 import org.openmrs.api.context.Context;
@@ -65,17 +68,32 @@ public class ProgramWorkflowResource1_8 extends MetadataDelegatingCrudResource<P
 	}
 	
 	@Override
-	public Model getGETModel(Representation representation) {
+	public Model getGETModel(Representation rep) {
+		ModelImpl model = (ModelImpl) super.getGETModel(rep);
+		if (rep instanceof DefaultRepresentation) {
+			model
+			        .property("concept", new RefProperty("#/definitions/ConceptGetRef"))
+			        .property("states", new ArrayProperty(new RefProperty("#/definitions/WorkflowStateGetRef")));
+		} else if (rep instanceof FullRepresentation) {
+			model
+			        .property("concept", new RefProperty("#/definitions/ConceptGet"))
+			        .property("states", new ArrayProperty(new RefProperty("#/definitions/WorkflowStateGet")));
+		} else if (rep instanceof RefRepresentation) {
+			model
+			        .property("concept", new RefProperty("#/definitions/ConceptGet"))
+			        .property("states", new ArrayProperty(new RefProperty("#/definitions/WorkflowStateGet")));
+			//FIXME should remove 'description'?
+		}
+		return model;
+	}
+	
+	@Override
+	public Model getCREATEModel(Representation rep) {
 		return null;
 	}
 	
 	@Override
-	public Model getCREATEModel(Representation representation) {
-		return null;
-	}
-	
-	@Override
-	public Model getUPDATEModel(Representation representation) {
+	public Model getUPDATEModel(Representation rep) {
 		return null;
 	}
 	
