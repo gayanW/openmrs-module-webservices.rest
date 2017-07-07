@@ -14,6 +14,9 @@ import java.util.List;
 import java.util.Locale;
 
 import io.swagger.models.Model;
+import io.swagger.models.ModelImpl;
+import io.swagger.models.properties.RefProperty;
+import io.swagger.models.properties.StringProperty;
 import org.openmrs.ConceptClass;
 import org.openmrs.ConceptName;
 import org.openmrs.ConceptSearchResult;
@@ -70,17 +73,33 @@ public class ConceptSearchResource1_9 extends BaseDelegatingResource<ConceptSear
 	}
 	
 	@Override
-	public Model getGETModel(Representation representation) {
+	public Model getGETModel(Representation rep) {
+		ModelImpl model = (ModelImpl) super.getGETModel(rep);
+		if (rep instanceof DefaultRepresentation || rep instanceof FullRepresentation) {
+			model
+					.property("display", new StringProperty());
+		}
+		if (rep instanceof DefaultRepresentation) {
+			model
+					.property("concept", new RefProperty("#/definitions/ConceptGetRef"))
+					.property("conceptName", new RefProperty("#/definitions/ConceptNameGetRef"));
+		} else if (rep instanceof FullRepresentation) {
+			model
+					.property("concept", new RefProperty("#/definitions/ConceptGet"))
+					.property("conceptName", new RefProperty("#/definitions/ConceptNameGetRef"))
+					.property("word", new StringProperty())
+					.property("transientWeight", new StringProperty());
+		}
+		return model;
+	}
+	
+	@Override
+	public Model getCREATEModel(Representation rep) {
 		return null;
 	}
 	
 	@Override
-	public Model getCREATEModel(Representation representation) {
-		return null;
-	}
-	
-	@Override
-	public Model getUPDATEModel(Representation representation) {
+	public Model getUPDATEModel(Representation rep) {
 		return null;
 	}
 	

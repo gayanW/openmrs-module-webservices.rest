@@ -195,8 +195,8 @@ public class LocationResource1_8 extends MetadataDelegatingCrudResource<Location
 	}
 	
 	@Override
-	public Model getUPDATEModel(Representation representation) {
-		return null;
+	public Model getUPDATEModel(Representation rep) {
+		return getCREATEModel(rep);
 	}
 	
 	/**

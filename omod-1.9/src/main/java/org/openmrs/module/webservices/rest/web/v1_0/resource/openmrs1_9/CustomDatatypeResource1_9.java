@@ -13,6 +13,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.swagger.models.Model;
+import io.swagger.models.ModelImpl;
+import io.swagger.models.properties.ArrayProperty;
+import io.swagger.models.properties.RefProperty;
+import io.swagger.models.properties.StringProperty;
 import org.openmrs.api.context.Context;
 import org.openmrs.customdatatype.CustomDatatype;
 import org.openmrs.customdatatype.CustomDatatypeHandler;
@@ -99,17 +103,31 @@ public class CustomDatatypeResource1_9 extends DelegatingCrudResource<CustomData
 	}
 	
 	@Override
-	public Model getGETModel(Representation representation) {
+	public Model getGETModel(Representation rep) {
+		ModelImpl model = (ModelImpl) super.getGETModel(rep);
+		if (rep instanceof DefaultRepresentation || rep instanceof FullRepresentation) {
+			model
+					.property("uuid", new StringProperty())
+					.property("display", new StringProperty())
+					.property("datatypeClassname", new StringProperty());
+		}
+		if (rep instanceof DefaultRepresentation) {
+			model
+					.property("handlers", new ArrayProperty(new RefProperty("#/definitions/CustomdatatypeHandlersGetRef")));
+		} else if (rep instanceof FullRepresentation) {
+			model
+					.property("handlers", new ArrayProperty(new RefProperty("#/definitions/CustomdatatypeHandlersGet")));
+		}
+		return model;
+	}
+	
+	@Override
+	public Model getCREATEModel(Representation rep) {
 		return null;
 	}
 	
 	@Override
-	public Model getCREATEModel(Representation representation) {
-		return null;
-	}
-	
-	@Override
-	public Model getUPDATEModel(Representation representation) {
+	public Model getUPDATEModel(Representation rep) {
 		return null;
 	}
 	

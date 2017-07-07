@@ -68,13 +68,17 @@ public class ConceptDatatypeResource1_8 extends MetadataDelegatingCrudResource<C
 	}
 	
 	public Model getGETModel(Representation rep) {
-		return ((ModelImpl) super.getGETModel(rep))
-		        .property("uuid", new StringProperty())
-		        .property("display", new StringProperty())
-		        .property("name", new StringProperty())
-		        .property("description", new StringProperty())
-		        .property("hl7Abbreviation", new StringProperty())
-		        .property("retired", new BooleanProperty());
+		ModelImpl model = ((ModelImpl) super.getGETModel(rep));
+		if (rep instanceof DefaultRepresentation || rep instanceof FullRepresentation) {
+			model
+					.property("uuid", new StringProperty())
+					.property("display", new StringProperty())
+					.property("name", new StringProperty())
+					.property("description", new StringProperty())
+					.property("hl7Abbreviation", new StringProperty())
+					.property("retired", new BooleanProperty());
+		}
+		return model;
 	}
 	
 	@Override

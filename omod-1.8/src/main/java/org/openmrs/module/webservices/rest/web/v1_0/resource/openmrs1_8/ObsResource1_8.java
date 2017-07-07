@@ -201,7 +201,7 @@ public class ObsResource1_8 extends DataDelegatingCrudResource<Obs> implements U
 	@Override
 	public Model getCREATEModel(Representation rep) {
 		return new ModelImpl()
-		        .property("person", new RefProperty("#/definitions/PersonCreate"))
+		        .property("person", new StringProperty())
 		        .property("obsDatetime", new DateProperty())
 		        .property("concept", new RefProperty("#/definitions/ConceptCreate"))
 		        .property("location", new RefProperty("#/definitions/LocationCreate"))
