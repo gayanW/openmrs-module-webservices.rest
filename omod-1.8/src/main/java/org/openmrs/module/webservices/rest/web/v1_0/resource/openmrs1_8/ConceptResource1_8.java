@@ -235,30 +235,44 @@ public class ConceptResource1_8 extends DelegatingCrudResource<Concept> {
 	
 	@Override
 	public Model getCREATEModel(Representation rep) {
-		return new ModelImpl()
-		        .property("names", new ArrayProperty(new RefProperty("#/definitions/ConceptNameCreate"))) //FIXME
-		        .property("datatype", new RefProperty("#/definitions/ConceptdatatypeCreate")) //FIXME
-		        .property("conceptClass", new RefProperty("#/definitions/ConceptclassCreate")) //FIXME
-		        
-		        .property("descriptions", new ArrayProperty(new RefProperty("#/definitions/ConceptDescriptionCreate"))) //FIXME
-		        .property("set", new BooleanProperty())
-		        .property("version", new StringProperty())
-		        .property("mappings", new ArrayProperty(new RefProperty("#/definitions/ConceptMappingCreate"))) //FIXME
-		        .property("answers", new ArrayProperty(new ObjectProperty())) //FIXME
-		        .property("setMembers", new ArrayProperty(new ObjectProperty())) //FIXME
-		        
-		        //ConceptNumeric properties
-		        .property("hiNormal", new StringProperty())
-		        .property("hiAbsolute", new StringProperty())
-		        .property("hiCritical", new StringProperty())
-		        .property("lowNormal", new StringProperty())
-		        .property("lowAbsolute", new StringProperty())
-		        .property("lowCritical", new StringProperty())
-		        .property("units", new StringProperty())
-		        .property("allowDecimal", new StringProperty())
-		        .property("displayPrecision", new StringProperty())
-		        
-		        .required("names").required("datatype").required("conceptClass");
+		ModelImpl model = new ModelImpl();
+		if (rep instanceof DefaultRepresentation || rep instanceof FullRepresentation) {
+			model
+					.property("datatype", new StringProperty().example("uuid"))
+					.property("set", new BooleanProperty())
+					.property("version", new StringProperty())
+					.property("answers", new ArrayProperty(new ObjectProperty())) //FIXME
+					.property("setMembers", new ArrayProperty(new ObjectProperty())) //FIXME
+
+					//ConceptNumeric properties
+					.property("hiNormal", new StringProperty())
+					.property("hiAbsolute", new StringProperty())
+					.property("hiCritical", new StringProperty())
+					.property("lowNormal", new StringProperty())
+					.property("lowAbsolute", new StringProperty())
+					.property("lowCritical", new StringProperty())
+					.property("units", new StringProperty())
+					.property("allowDecimal", new StringProperty())
+					.property("displayPrecision", new StringProperty())
+
+					.required("names").required("datatype").required("conceptClass");
+
+		}
+		if (rep instanceof DefaultRepresentation) {
+			model
+					.property("names", new ArrayProperty(new StringProperty()))
+					.property("conceptClass", new StringProperty())
+					.property("descriptions", new ArrayProperty(new StringProperty()))
+					.property("mappings", new ArrayProperty(new StringProperty()));
+		}
+		else if (rep instanceof FullRepresentation) {
+			model
+					.property("names", new ArrayProperty(new RefProperty("#/definitions/ConceptNameCreate")))
+					.property("conceptClass", new RefProperty("#/definitions/ConceptclassCreate"))
+					.property("descriptions", new ArrayProperty(new RefProperty("#/definitions/ConceptDescriptionCreate")))
+					.property("mappings", new ArrayProperty(new RefProperty("#/definitions/ConceptMappingCreate")));
+		}
+		return model;
 	}
 	
 	@Override

@@ -203,13 +203,13 @@ public class ObsResource1_8 extends DataDelegatingCrudResource<Obs> implements U
 		return new ModelImpl()
 		        .property("person", new StringProperty())
 		        .property("obsDatetime", new DateProperty())
-		        .property("concept", new RefProperty("#/definitions/ConceptCreate"))
-		        .property("location", new RefProperty("#/definitions/LocationCreate"))
-		        .property("order", new RefProperty("#/definitions/OrderCreate"))
-		        .property("encounter", new RefProperty("#/definitions/EncounterCreate"))
+		        .property("concept", new StringProperty())
+		        .property("location", new StringProperty())
+		        .property("order", new StringProperty())
+		        .property("encounter", new StringProperty())
 		        .property("accessionNumber", new StringProperty())
-		        .property("groupMembers", new ArrayProperty(new RefProperty("#/definitions/ObsCreate")))
-		        .property("valueCodedName", new RefProperty("#/definitions/ConceptNameCreate"))
+		        .property("groupMembers", new ArrayProperty(new StringProperty()))
+		        .property("valueCodedName", new StringProperty())
 		        .property("comment", new StringProperty())
 		        .property("voided", new BooleanProperty())
 		        .property("value", new StringProperty()) //FIXME type
@@ -220,7 +220,7 @@ public class ObsResource1_8 extends DataDelegatingCrudResource<Obs> implements U
 	
 	@Override
 	public Model getUPDATEModel(Representation rep) {
-		return null;
+		return new ModelImpl(); //FIXME missing props
 	}
 	
 	/**

@@ -74,7 +74,7 @@ public class FieldResource1_8 extends MetadataDelegatingCrudResource<Field> {
 	
 	@Override
 	public Model getUPDATEModel(Representation representation) {
-		return null;
+		return new ModelImpl(); //FIXME missing props
 	}
 	
 	/**

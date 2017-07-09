@@ -105,11 +105,6 @@ public class ProblemResource1_8 extends BaseActiveListItemResource1_8<Problem> {
 		        .required("problem");
 	}
 	
-	@Override
-	public Model getUPDATEModel(Representation rep) {
-		return null;
-	}
-	
 	/**
 	 * @see org.openmrs.module.webservices.rest.web.resource.impl.BaseDelegatingResource#newDelegate()
 	 */

@@ -54,11 +54,6 @@ public class EncounterTypeResource1_8 extends MetadataDelegatingCrudResource<Enc
 		        .required("description");
 	}
 	
-	@Override
-	public Model getUPDATEModel(Representation representation) {
-		return null;
-	}
-	
 	/**
 	 * @see DelegatingCrudResource#newDelegate()
 	 */

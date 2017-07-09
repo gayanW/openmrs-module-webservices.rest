@@ -89,11 +89,6 @@ public class ConceptSourceResource1_8 extends MetadataDelegatingCrudResource<Con
 		        .required("name").required("description");
 	}
 	
-	@Override
-	public Model getUPDATEModel(Representation representation) {
-		return null;
-	}
-	
 	/**
 	 * @see org.openmrs.module.webservices.rest.web.resource.impl.BaseDelegatingResource#getCreatableProperties()
 	 */

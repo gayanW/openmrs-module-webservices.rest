@@ -109,11 +109,6 @@ public class FieldAnswerResource1_8 extends DelegatingSubResource<FieldAnswer, F
 		        .required("field").required("concept");
 	}
 	
-	@Override
-	public Model getUPDATEModel(Representation representation) {
-		return null;
-	}
-	
 	/**
 	 * @see org.openmrs.module.webservices.rest.web.resource.impl.MetadataDelegatingCrudResource#getCreatableProperties()
 	 */

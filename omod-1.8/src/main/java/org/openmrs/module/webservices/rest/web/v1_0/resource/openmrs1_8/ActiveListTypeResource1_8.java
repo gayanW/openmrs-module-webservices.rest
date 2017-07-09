@@ -61,21 +61,6 @@ public class ActiveListTypeResource1_8 extends MetadataDelegatingCrudResource<Ac
 		throw new ResourceDoesNotSupportOperationException();
 	}
 	
-	@Override
-	public Model getGETModel(Representation rep) {
-		return super.getGETModel(rep);
-	}
-	
-	@Override
-	public Model getCREATEModel(Representation rep) {
-		return super.getCREATEModel(rep);
-	}
-	
-	@Override
-	public Model getUPDATEModel(Representation rep) {
-		return null;
-	}
-	
 	/**
 	 * @see org.openmrs.module.webservices.rest.web.resource.impl.DelegatingCrudResource#doGetAll(org.openmrs.module.webservices.rest.web.RequestContext)
 	 */

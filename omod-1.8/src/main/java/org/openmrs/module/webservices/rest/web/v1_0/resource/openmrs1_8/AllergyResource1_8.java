@@ -88,11 +88,6 @@ public class AllergyResource1_8 extends BaseActiveListItemResource1_8<Allergy> {
 		        .property("allergen", new ObjectProperty()); //FIXME
 	}
 	
-	@Override
-	public Model getUPDATEModel(Representation representation) {
-		return null;
-	}
-	
 	/**
 	 * @see org.openmrs.module.webservices.rest.web.resource.impl.BaseDelegatingResource#newDelegate()
 	 */

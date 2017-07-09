@@ -48,7 +48,7 @@ public class FieldTypeResource1_8 extends MetadataDelegatingCrudResource<FieldTy
 	
 	@Override
 	public Model getUPDATEModel(Representation rep) {
-		return null;
+		return new ModelImpl(); //FIXME missing props
 	}
 	
 	/**

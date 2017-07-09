@@ -9,6 +9,9 @@
  */
 package org.openmrs.module.webservices.rest.web.v1_0.resource.openmrs1_11;
 
+import io.swagger.models.Model;
+import io.swagger.models.ModelImpl;
+import io.swagger.models.properties.StringProperty;
 import org.openmrs.Obs;
 import org.openmrs.module.webservices.rest.web.RestConstants;
 import org.openmrs.module.webservices.rest.web.annotation.Resource;
@@ -34,7 +37,21 @@ public class ObsResource1_11 extends ObsResource1_9 {
 		}
 		return description;
 	}
-	
+
+	@Override
+	public Model getGETModel(Representation rep) {
+		return ((ModelImpl) super.getGETModel(rep))
+				.property("formFieldPath", new StringProperty())
+				.property("formFieldNamespace", new StringProperty());
+	}
+
+	@Override
+	public Model getCREATEModel(Representation rep) {
+		return ((ModelImpl) super.getCREATEModel(rep))
+				.property("formFieldPath", new StringProperty())
+				.property("formFieldNamespace", new StringProperty());
+	}
+
 	/**
 	 * @see org.openmrs.module.webservices.rest.web.resource.impl.BaseDelegatingResource#getCreatableProperties()
 	 */

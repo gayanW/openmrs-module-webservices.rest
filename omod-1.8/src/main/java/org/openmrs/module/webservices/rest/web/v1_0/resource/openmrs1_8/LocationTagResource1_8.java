@@ -105,11 +105,6 @@ public class LocationTagResource1_8 extends MetadataDelegatingCrudResource<Locat
 		        .property("retiredReason", new StringProperty());
 	}
 	
-	@Override
-	public Model getUPDATEModel(Representation rep) {
-		return null;
-	}
-	
 	/**
 	 * @see org.openmrs.module.webservices.rest.web.resource.impl.DelegatingCrudResource#doSearch(org.openmrs.module.webservices.rest.web.RequestContext)
 	 */

@@ -119,7 +119,7 @@ public class HL7MessageResource1_8 extends DataDelegatingCrudResource<IncomingHl
 	@Override
 	public Model getCREATEModel(Representation rep) {
 		return new ModelImpl()
-		        .property("hl7", new ObjectProperty()) //FIXME TYPE
+		        .property("hl7", new StringProperty()) //FIXME TYPE
 		        .required("hl7");
 	}
 	

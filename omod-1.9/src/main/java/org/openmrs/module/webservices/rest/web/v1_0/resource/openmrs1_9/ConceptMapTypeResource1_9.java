@@ -98,11 +98,6 @@ public class ConceptMapTypeResource1_9 extends MetadataDelegatingCrudResource<Co
 				.property("isHidden", new BooleanProperty());
 	}
 
-	@Override
-	public Model getUPDATEModel(Representation rep) {
-		return null;
-	}
-
 	/**
 	 * @see DelegatingCrudResource#newDelegate()
 	 */

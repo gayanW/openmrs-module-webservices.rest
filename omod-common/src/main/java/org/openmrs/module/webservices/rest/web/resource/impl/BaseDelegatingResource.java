@@ -68,16 +68,16 @@ public abstract class BaseDelegatingResource<T> extends BaseDelegatingConverter<
 	private final Log log = LogFactory.getLog(getClass());
 	
 	@Override
-	public Model getGETModel(Representation representation) {
+	public Model getGETModel(Representation rep) {
 		ModelImpl model = new ModelImpl();
-		if (representation instanceof DefaultRepresentation) {
+		if (rep instanceof DefaultRepresentation) {
 			model
 			        .property("links", new ArrayProperty()
 			                .items(new ObjectProperty()
 			                        .property("rel", new StringProperty().example("self|full"))
 			                        .property("uri", new StringProperty(StringProperty.Format.URI))));
 			
-		} else if (representation instanceof FullRepresentation) {
+		} else if (rep instanceof FullRepresentation) {
 			model
 			        .property("auditInfo", new StringProperty())
 			        .property("links", new ArrayProperty()
@@ -85,7 +85,7 @@ public abstract class BaseDelegatingResource<T> extends BaseDelegatingConverter<
 			                        .property("rel", new StringProperty()).example("self")
 			                        .property("uri", new StringProperty(StringProperty.Format.URI))));
 			
-		} else if (representation instanceof RefRepresentation) {
+		} else if (rep instanceof RefRepresentation) {
 			model
 					.property("links", new ArrayProperty()
 							.items(new ObjectProperty()
@@ -297,7 +297,16 @@ public abstract class BaseDelegatingResource<T> extends BaseDelegatingConverter<
 		}
 		return description;
 	}
-	
+
+	@Override
+	public Model getUPDATEModel(Representation rep) {
+		ModelImpl model = (ModelImpl) getCREATEModel(rep);
+		for (String property : getPropertiesToExposeAsSubResources()) {
+			model.getProperties().remove(property);
+		}
+		return model;
+	}
+
 	/**
 	 * Implementations should override this method if they support sub-resources
 	 * 

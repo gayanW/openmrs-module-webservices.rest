@@ -699,7 +699,8 @@ public class SwaggerSpecificationCreator {
 	
 	private void addIndividualPath(io.swagger.models.Path pathCheck, String resourceParentName, String resourceName,
 	        io.swagger.models.Path path, String pathSuffix) {
-		if (pathCheck != null) {
+//		if (pathCheck != null) {
+		if (path.getOperations().size() != 0) {
 			if (resourceParentName == null) {
 				//				pathMap.put("/" + resourceName + pathSuffix, path);
 				swagger.path("/" + resourceName + pathSuffix, path);
@@ -1243,6 +1244,7 @@ public class SwaggerSpecificationCreator {
 		String definitionName = getSchemaName(resourceName, resourceParentName, operationEnum);
 		Model model = null;
 		Model modelRef = null;
+		Model modelFull = null;
 		//FIXME ex:
 		// java.lang.AbstractMethodError: org.openmrs.module.reportingrest.web.resource.EvaluatedCohort
 		//		resourceHandler.getClass().getMethod("getGETModel", Representation.class);
@@ -1255,15 +1257,19 @@ public class SwaggerSpecificationCreator {
 			modelRef = resourceHandler.getGETModel(Representation.REF); //FIXME REPRESENTATION
 		} else if (definitionName.endsWith("Create")) {
 			model = resourceHandler.getCREATEModel(Representation.DEFAULT); //FIXME REPRESENTATION
-			modelRef = resourceHandler.getCREATEModel(Representation.REF); //FIXME REPRESENTATION
+			modelFull = resourceHandler.getCREATEModel(Representation.FULL); //FIXME REPRESENTATION
 		} else if (definitionName.endsWith("Update")) {
 			model = resourceHandler.getUPDATEModel(Representation.DEFAULT); //FIXME REPRESENTATION
-			modelRef = resourceHandler.getUPDATEModel(Representation.REF); //FIXME REPRESENTATION
 		}
-		
+
 		if (model != null) {
-			this.swagger.addDefinition(definitionName, model);
-			this.swagger.addDefinition(definitionName + "Ref", modelRef);
+			swagger.addDefinition(definitionName, model);
+		}
+		if (modelRef != null) {
+			swagger.addDefinition(definitionName + "Ref", modelRef);
+		}
+		if (modelFull != null) {
+			swagger.addDefinition(definitionName + "Full", modelFull);
 		}
 	}
 	

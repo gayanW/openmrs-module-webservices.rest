@@ -10,6 +10,11 @@
 package org.openmrs.module.webservices.rest.web.v1_0.resource.openmrs1_9;
 
 import io.swagger.models.Model;
+import io.swagger.models.ModelImpl;
+import io.swagger.models.properties.ArrayProperty;
+import io.swagger.models.properties.BooleanProperty;
+import io.swagger.models.properties.RefProperty;
+import io.swagger.models.properties.StringProperty;
 import org.openmrs.Provider;
 import org.openmrs.ProviderAttribute;
 import org.openmrs.api.context.Context;
@@ -29,6 +34,7 @@ import org.openmrs.module.webservices.rest.web.resource.impl.MetadataDelegatingC
 import org.openmrs.module.webservices.rest.web.resource.impl.NeedsPaging;
 import org.openmrs.module.webservices.rest.web.response.ResponseException;
 
+import javax.jws.WebParam;
 import java.util.List;
 import java.util.Set;
 
@@ -109,18 +115,44 @@ public class ProviderResource1_9 extends MetadataDelegatingCrudResource<Provider
 	}
 	
 	@Override
-	public Model getGETModel(Representation representation) {
-		return null;
+	public Model getGETModel(Representation rep) {
+		ModelImpl model = (ModelImpl) super.getGETModel(rep);
+		if (rep instanceof DefaultRepresentation || rep instanceof FullRepresentation) {
+			model
+					.property("person", new RefProperty("#/definitions/PersonGetRef"))
+					.property("identifier", new StringProperty())
+					.property("attributes", new ArrayProperty(new RefProperty("#/definitions/ProviderAttributeGetRef")))
+					.property("preferredHandlerClassname", new StringProperty());
+		}
+		if (rep instanceof FullRepresentation) {
+			model
+					.property("person", new RefProperty("#/definitions/PersonGet"))
+					.property("attributes", new ArrayProperty(new RefProperty("#/definitions/ProviderAttributeGet")));
+		}
+		return model;
 	}
-	
+
 	@Override
-	public Model getCREATEModel(Representation representation) {
-		return null;
+	public Model getUPDATEModel(Representation rep) {
+		return getCREATEModel(rep);
 	}
-	
+
 	@Override
-	public Model getUPDATEModel(Representation representation) {
-		return null;
+	public Model getCREATEModel(Representation rep) {
+		ModelImpl model = ((ModelImpl) super.getCREATEModel(rep))
+				.property("person", new StringProperty())
+				.property("identifier", new StringProperty())
+				.property("attributes", new ArrayProperty(new StringProperty()))
+				.property("retired", new BooleanProperty())
+
+				.required("person").required("identifier");
+		if (rep instanceof FullRepresentation) {
+			model
+					.property("person", new RefProperty("#/definitions/PersonCreate"))
+					.property("attributes", new ArrayProperty(new RefProperty("#/definitions/ProviderAttributeCreate")));
+		}
+		//FIXME: name prop required or not?
+		return model;
 	}
 	
 	/**

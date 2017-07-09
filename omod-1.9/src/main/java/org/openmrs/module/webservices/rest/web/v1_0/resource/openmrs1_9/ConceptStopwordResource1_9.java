@@ -107,11 +107,6 @@ public class ConceptStopwordResource1_9 extends DelegatingCrudResource<ConceptSt
 		        .required("value");
 	}
 	
-	@Override
-	public Model getUPDATEModel(Representation rep) {
-		return null;
-	}
-	
 	/**
 	 * @see DelegatingCrudResource#getByUniqueId(java.lang.String)
 	 */

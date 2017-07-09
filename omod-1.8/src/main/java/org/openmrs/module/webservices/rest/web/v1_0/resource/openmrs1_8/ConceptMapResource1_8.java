@@ -93,11 +93,6 @@ public class ConceptMapResource1_8 extends DelegatingSubResource<ConceptMap, Con
 		        .required("source").required("sourceCode");
 	}
 	
-	@Override
-	public Model getUPDATEModel(Representation representation) {
-		return null;
-	}
-	
 	/**
 	 * @see org.openmrs.module.webservices.rest.web.resource.impl.BaseDelegatingResource#getCreatableProperties()
 	 */

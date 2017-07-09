@@ -136,19 +136,4 @@ public class VisitAttributeResource1_9 extends BaseAttributeCrudResource1_9<Visi
 	public void purge(VisitAttribute delegate, RequestContext context) throws ResponseException {
 		throw new UnsupportedOperationException("Cannot purge VisitAttribute");
 	}
-	
-	@Override
-	public Model getGETModel(Representation representation) {
-		return null;
-	}
-	
-	@Override
-	public Model getCREATEModel(Representation representation) {
-		return null;
-	}
-	
-	@Override
-	public Model getUPDATEModel(Representation representation) {
-		return null;
-	}
 }

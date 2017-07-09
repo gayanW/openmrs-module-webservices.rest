@@ -76,21 +76,6 @@ public class ConceptAttributeTypeResource2_0 extends BaseAttributeTypeCrudResour
 		service().purgeConceptAttributeType(delegate);
 	}
 	
-	@Override
-	public Model getGETModel(Representation representation) {
-		return null;
-	}
-	
-	@Override
-	public Model getCREATEModel(Representation representation) {
-		return null;
-	}
-	
-	@Override
-	public Model getUPDATEModel(Representation representation) {
-		return null;
-	}
-	
 	/**
 	 * @see org.openmrs.module.webservices.rest.web.resource.impl.DelegatingCrudResource#doSearch(RequestContext)
 	 */

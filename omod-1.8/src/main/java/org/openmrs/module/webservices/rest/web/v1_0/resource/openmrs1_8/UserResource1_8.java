@@ -172,11 +172,6 @@ public class UserResource1_8 extends MetadataDelegatingCrudResource<UserAndPassw
 		        .required("username").required("password").required("person");
 	}
 	
-	@Override
-	public Model getUPDATEModel(Representation rep) {
-		return null;
-	}
-	
 	/**
 	 * @see org.openmrs.module.webservices.rest.web.resource.impl.DelegatingCrudResource#newDelegate()
 	 */

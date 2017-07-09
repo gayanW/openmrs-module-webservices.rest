@@ -257,7 +257,7 @@ public class OrderResource1_8 extends DataDelegatingCrudResource<Order> {
 	
 	@Override
 	public Model getUPDATEModel(Representation rep) {
-		return null;
+		return new ModelImpl(); //FIXME missing props
 	}
 	
 	/**

@@ -126,21 +126,6 @@ public class ConceptAttributeResource2_0 extends BaseAttributeCrudResource1_9<Co
 		throw new UnsupportedOperationException("Cannot purge ConceptAttribute");
 	}
 	
-	@Override
-	public Model getGETModel(Representation representation) {
-		return null;
-	}
-	
-	@Override
-	public Model getCREATEModel(Representation representation) {
-		return null;
-	}
-	
-	@Override
-	public Model getUPDATEModel(Representation representation) {
-		return null;
-	}
-	
 	/**
 	 * @see org.openmrs.module.webservices.rest.web.resource.impl.BaseDelegatingResource#getResourceVersion()
 	 */

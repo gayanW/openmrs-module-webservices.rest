@@ -123,19 +123,4 @@ public class LocationAttributeResource1_9 extends BaseAttributeCrudResource1_9<L
 	public void purge(LocationAttribute delegate, RequestContext context) throws ResponseException {
 		throw new UnsupportedOperationException("Cannot purge LocationAttribute");
 	}
-	
-	@Override
-	public Model getGETModel(Representation representation) {
-		return null;
-	}
-	
-	@Override
-	public Model getCREATEModel(Representation representation) {
-		return null;
-	}
-	
-	@Override
-	public Model getUPDATEModel(Representation representation) {
-		return null;
-	}
 }

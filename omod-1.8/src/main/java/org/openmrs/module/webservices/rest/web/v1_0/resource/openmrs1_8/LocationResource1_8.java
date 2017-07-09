@@ -189,9 +189,9 @@ public class LocationResource1_8 extends MetadataDelegatingCrudResource<Location
 		        .property("address4", new StringProperty())
 		        .property("address5", new StringProperty())
 		        .property("address6", new StringProperty())
-		        .property("tags", new ArrayProperty(new RefProperty("#/definitions/LocationtagCreate")))
-		        .property("parentLocation", new RefProperty("#/definitions/LocationCreate"))
-		        .property("childLocations", new ArrayProperty(new RefProperty("#/definitions/LocationCreate")));
+		        .property("tags", new ArrayProperty(new StringProperty()))
+		        .property("parentLocation", new StringProperty())
+		        .property("childLocations", new ArrayProperty(new StringProperty()));
 	}
 	
 	@Override

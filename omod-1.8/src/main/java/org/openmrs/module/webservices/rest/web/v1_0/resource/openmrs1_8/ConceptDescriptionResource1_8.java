@@ -97,11 +97,6 @@ public class ConceptDescriptionResource1_8 extends DelegatingSubResource<Concept
 		        .required("description").required("locale");
 	}
 	
-	@Override
-	public Model getUPDATEModel(Representation representation) {
-		return null;
-	}
-	
 	/**
 	 * @see org.openmrs.module.webservices.rest.web.resource.impl.BaseDelegatingResource#getCreatableProperties()
 	 */

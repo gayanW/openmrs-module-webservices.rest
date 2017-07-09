@@ -116,7 +116,7 @@ public class ConceptReferenceTermMapResource1_9 extends DelegatingCrudResource<C
 	
 	@Override
 	public Model getUPDATEModel(Representation rep) {
-		return null;
+		return new ModelImpl(); //FIXME missing props
 	}
 	
 	/**

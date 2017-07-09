@@ -90,13 +90,13 @@ public abstract class BaseActiveListItemResource1_8<T extends ActiveListItem> ex
 		if (rep instanceof DefaultRepresentation) {
 			model
 			        .property("person", new RefProperty("#/definitions/PersonGet"))
-			        .property("activeListType", new RefProperty("#/definitions/ActivelisttypeGet"))
+			        .property("activeListType", new StringProperty())  //FIXME type
 			        .property("startObs", new RefProperty("#/definitions/ObsGet"))
 			        .property("stopObs", new RefProperty("#/definitions/ObsGetRef"));
 		} else if (rep instanceof FullRepresentation) {
 			model
 			        .property("person", new RefProperty("#/definitions/PersonGetRef"))
-			        .property("activeListType", new RefProperty("#/definitions/ActivelisttypeGetRef"))
+			        .property("activeListType", new StringProperty()) //FIXME type
 			        .property("startObs", new RefProperty("#/definitions/ObsGetRef"))
 			        .property("stopObs", new RefProperty("#/definitions/ObsGetRef"));
 		}

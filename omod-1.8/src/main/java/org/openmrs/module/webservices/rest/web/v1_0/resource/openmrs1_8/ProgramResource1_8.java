@@ -141,7 +141,7 @@ public class ProgramResource1_8 extends MetadataDelegatingCrudResource<Program> 
 	
 	@Override
 	public Model getUPDATEModel(Representation rep) {
-		return null;
+		return new ModelImpl(); //FIXME missing props
 	}
 	
 	@Override
