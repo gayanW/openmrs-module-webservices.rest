@@ -117,6 +117,8 @@ public class SwaggerSpecificationCreator {
 	}
 
 	private void addDefaultDefinitions() {
+		// schema of the default response
+		// received from fetchAll and search operations
 		swagger.addDefinition("FetchAll", new ModelImpl()
 				.property("results", new ArrayProperty()
 						.items(new ObjectProperty()
@@ -700,7 +702,7 @@ public class SwaggerSpecificationCreator {
 	private void addIndividualPath(io.swagger.models.Path pathCheck, String resourceParentName, String resourceName,
 	        io.swagger.models.Path path, String pathSuffix) {
 //		if (pathCheck != null) {
-		if (path.getOperations().size() != 0) {
+		if (!path.getOperations().isEmpty()) {
 			if (resourceParentName == null) {
 				//				pathMap.put("/" + resourceName + pathSuffix, path);
 				swagger.path("/" + resourceName + pathSuffix, path);
@@ -733,7 +735,7 @@ public class SwaggerSpecificationCreator {
 	}
 	
 	private void addSearchOperations(DelegatingResourceHandler<?> resourceHandler, String resourceName,
-	        String resourceParentName, Path getAllPath, Map<String, Path> pathMap) {
+	                                 io.swagger.models.Path getAllPath) {
 		if (resourceName == null) {
 			return;
 		}
@@ -743,44 +745,71 @@ public class SwaggerSpecificationCreator {
 		
 		if (hasSearchHandler || hasDoSearch) {
 			// if the path has no operations, add a note that at least one search parameter must be specified
-			Operation get;
-			if (getAllPath.getOperations().isEmpty() || getAllPath.getOperations().get("get") == null) {
+			io.swagger.models.Operation operation;
+			// query parameter
+			io.swagger.models.parameters.Parameter q = new QueryParameter().name("q")
+					.description("The search query")
+					.type("string");
+
+			if (getAllPath.getOperations().isEmpty() || getAllPath.getGet() == null) {
 				// create search-only operation
-				get = new Operation();
-				get.setName("get");
+				operation = new io.swagger.models.Operation();
+				operation.tag(resourceName);
+//				get.setName("get");
 				
-				get.setSummary("Search for " + resourceName);
-				get.setDescription("At least one search parameter must be specified");
+				operation.setSummary("Search for " + resourceName);
+				operation.setDescription("At least one search parameter must be specified");
 				
 				// produces
-				List<String> produces = new ArrayList<String>();
-				produces.add("application/json");
-				produces.add("application/xml");
-				get.setProduces(produces);
+				operation.produces("application/json").produces("application/xml");
+
+				// representations query parameter
+				io.swagger.models.parameters.Parameter v = new QueryParameter().name("v")
+						.description("The representation to return (ref, default, full or custom)")
+						.type("string")
+						._enum(Arrays.asList("ref", "default", "full", "custom"));
+
+
+				// This implies that the resource has no custom SearchHandler or doGetAll, but has doSearch implemented
+				// As there is only one query param 'q', mark it as required
+				if (!hasSearchHandler) {
+					q.setRequired(true);
+				}
+
+				operation.parameter(v).parameter(q);
+				operation.setParameters(buildPagingParameters());
+//				List<String> produces = new ArrayList<String>();
+//				produces.add("application/json");
+//				produces.add("application/xml");
+//				get.setProduces(produces);
 				
 				// schema
-				Response statusOKResponse = new Response();
-				statusOKResponse.setDescription(resourceName + " response");
-				Schema schema = new Schema();
-				
+//				Response statusOKResponse = new Response();
+//				statusOKResponse.setDescription(resourceName + " response");
+//				Schema schema = new Schema();
+				io.swagger.models.Response response = new io.swagger.models.Response().description(resourceName + " response");
+				response.setSchema(new RefProperty("#/definitions/FetchAll"));
+				operation.addResponse("200", response);
+
 				// response
-				statusOKResponse.setSchema(schema);
-				List<String> resourceTags = new ArrayList<String>();
-				resourceTags.add(resourceName);
-				get.setTags(resourceTags);
-				Map<String, Response> responses = new HashMap<String, Response>();
-				responses.put("200", statusOKResponse);
-				get.setResponses(responses);
+//				statusOKResponse.setSchema(schema);
+//				List<String> resourceTags = new ArrayList<String>();
+//				resourceTags.add(resourceName);
+//				get.setTags(resourceTags);
+//				Map<String, Response> responses = new HashMap<String, Response>();
+//				responses.put("200", statusOKResponse);
+//				get.setResponses(responses);
 				
 				// if path has no existing get operations then it is considered new
 				wasNew = true;
 			} else {
-				get = getAllPath.getOperations().get("get");
-				get.setSummary("Fetch all non-retired " + resourceName + " resources or perform search");
-				get.setDescription("All search parameters are optional");
+				operation = getAllPath.getGet();
+				operation.setSummary("Fetch all non-retired " + resourceName + " resources or perform search");
+				operation.setDescription("All search parameters are optional");
+				operation.parameter(q);
 			}
 			
-			Map<String, Parameter> parameterMap = new HashMap<String, Parameter>();
+			Map<String, io.swagger.models.parameters.Parameter> parameterMap = new HashMap<String, io.swagger.models.parameters.Parameter>();
 			
 			if (hasSearchHandler) {
 				// FIXME: this isn't perfect, it doesn't cover the case where multiple parameters are required together
@@ -795,17 +824,19 @@ public class SwaggerSpecificationCreator {
 						for (SearchQuery searchQuery : searchHandler.getSearchConfig().getSearchQueries()) {
 							// parameters with no dependencies
 							for (SearchParameter requiredParameter : searchQuery.getRequiredParameters()) {
-								Parameter p = new Parameter();
+								io.swagger.models.parameters.Parameter p = new QueryParameter().type("string");
 								p.setName(requiredParameter.getName());
-								p.setIn("query");
+//								p.setIn("query");
+//								operation.addParameter(p);
 								parameterMap.put(requiredParameter.getName(), p);
 							}
 							// parameters with dependencies
 							for (SearchParameter optionalParameter : searchQuery.getOptionalParameters()) {
-								Parameter p = new Parameter();
+								io.swagger.models.parameters.Parameter p = new QueryParameter().type("string");
 								p.setName(optionalParameter.getName());
 								p.setDescription(buildSearchParameterDependencyString(searchQuery.getRequiredParameters()));
-								p.setIn("query");
+//								operation.addParameter(p);
+//								p.setIn("query");
 								parameterMap.put(optionalParameter.getName(), p);
 							}
 						}
@@ -814,33 +845,35 @@ public class SwaggerSpecificationCreator {
 			}
 			
 			// representations query parameter
-			Parameter v = new Parameter();
-			v.setName("v");
-			v.setDescription("The representation to return (ref, default, full or custom)");
-			v.setIn("query");
-			v.setType("string");
-			parameterMap.put("v", v);
-			
+//			io.swagger.models.parameters.Parameter v = new QueryParameter().name("v")
+//					.description("The representation to return (ref, default, full or custom)")
+//					.type("string")
+//					._enum(Arrays.asList("ref", "default", "full", "custom"));
+
 			// query parameter
-			Parameter q = new Parameter();
-			q.setName("q");
-			q.setDescription("The search query");
-			q.setIn("query");
-			q.setType("string");
-			if (wasNew && !hasSearchHandler) {
+//			io.swagger.models.parameters.Parameter q = new QueryParameter().name("q")
+//					.description("The search query")
+//					.type("string");
+//
+//			operation.parameter(v).parameter(q);
+
+//			if (wasNew && !hasSearchHandler) {
 				// This implies that the resource has no custom SearchHandler or doGetAll, but has doSearch implemented
 				// As there is only one query param 'q', mark it as required
-				q.setRequired(true);
+//				q.setRequired(true);
+//			}
+			
+//			parameterMap.put("q", q);
+
+			for (io.swagger.models.parameters.Parameter p : parameterMap.values()) {
+				operation.parameter(p);
 			}
-			
-			parameterMap.put("q", q);
-			
-			get.setParameters(new ArrayList(parameterMap.values()));
+//			     operation.setParameters(parameterMap.values()));
 			//			get.getParameters().addAll(buildPagingParameters());
-			get.setOperationId("getAll" + getOperationTitle(resourceHandler, true));
+			operation.setOperationId("getAll" + getOperationTitle(resourceHandler, true));
 			
 			if (wasNew) {
-				getAllPath.getOperations().put("get", get);
+				getAllPath.setGet(operation);
 				//				addIndividualPath(getAllPath, resourceParentName, resourceName, getAllPath, "");
 			}
 		}
@@ -896,7 +929,7 @@ public class SwaggerSpecificationCreator {
 			/////////////////////////
 			// GET search          //
 			/////////////////////////
-			//			addSearchOperations(resourceHandler, resourceName, resourceParentName, rootPathGetAll, pathMap);
+			addSearchOperations(resourceHandler, resourceName, rootPathGetAll);
 			
 			/////////////////////////
 			// POST create         //
@@ -1367,7 +1400,7 @@ public class SwaggerSpecificationCreator {
 			operation.addResponse("200", response200.schema(new RefProperty("#/definitions/FetchAll")));
 			operation.setParameters(buildPagingParameters());
 			operation.parameter(v);
-			operation.parameter(q);
+//			operation.parameter(q);
 			//			operation.setSummary("Fetch all non-retired");
 			//			operation.setOperationId("getAll" + getOperationTitle(resourceHandler, true));
 			//			responseBodySchema.setRef(getSchemaRef(resourceName, resourceParentName, OperationEnum.get));
@@ -1429,7 +1462,7 @@ public class SwaggerSpecificationCreator {
 			operation.setParameters(buildPagingParameters());
 			operation.parameter(buildRequiredUUIDParameter("parent-uuid", "parent resource uuid"));
 			operation.parameter(v);
-			operation.parameter(q);
+//			operation.parameter(q);
 //			operation.addResponse("200",
 //			    response200.schema(new RefProperty(getSchemaRef(resourceName, resourceParentName, OperationEnum.get))));
 			operation.addResponse("200", response200.schema(new ObjectProperty()

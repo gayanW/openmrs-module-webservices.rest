@@ -140,18 +140,16 @@ public class ProviderResource1_9 extends MetadataDelegatingCrudResource<Provider
 	@Override
 	public Model getCREATEModel(Representation rep) {
 		ModelImpl model = ((ModelImpl) super.getCREATEModel(rep))
-				.property("person", new StringProperty())
+				.property("person", new StringProperty().example("uuid"))
 				.property("identifier", new StringProperty())
-				.property("attributes", new ArrayProperty(new StringProperty()))
+				.property("attributes", new ArrayProperty(new RefProperty("#/definitions/ProviderAttributeCreate")))
 				.property("retired", new BooleanProperty())
 
 				.required("person").required("identifier");
 		if (rep instanceof FullRepresentation) {
 			model
-					.property("person", new RefProperty("#/definitions/PersonCreate"))
-					.property("attributes", new ArrayProperty(new RefProperty("#/definitions/ProviderAttributeCreate")));
+					.property("person", new RefProperty("#/definitions/PersonCreate"));
 		}
-		//FIXME: name prop required or not?
 		return model;
 	}
 	

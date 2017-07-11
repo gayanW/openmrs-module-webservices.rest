@@ -120,16 +120,22 @@ public class FormResource1_8 extends MetadataDelegatingCrudResource<Form> {
 	
 	@Override
 	public Model getCREATEModel(Representation rep) {
-		return ((ModelImpl) super.getCREATEModel(rep))
+		ModelImpl model = ((ModelImpl) super.getCREATEModel(rep))
 		        .property("version", new StringProperty())
-		        .property("encounterType", new RefProperty("#/definitions/EncountertypeCreate"))
+		        .property("encounterType", new StringProperty())
 		        .property("build", new IntegerProperty())
 		        .property("published", new BooleanProperty()._default(false))
-		        .property("formFields", new ArrayProperty(new RefProperty("#/definitions/FormFormfieldCreate")))
+		        .property("formFields", new ArrayProperty(new StringProperty()))
 		        .property("xslt", new StringProperty())
 		        .property("template", new StringProperty())
 		        
 		        .required("version");
+		if (rep instanceof FullRepresentation) {
+			model
+					.property("encounterType", new RefProperty("#/definitions/EncountertypeCreate"))
+					.property("formFields", new ArrayProperty(new RefProperty("#/definitions/FormFormfieldCreate")));
+		}
+		return model;
 	}
 	
 	@Override

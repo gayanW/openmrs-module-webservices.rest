@@ -171,18 +171,27 @@ public class VisitResource1_9 extends DataDelegatingCrudResource<Visit> {
 	}
 	
 	@Override
-	public Model getCREATEModel(Representation representation) {
-		return new ModelImpl()
-		        .property("patient", new RefProperty("#/definitions/PatientCreate"))
-		        .property("visitType", new RefProperty("#/definitions/VisittypeCreate"))
+	public Model getCREATEModel(Representation rep) {
+		ModelImpl model = new ModelImpl()
+		        .property("patient", new StringProperty().example("uuid"))
+		        .property("visitType", new StringProperty().example("uuid"))
 		        .property("startDatetime", new DateProperty())
-		        .property("location", new RefProperty("#/definitions/LocationCreate"))
-		        .property("indication", new RefProperty("#/definitions/ConceptCreate"))
+		        .property("location", new StringProperty().example("uuid"))
+		        .property("indication", new StringProperty())
 		        .property("stopDatetime", new DateProperty())
-		        .property("encounters", new ArrayProperty(new RefProperty("#/definitions/EncounterCreate")))
-		        .property("attributes", new ArrayProperty(new StringProperty())) //FIXME type
+		        .property("encounters", new ArrayProperty(new StringProperty().example("uuid")))
+		        .property("attributes", new ArrayProperty(new RefProperty("#/definitions/VisitAttributeCreate")))
 		        
 		        .required("patient").required("visitType");
+		if (rep instanceof FullRepresentation) {
+			model
+					.property("patient", new RefProperty("#/definitions/PatientCreate"))
+					.property("visitType", new RefProperty("#/definitions/VisittypeCreate"))
+					.property("location", new RefProperty("#/definitions/LocationCreate"))
+					.property("indication", new RefProperty("#/definitions/ConceptCreate"))
+					.property("encounters", new ArrayProperty(new RefProperty("#/definitions/EncounterCreate")));
+		}
+		return model;
 	}
 	
 	@Override

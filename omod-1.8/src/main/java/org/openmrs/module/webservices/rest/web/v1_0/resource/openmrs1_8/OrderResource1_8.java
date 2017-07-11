@@ -237,22 +237,34 @@ public class OrderResource1_8 extends DataDelegatingCrudResource<Order> {
 	
 	@Override
 	public Model getCREATEModel(Representation rep) {
-		return new ModelImpl()
-		        .property("orderType", new RefProperty("#/definitions/OrdertypeCreate"))
-		        .property("patient", new RefProperty("#/definitions/PatientCreate"))
-		        .property("concept", new RefProperty("#/definitions/ConceptCreate"))
+		ModelImpl model = new ModelImpl()
+		        .property("orderType", new StringProperty().example("uuid"))
+		        .property("patient", new StringProperty().example("uuid"))
+		        .property("concept", new StringProperty().example("uuid"))
 		        .property("instructions", new StringProperty())
 		        .property("startDate", new DateProperty())
 		        .property("autoExpireDate", new DateProperty())
-		        .property("encounter", new RefProperty("#/definitions/EncounterCreate"))
-		        .property("orderer", new RefProperty("#/definitions/UserCreate"))
-		        .property("discontinuedBy", new RefProperty("#/definitions/UserCreate"))
+		        .property("encounter", new StringProperty().example("uuid"))
+		        .property("orderer", new StringProperty().example("uuid"))
+		        .property("discontinuedBy", new StringProperty().example("uuid"))
 		        .property("discontinuedDate", new DateProperty())
 		        .property("discontinuedReason", new RefProperty("#/definitions/ConceptCreate"))
 		        .property("discontinuedReasonNonCoded", new StringProperty())
 		        .property("accessionNumber", new StringProperty())
 		        
 		        .required("orderType").required("patient").required("concept");
+		if (rep instanceof FullRepresentation) {
+			model
+					.property("orderType", new RefProperty("#/definitions/OrdertypeCreate"))
+					.property("patient", new RefProperty("#/definitions/PatientCreate"))
+					.property("concept", new RefProperty("#/definitions/ConceptCreate"))
+					.property("encounter", new RefProperty("#/definitions/EncounterCreate"))
+					.property("orderer", new RefProperty("#/definitions/UserCreate"))
+					.property("discontinuedBy", new RefProperty("#/definitions/UserCreate"))
+					.property("discontinuedReason", new RefProperty("#/definitions/ConceptCreate"));
+		}
+		//FIXME missing prop: type
+		return model;
 	}
 	
 	@Override

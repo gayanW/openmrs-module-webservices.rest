@@ -201,9 +201,9 @@ public class ObsResource1_8 extends DataDelegatingCrudResource<Obs> implements U
 	@Override
 	public Model getCREATEModel(Representation rep) {
 		return new ModelImpl()
-		        .property("person", new StringProperty())
-		        .property("obsDatetime", new DateProperty())
-		        .property("concept", new StringProperty())
+		        .property("person", new StringProperty().example("uuid"))
+		        .property("obsDatetime", new DateTimeProperty())
+		        .property("concept", new StringProperty().example("uuid"))
 		        .property("location", new StringProperty())
 		        .property("order", new StringProperty())
 		        .property("encounter", new StringProperty())
@@ -212,7 +212,7 @@ public class ObsResource1_8 extends DataDelegatingCrudResource<Obs> implements U
 		        .property("valueCodedName", new StringProperty())
 		        .property("comment", new StringProperty())
 		        .property("voided", new BooleanProperty())
-		        .property("value", new StringProperty()) //FIXME type
+		        .property("value", new StringProperty())
 		        .property("valueModifier", new StringProperty())
 		        
 		        .required("person").required("obsDatetime").required("concept");

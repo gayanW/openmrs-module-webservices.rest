@@ -213,14 +213,14 @@ public class ConceptResource1_8 extends DelegatingCrudResource<Concept> {
 	}
 	
 	public Model getGETModel(Representation rep) {
-		ModelImpl modelImpl = (ModelImpl) super.getGETModel(rep);
+		ModelImpl modelImpl = ((ModelImpl) super.getGETModel(rep))
+				.property("uuid", new StringProperty())
+				.property("display", new StringProperty());
 		if (rep instanceof DefaultRepresentation) {
 			modelImpl
-			        .property("uuid", new StringProperty())
-			        .property("display", new StringProperty())
-			        .property("name", new RefProperty("#/definitions/ConceptNameGet")) //FIXME
-			        .property("datatype", new RefProperty("#/definitions/ConceptdatatypeGetRef")) //FIXME
-			        .property("conceptClass", new RefProperty("#/definitions/ConceptclassGetRef")) //FIXME
+			        .property("name", new RefProperty("#/definitions/ConceptNameGet"))
+			        .property("datatype", new RefProperty("#/definitions/ConceptdatatypeGetRef"))
+			        .property("conceptClass", new RefProperty("#/definitions/ConceptclassGetRef"))
 			        .property("set", new BooleanProperty())
 			        .property("version", new StringProperty())
 			        .property("retired", new BooleanProperty())
@@ -235,39 +235,34 @@ public class ConceptResource1_8 extends DelegatingCrudResource<Concept> {
 	
 	@Override
 	public Model getCREATEModel(Representation rep) {
-		ModelImpl model = new ModelImpl();
-		if (rep instanceof DefaultRepresentation || rep instanceof FullRepresentation) {
-			model
-					.property("datatype", new StringProperty().example("uuid"))
-					.property("set", new BooleanProperty())
-					.property("version", new StringProperty())
-					.property("answers", new ArrayProperty(new ObjectProperty())) //FIXME
-					.property("setMembers", new ArrayProperty(new ObjectProperty())) //FIXME
+		ModelImpl model = new ModelImpl()
+				.property("names", new ArrayProperty(new RefProperty("#/definitions/ConceptNameCreate")))
+				.property("datatype", new StringProperty().example("uuid"))
+				.property("set", new BooleanProperty())
+				.property("version", new StringProperty())
+				.property("answers", new ArrayProperty(new StringProperty().example("uuid")))
+				.property("setMembers", new ArrayProperty(new StringProperty().example("uuid")))
 
-					//ConceptNumeric properties
-					.property("hiNormal", new StringProperty())
-					.property("hiAbsolute", new StringProperty())
-					.property("hiCritical", new StringProperty())
-					.property("lowNormal", new StringProperty())
-					.property("lowAbsolute", new StringProperty())
-					.property("lowCritical", new StringProperty())
-					.property("units", new StringProperty())
-					.property("allowDecimal", new StringProperty())
-					.property("displayPrecision", new StringProperty())
+				//ConceptNumeric properties
+				.property("hiNormal", new StringProperty())
+				.property("hiAbsolute", new StringProperty())
+				.property("hiCritical", new StringProperty())
+				.property("lowNormal", new StringProperty())
+				.property("lowAbsolute", new StringProperty())
+				.property("lowCritical", new StringProperty())
+				.property("units", new StringProperty())
+				.property("allowDecimal", new StringProperty())
+				.property("displayPrecision", new StringProperty())
 
-					.required("names").required("datatype").required("conceptClass");
-
-		}
+				.required("names").required("datatype").required("conceptClass");
 		if (rep instanceof DefaultRepresentation) {
 			model
-					.property("names", new ArrayProperty(new StringProperty()))
 					.property("conceptClass", new StringProperty())
 					.property("descriptions", new ArrayProperty(new StringProperty()))
 					.property("mappings", new ArrayProperty(new StringProperty()));
 		}
 		else if (rep instanceof FullRepresentation) {
 			model
-					.property("names", new ArrayProperty(new RefProperty("#/definitions/ConceptNameCreate")))
 					.property("conceptClass", new RefProperty("#/definitions/ConceptclassCreate"))
 					.property("descriptions", new ArrayProperty(new RefProperty("#/definitions/ConceptDescriptionCreate")))
 					.property("mappings", new ArrayProperty(new RefProperty("#/definitions/ConceptMappingCreate")));

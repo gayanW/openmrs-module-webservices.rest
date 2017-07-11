@@ -174,14 +174,22 @@ public class RelationshipResource1_8 extends DataDelegatingCrudResource<Relation
 	
 	@Override
 	public Model getCREATEModel(Representation rep) {
-		return new ModelImpl()
-		        .property("personA", new RefProperty("#/definitions/PersonCreate"))
-		        .property("relationshipType", new RefProperty("#/definitions/RelationshiptypeCreate"))
-		        .property("personB", new RefProperty("#/definitions/PersonCreate"))
+		ModelImpl model = new ModelImpl()
+		        .property("personA", new StringProperty().example("uuid"))
+		        .property("relationshipType", new StringProperty().example("uuid"))
+		        .property("personB", new StringProperty().example("uuid"))
 		        .property("startDate", new DateProperty())
 		        .property("endDate", new DateProperty())
 		        
 		        .required("personA").required("relationshipType").required("personB");
+		if (rep instanceof FullRepresentation) {
+			model
+					.property("personA", new RefProperty("#/definitions/PersonCreate"))
+
+					.property("relationshipType", new RefProperty("#/definitions/RelationshiptypeCreate"))
+					.property("personB", new RefProperty("#/definitions/PersonCreate"));
+		}
+		return model;
 	}
 	
 	@Override

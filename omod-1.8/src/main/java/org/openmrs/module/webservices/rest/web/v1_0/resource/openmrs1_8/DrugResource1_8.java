@@ -143,17 +143,24 @@ public class DrugResource1_8 extends MetadataDelegatingCrudResource<Drug> {
 	
 	@Override
 	public Model getCREATEModel(Representation rep) {
-		return ((ModelImpl) super.getCREATEModel(rep))
+		ModelImpl model = ((ModelImpl) super.getCREATEModel(rep))
 		        .property("combination", new BooleanProperty()._default(false))
-		        .property("concept", new RefProperty("#/definitions/ConceptCreate"))
+		        .property("concept", new StringProperty())
 		        .property("doseStrength", new DoubleProperty())
 		        .property("maximumDailyDose", new DoubleProperty())
 		        .property("minimumDailyDose", new DoubleProperty())
 		        .property("units", new StringProperty())
-		        .property("dosageForm", new RefProperty("#/definitions/ConceptCreate"))
-		        .property("route", new RefProperty("#/definitions/ConceptCreate"))
+		        .property("dosageForm", new StringProperty())
+		        .property("route", new StringProperty())
 		        
 		        .required("combination").required("concept");
+		if (rep instanceof FullRepresentation) {
+			model
+					.property("concept", new RefProperty("#/definitions/ConceptCreate"))
+					.property("dosageForm", new RefProperty("#/definitions/ConceptCreate"))
+					.property("route", new RefProperty("#/definitions/ConceptCreate"));
+		}
+		return model;
 	}
 	
 	@Override

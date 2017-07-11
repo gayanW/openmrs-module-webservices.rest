@@ -147,13 +147,19 @@ public class PatientIdentifierResource1_8 extends DelegatingSubResource<PatientI
 	
 	@Override
 	public Model getCREATEModel(Representation rep) {
-		return new ModelImpl()
+		ModelImpl model= new ModelImpl()
 		        .property("identifier", new StringProperty())
-		        .property("identifierType", new RefProperty("#/definitions/PatientidentifiertypeCreate"))
-		        .property("location", new RefProperty("#/definitions/LocationCreate"))
+		        .property("identifierType", new StringProperty().example("uuid"))
+		        .property("location", new StringProperty().example("uuid"))
 		        .property("preferred", new BooleanProperty()._default(false))
 		        
 		        .required("identifier").required("identifierType");
+		if (rep instanceof FullRepresentation) {
+			model
+					.property("identifierType", new RefProperty("#/definitions/PatientidentifiertypeCreate"))
+					.property("location", new RefProperty("#/definitions/LocationCreate"));
+		}
+		return model;
 	}
 	
 	@Override

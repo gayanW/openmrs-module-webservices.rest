@@ -71,22 +71,27 @@ public class ConceptNameResource1_8 extends DelegatingSubResource<ConceptName, C
 	}
 	
 	public Model getGETModel(Representation rep) {
-		return ((ModelImpl) super.getGETModel(rep))
-		        .property("display", new StringProperty())
-		        .property("uuid", new StringProperty())
+		ModelImpl model = ((ModelImpl) super.getGETModel(rep))
+				.property("uuid", new StringProperty())
+		        .property("display", new StringProperty());
+
+		if (rep instanceof DefaultRepresentation || rep instanceof FullRepresentation) {
+			model
 		        .property("name", new StringProperty())
-		        .property("locale", new StringProperty())
-		        .property("localePreferred", new BooleanProperty())
-		        .property("conceptNameType", new StringProperty()
-		                ._enum(SwaggerSpecificationCreator.getEnumsAsList(ConceptNameType.class)));
+					.property("locale", new StringProperty().example("en"))
+					.property("localePreferred", new BooleanProperty())
+					.property("conceptNameType", new StringProperty()
+							._enum(SwaggerSpecificationCreator.getEnumsAsList(ConceptNameType.class)));
+		}
+		return model;
 	}
 	
 	@Override
 	public Model getCREATEModel(Representation rep) {
 		return new ModelImpl()
 		        .property("name", new StringProperty())
-		        .property("locale", new StringProperty())
-		        .property("localePreferred", new StringProperty())
+		        .property("locale", new StringProperty().example("en"))
+		        .property("localePreferred", new BooleanProperty()._default(false))
 		        .property("conceptNameType", new StringProperty()
 		                ._enum(SwaggerSpecificationCreator.getEnumsAsList(ConceptNameType.class)))
 		        .required("name").required("locale");

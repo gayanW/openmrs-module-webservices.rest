@@ -170,7 +170,7 @@ public class PersonResource1_8 extends DataDelegatingCrudResource<Person> {
 	public Model getCREATEModel(Representation representation) {
 		ModelImpl model = new ModelImpl()
 		        .property("names", new ArrayProperty(new RefProperty("#/definitions/PersonNameCreate")))
-		        .property("gender", new StringProperty()).example("M")
+		        .property("gender", new StringProperty()._enum("M")._enum("F"))
 		        .property("age", new IntegerProperty())
 		        .property("birthdate", new DateProperty())
 		        .property("birthdateEstimated", new BooleanProperty()._default(false))
@@ -178,10 +178,8 @@ public class PersonResource1_8 extends DataDelegatingCrudResource<Person> {
 		        .property("deathDate", new DateProperty())
 		        .property("causeOfDeath", new StringProperty())
 		        .property("addresses", new ArrayProperty(new RefProperty("#/definitions/PersonAddressCreate")))
-		        .property("attributes", new ArrayProperty(new RefProperty("#/definitions/PersonAttributeCreate")))
-		        
-		        .example("{\"names\":[{\"givenName\":\"Gayan\",\"familyName\":\"Weerakutti\"}],\"gender\":\"M\"}");
-		
+		        .property("attributes", new ArrayProperty(new RefProperty("#/definitions/PersonAttributeCreate")));
+
 		model.setRequired(Arrays.asList("names", "gender"));
 		return model;
 	}
@@ -189,7 +187,6 @@ public class PersonResource1_8 extends DataDelegatingCrudResource<Person> {
 	@Override
 	public Model getUPDATEModel(Representation representation) {
 		return new ModelImpl()
-		        .property("names", new ArrayProperty(new RefProperty("#/definitions/PersonNameCreate")))
 		        .property("dead", new BooleanProperty())
 		        .property("causeOfDeath", new StringProperty())
 		        .property("deathDate", new DateProperty())
@@ -197,9 +194,8 @@ public class PersonResource1_8 extends DataDelegatingCrudResource<Person> {
 		        .property("gender", new StringProperty()._enum("M")._enum("F"))
 		        .property("birthdate", new DateProperty())
 		        .property("birthdateEstimated", new BooleanProperty()._default(false))
-		        .property("preferredName", new StringProperty()) //FIXME type
-		        .property("preferredAddress", new StringProperty()) //FIXME type
-		        .property("addresses", new ArrayProperty(new RefProperty("#/definitions/PersonAddressCreate")))
+		        .property("preferredName", new StringProperty().example("uuid"))
+		        .property("preferredAddress", new StringProperty().example("uuid"))
 		        .property("attributes", new ArrayProperty(new RefProperty("#/definitions/PersonAttributeCreate")))
 		        
 		        .required("dead").required("causeOfDeath");

@@ -142,15 +142,22 @@ public class ProgramEnrollmentResource1_8 extends DataDelegatingCrudResource<Pat
 	
 	@Override
 	public Model getCREATEModel(Representation rep) {
-		return new ModelImpl()
-		        .property("patient", new RefProperty("#/definitions/PatientCreate"))
-		        .property("program", new RefProperty("#/definitions/ProgramCreate"))
+		ModelImpl model = new ModelImpl()
+		        .property("patient", new StringProperty().example("uuid"))
+		        .property("program", new StringProperty().example("uuid"))
 		        .property("dateEnrolled", new DateProperty())
 		        .property("dateCompleted", new DateProperty())
-		        .property("location", new RefProperty("#/definitions/LocationCreate"))
+		        .property("location", new StringProperty().example("uuid"))
 		        .property("voided", new BooleanProperty())
 		        
 		        .required("patient").required("program").required("dateEnrolled");
+		if (rep instanceof FullRepresentation) {
+			model
+					.property("patient", new RefProperty("#/definitions/PatientCreate"))
+					.property("program", new RefProperty("#/definitions/ProgramCreate"))
+					.property("location", new RefProperty("#/definitions/LocationCreate"));
+		}
+		return model;
 	}
 	
 	@Override

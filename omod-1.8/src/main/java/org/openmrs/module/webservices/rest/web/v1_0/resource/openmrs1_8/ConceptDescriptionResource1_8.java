@@ -93,7 +93,7 @@ public class ConceptDescriptionResource1_8 extends DelegatingSubResource<Concept
 	public Model getCREATEModel(Representation representation) {
 		return new ModelImpl()
 		        .property("description", new StringProperty())
-		        .property("locale", new StringProperty())
+		        .property("locale", new StringProperty().example("fr"))
 		        .required("description").required("locale");
 	}
 	

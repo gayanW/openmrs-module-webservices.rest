@@ -246,7 +246,7 @@ public class ModuleActionResource1_8 extends BaseDelegatingResource<ModuleAction
 	@Override
 	public Model getCREATEModel(Representation rep) {
 		return new ModelImpl()
-		        .property("modules", new ArrayProperty(new RefProperty("#/definitions/ModuleGetRef")))
+		        .property("modules", new ArrayProperty(new StringProperty().example("moduleId")))
 		        .property("allModules", new BooleanProperty())
 		        .property("action", new StringProperty()
 		                ._enum(SwaggerSpecificationCreator.getEnumsAsList(ModuleAction.Action.class)))

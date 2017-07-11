@@ -102,11 +102,17 @@ public class FieldAnswerResource1_8 extends DelegatingSubResource<FieldAnswer, F
 	}
 	
 	@Override
-	public Model getCREATEModel(Representation representation) {
-		return new ModelImpl()
-		        .property("concept", new RefProperty("#/definitions/ConceptCreate"))
-		        .property("field", new RefProperty("#/definitions/FieldCreate"))
+	public Model getCREATEModel(Representation rep) {
+		ModelImpl model = new ModelImpl()
+		        .property("concept", new StringProperty().example("uuid"))
+		        .property("field", new StringProperty().example("uuid"))
 		        .required("field").required("concept");
+		if (rep instanceof FullRepresentation) {
+			model
+					.property("concept", new RefProperty("#/definitions/ConceptCreate"))
+					.property("field", new RefProperty("#/definitions/FieldCreate"));
+		}
+		return model;
 	}
 	
 	/**

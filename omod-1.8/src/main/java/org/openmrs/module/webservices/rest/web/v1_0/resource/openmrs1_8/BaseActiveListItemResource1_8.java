@@ -30,14 +30,22 @@ import org.openmrs.module.webservices.rest.web.response.ResponseException;
 public abstract class BaseActiveListItemResource1_8<T extends ActiveListItem> extends DataDelegatingCrudResource<T> {
 	
 	@Override
-	public Model getCREATEModel(Representation representation) {
-		return new ModelImpl()
-		        .property("person", new RefProperty("#/definitions/PersonCreate"))
+	public Model getCREATEModel(Representation rep) {
+		ModelImpl model = new ModelImpl()
+		        .property("person", new StringProperty())
 		        .property("startDate", new DateProperty())
 		        .property("comments", new StringProperty())
-		        .property("startObs", new RefProperty("#/definitions/ObsCreate"))
-		        .property("stopObs", new RefProperty("#/definitions/ObsCreate"))
+		        .property("startObs", new StringProperty())
+		        .property("stopObs", new StringProperty())
+
 		        .required("person").required("startDate");
+		if (rep instanceof FullRepresentation) {
+			model
+					.property("person", new RefProperty("#/definitions/PersonCreate"))
+					.property("startObs", new RefProperty("#/definitions/ObsCreate"))
+					.property("stopObs", new RefProperty("#/definitions/ObsCreate"));
+		}
+		return model;
 	}
 	
 	/**

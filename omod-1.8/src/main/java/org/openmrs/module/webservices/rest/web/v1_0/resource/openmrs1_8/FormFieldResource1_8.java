@@ -69,11 +69,11 @@ public class FormFieldResource1_8 extends DelegatingSubResource<FormField, Form,
 	
 	@Override
 	public Model getCREATEModel(Representation rep) {
-		return new ModelImpl()
-		        .property("form", new RefProperty("#/definitions/FormCreate"))
-		        .property("field", new RefProperty("#/definitions/FieldCreate"))
+		ModelImpl model = new ModelImpl() //FIXME validate if correct
+		        .property("form", new StringProperty().example("uuid"))
+		        .property("field", new StringProperty().example("uuid"))
 		        .property("required", new BooleanProperty()._default(false))
-		        .property("parent", new RefProperty("#/definitions/FormFormfieldCreate"))
+		        .property("parent", new StringProperty().example("uuid"))
 		        .property("fieldNumber", new IntegerProperty())
 		        .property("fieldPart", new StringProperty())
 		        .property("pageNumber", new IntegerProperty())
@@ -82,6 +82,13 @@ public class FormFieldResource1_8 extends DelegatingSubResource<FormField, Form,
 		        .property("sortWeight", new BooleanProperty()._default(false))
 		        
 		        .required("form").required("field").required("required");
+		if (rep instanceof FullRepresentation) {
+			model
+					.property("form", new RefProperty("#/definitions/FormCreate"))
+					.property("field", new RefProperty("#/definitions/FieldCreate"))
+					.property("parent", new RefProperty("#/definitions/FormFormfieldCreate"));
+		}
+		return model;
 	}
 	
 	@Override

@@ -68,13 +68,19 @@ public class AllergyResource1_8 extends BaseActiveListItemResource1_8<Allergy> {
 	
 	@Override
 	public Model getGETModel(Representation rep) {
-		return ((ModelImpl) super.getGETModel(rep))
+		ModelImpl model = ((ModelImpl) super.getGETModel(rep))
 		        .property("allergyType", new StringProperty()
 		                ._enum(SwaggerSpecificationCreator.getEnumsAsList(AllergyType.class)))
-		        .property("reaction", new ObjectProperty())
+				.property("reaction", new RefProperty("#/definitions/ConceptGetRef"))
 		        .property("severity", new StringProperty()
 		                ._enum(SwaggerSpecificationCreator.getEnumsAsList(AllergySeverity.class)))
-		        .property("allergen", new ObjectProperty()); //FIXME
+		        .property("allergen", new RefProperty("#/definitions/ConceptGetRef"));
+		if (rep instanceof FullRepresentation) {
+			model
+					.property("reaction", new RefProperty("#/definitions/ConceptGet"))
+					.property("allergen", new RefProperty("#/definitions/ConceptGet"));
+		}
+		return model;
 	}
 	
 	@Override
@@ -82,10 +88,11 @@ public class AllergyResource1_8 extends BaseActiveListItemResource1_8<Allergy> {
 		return ((ModelImpl) super.getCREATEModel(rep))
 		        .property("allergyType", new StringProperty()
 		                ._enum(SwaggerSpecificationCreator.getEnumsAsList(AllergyType.class)))
-		        .property("reaction", new ObjectProperty())
+		        .property("reaction", new ObjectProperty()
+				        .property("uuid", new StringProperty()))
 		        .property("severity", new StringProperty()
 		                ._enum(SwaggerSpecificationCreator.getEnumsAsList(AllergySeverity.class)))
-		        .property("allergen", new ObjectProperty()); //FIXME
+		        .property("allergen", new StringProperty());
 	}
 	
 	/**

@@ -14,6 +14,7 @@ import io.swagger.models.ModelImpl;
 import io.swagger.models.properties.ArrayProperty;
 import io.swagger.models.properties.BooleanProperty;
 import io.swagger.models.properties.RefProperty;
+import io.swagger.models.properties.StringProperty;
 import org.openmrs.Program;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.webservices.rest.web.RequestContext;
@@ -132,11 +133,16 @@ public class ProgramResource1_8 extends MetadataDelegatingCrudResource<Program> 
 	
 	@Override
 	public Model getCREATEModel(Representation rep) {
-		return ((ModelImpl) super.getCREATEModel(rep))
-		        .property("concept", new RefProperty("#/definitions/ConceptGetRef"))
+		ModelImpl model = ((ModelImpl) super.getCREATEModel(rep))
+		        .property("concept", new StringProperty().example("uuid"))
 		        .property("retired", new BooleanProperty())
 		        
 		        .required("concept").required("description");
+		if (rep instanceof FullRepresentation) {
+			model
+					.property("concept", new RefProperty("#/definitions/ConceptCreate"));
+		}
+		return model;
 	}
 	
 	@Override

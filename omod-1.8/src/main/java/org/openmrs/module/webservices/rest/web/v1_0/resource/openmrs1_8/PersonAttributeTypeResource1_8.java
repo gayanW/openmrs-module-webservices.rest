@@ -134,7 +134,7 @@ public class PersonAttributeTypeResource1_8 extends MetadataDelegatingCrudResour
 	@Override
 	public Model getCREATEModel(Representation rep) {
 		return ((ModelImpl) super.getCREATEModel(rep))
-		        .property("format", new StringProperty())
+		        .property("format", new StringProperty().example("java.lang.String"))
 		        .property("foreignKey", new IntegerProperty())
 		        .property("sortWeight", new DoubleProperty())
 		        .property("searchable", new BooleanProperty()._default(false))

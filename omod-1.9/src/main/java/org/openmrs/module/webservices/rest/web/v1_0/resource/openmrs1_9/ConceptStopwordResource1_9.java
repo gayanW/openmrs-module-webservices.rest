@@ -93,7 +93,7 @@ public class ConceptStopwordResource1_9 extends DelegatingCrudResource<ConceptSt
 		if (rep instanceof DefaultRepresentation || rep instanceof FullRepresentation) {
 			modelImpl
 			        .property("value", new StringProperty())
-			        .property("locale", new StringProperty()); //FIXME type
+			        .property("locale", new StringProperty().example("en")); //FIXME type
 		}
 		return modelImpl;
 	}
@@ -102,7 +102,7 @@ public class ConceptStopwordResource1_9 extends DelegatingCrudResource<ConceptSt
 	public Model getCREATEModel(Representation rep) {
 		return new ModelImpl()
 		        .property("value", new StringProperty())
-		        .property("locale", new StringProperty())
+		        .property("locale", new StringProperty().example("en"))
 		        
 		        .required("value");
 	}

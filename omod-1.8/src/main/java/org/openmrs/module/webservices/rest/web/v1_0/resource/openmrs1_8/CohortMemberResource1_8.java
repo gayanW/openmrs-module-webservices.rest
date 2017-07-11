@@ -140,9 +140,14 @@ public class CohortMemberResource1_8 extends DelegatingSubResource<CohortMember1
 	
 	@Override
 	public Model getCREATEModel(Representation rep) {
-		return new ModelImpl()
-		        .property("patient", new RefProperty("#/definitions/PatientCreate"))
+		ModelImpl model = new ModelImpl()
+				.property("patient", new StringProperty().example("uuid"))
 		        .required("patient");
+		if (rep instanceof FullRepresentation) {
+			model
+					.property("patient", new RefProperty("#/definitions/PatientCreate"));
+		}
+		return model;
 	}
 	
 	@Override

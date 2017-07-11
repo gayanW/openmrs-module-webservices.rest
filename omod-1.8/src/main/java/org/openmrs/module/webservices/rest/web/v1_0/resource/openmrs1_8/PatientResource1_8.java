@@ -158,11 +158,16 @@ public class PatientResource1_8 extends DataDelegatingCrudResource<Patient> {
 	
 	@Override
 	public Model getCREATEModel(Representation rep) {
-		return new ModelImpl()
-		        .property("person", new RefProperty("#/definitions/PersonCreate"))
-		        .property("identifiers", new ArrayProperty(new RefProperty("#/definitions/PatientIdentifierCreate")))
-		        
+		ModelImpl model = new ModelImpl()
+		        .property("person", new StringProperty().example("uuid"))
+				.property("identifiers", new ArrayProperty(new RefProperty("#/definitions/PatientIdentifierCreate")))
+
 		        .required("person").required("identifiers");
+		if (rep instanceof FullRepresentation) {
+			model
+					.property("person", new RefProperty("#/definitions/PersonCreate"));
+		}
+		return model;
 	}
 	
 	@Override

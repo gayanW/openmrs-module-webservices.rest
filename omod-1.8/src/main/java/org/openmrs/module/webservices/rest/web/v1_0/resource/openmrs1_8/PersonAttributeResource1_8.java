@@ -168,12 +168,17 @@ public class PersonAttributeResource1_8 extends DelegatingSubResource<PersonAttr
 	
 	@Override
 	public Model getCREATEModel(Representation rep) {
-		return new ModelImpl()
-		        .property("attributeType", new RefProperty("#/definitions/PersonattributetypeCreate"))
+		ModelImpl model = new ModelImpl()
+		        .property("attributeType", new StringProperty().example("uuid"))
 		        .property("value", new StringProperty())
-		        .property("hydratedObject", new BooleanProperty())
+		        .property("hydratedObject", new StringProperty().example("uuid"))
 		        
 		        .required("attributeType");
+		if (rep instanceof FullRepresentation) {
+			model
+					.property("attributeType", new RefProperty("#/definitions/PersonattributetypeCreate"));
+		}
+		return model;
 	}
 	
 	@Override

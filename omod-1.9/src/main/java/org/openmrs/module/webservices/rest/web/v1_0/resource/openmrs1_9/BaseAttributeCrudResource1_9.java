@@ -112,7 +112,7 @@ public abstract class BaseAttributeCrudResource1_9<T extends Attribute<?, ?>, P,
 	@Override
 	public Model getCREATEModel(Representation rep) {
 		return new ModelImpl()
-				.property("attributeType", new StringProperty())
+				.property("attributeType", new StringProperty().example("uuid"))
 				.property("value", new StringProperty())
 
 				.required("attributeType").required("value");

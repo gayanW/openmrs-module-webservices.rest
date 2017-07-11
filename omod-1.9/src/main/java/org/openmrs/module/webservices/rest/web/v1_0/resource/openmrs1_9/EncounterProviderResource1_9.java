@@ -111,9 +111,9 @@ public class EncounterProviderResource1_9 extends DelegatingSubResource<Encounte
 	@Override
 	public Model getCREATEModel(Representation rep) {
 		ModelImpl model = new ModelImpl()
-				.property("provider", new StringProperty())
-				.property("encounter", new StringProperty())
-				.property("encounterRole", new StringProperty());
+				.property("provider", new StringProperty().example("uuid"))
+				.property("encounterRole", new StringProperty().example("uuid"))
+				.property("encounter", new StringProperty()); //FIXME remove if not needed
 		if (rep instanceof FullRepresentation) {
 			model
 					.property("provider", new RefProperty("#/definitions/ProviderCreate"))
