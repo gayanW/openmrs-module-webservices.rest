@@ -186,7 +186,7 @@ public class SwaggerSpecificationCreator {
 		        .produces("application/json")
 		        .externalDocs(new ExternalDocs()
 				        .description("Find more info on REST Module Wiki")
-				        .url("https://wiki.openmrs.org/display/docs/REST+Module"));
+				        .url("https://wiki.openmrs.org/x/xoAaAQ"));
 
 		String host = baseUrl.split("/")[0];
 		String basePath = baseUrl.substring(baseUrl.indexOf("/")) + "/v1";
